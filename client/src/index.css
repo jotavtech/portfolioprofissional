@@ -301,3 +301,29 @@
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
+
+/* Animação de rastro para o carro */
+@keyframes trailAnimation {
+  0% { opacity: 0.7; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(0.5); }
+}
+
+/* Cursor personalizado */
+.custom-cursor {
+  pointer-events: none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s;
+}
+
+.clickable:hover ~ .custom-cursor {
+  width: 40px;
+  height: 40px;
+  transition: width 0.3s, height 0.3s;
+}
