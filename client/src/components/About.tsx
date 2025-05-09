@@ -92,16 +92,16 @@ export default function About() {
                   <p className="font-mono text-xs">Aplicativos para Android e iOS com React Native</p>
                 </div>
                 <div className="p-4 border border-white/20 text-center">
-                  <h4 className="font-pixel mb-2">GAMES</h4>
-                  <p className="font-mono text-xs">Desenvolvimento de jogos e experiências interativas</p>
+                  <h4 className="font-pixel mb-2">DESIGN</h4>
+                  <p className="font-mono text-xs">Design gráfico para web e identidade visual</p>
                 </div>
                 <div className="p-4 border border-white/20 text-center">
-                  <h4 className="font-pixel mb-2">IA</h4>
-                  <p className="font-mono text-xs">Aplicações de inteligência artificial e automação</p>
+                  <h4 className="font-pixel mb-2">AUDIO</h4>
+                  <p className="font-mono text-xs">Produção e edição de áudio para projetos digitais</p>
                 </div>
                 <div className="p-4 border border-white/20 text-center">
-                  <h4 className="font-pixel mb-2">3D</h4>
-                  <p className="font-mono text-xs">Modelagem e animação 3D para web e aplicações</p>
+                  <h4 className="font-pixel mb-2">BACK-END</h4>
+                  <p className="font-mono text-xs">Desenvolvimento de APIs e serviços web</p>
                 </div>
               </div>
             </motion.div>

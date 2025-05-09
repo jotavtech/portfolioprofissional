@@ -233,8 +233,9 @@ export default function Universo() {
               <h2 className="rock-title">PROJETOS</h2>
               <ul className="rock-projects">
                 <li>Metal Madness - Design de UI para banda de heavy metal</li>
-                <li>Riff Master - App de ensino de guitarra</li>
+                <li>Sound Design - Produção de audio para websites</li>
                 <li>Crowd Surf - Plataforma para bandas independentes</li>
+                <li>Web Vibes - Website com tema musical e interativo</li>
               </ul>
             </div>
           </motion.div>
