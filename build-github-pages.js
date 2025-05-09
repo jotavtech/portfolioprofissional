@@ -323,7 +323,7 @@ a, button {
 }
 
 a:hover {
-  text-shadow: 0 0 5px white;
+  opacity: 0.8;
 }
 
 /* Elementos tribais */
@@ -355,7 +355,7 @@ a:hover {
 
 .hover\:transform-scale:hover {
   transform: translateZ(10px) scale(1.05);
-  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Otimizações para melhor performance */
