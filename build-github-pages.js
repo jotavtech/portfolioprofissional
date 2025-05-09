@@ -47,7 +47,233 @@ console.log(`${colors.fg.cyan}${colors.bright}=== Iniciando build para GitHub Pa
 // Passo 1: Fazer build do frontend
 console.log(`\n${colors.fg.yellow}Passo 1: Fazendo build do frontend${colors.reset}`);
 try {
-  execSync('npx vite build client', { stdio: 'inherit' });
+  // Criar diretório dist se não existir
+  if (!fs.existsSync('dist')) {
+    fs.mkdirSync('dist', { recursive: true });
+  }
+  
+  // Vamos criar uma versão estática diretamente
+  console.log(`${colors.fg.yellow}Criando build customizado para GitHub Pages${colors.reset}`);
+  
+  // Criar HTML estático
+  const htmlContent = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de João Vitor - Designer e Desenvolvedor - Estilo Y2K com elementos cibertribais">
+  <title>Portfólio JV - Y2K Style</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.4/dist/framer-motion.min.js"></script>
+  <script>
+    // Verificar se estamos no GitHub Pages
+    const isGitHubPages = window.location.hostname.endsWith('.github.io') || 
+                         !window.location.hostname.includes('localhost');
+    
+    // Se estamos no GitHub Pages, instrui o fetch a buscar dados estáticos
+    if (isGitHubPages) {
+      const originalFetch = window.fetch;
+      window.fetch = function(url, options) {
+        // Se for uma requisição para a API, redireciona para o JSON estático
+        if (typeof url === 'string' && url.startsWith('/api/')) {
+          const newUrl = url + '.json';
+          console.log('GitHub Pages: Redirecionando fetch para', newUrl);
+          return originalFetch(newUrl, options);
+        }
+        return originalFetch(url, options);
+      };
+      console.log('GitHub Pages: Modo de compatibilidade ativado');
+    }
+  </script>
+</head>
+<body class="bg-black text-white">
+  <main id="root">
+    <header class="py-8 border-b border-white/20">
+      <div class="container mx-auto flex flex-col items-center text-center">
+        <h1 class="text-6xl font-bold mb-4 animate-pulse">JV PORTFOLIO</h1>
+        <p class="text-xl mb-6">Desenvolvimento Web & Design</p>
+        <div class="flex space-x-4 mb-4">
+          <a href="https://github.com/jotavtech" target="_blank" class="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors">GITHUB</a>
+          <a href="mailto:martinsjoao1227@gmail.com" class="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors">CONTATO</a>
+        </div>
+      </div>
+    </header>
+    
+    <section class="py-16 bg-black">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold mb-8 text-center">PROJETOS</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="border border-white/20 p-6 hover:border-white transition-all">
+            <h3 class="text-2xl font-bold mb-3">Clínica</h3>
+            <p class="mb-4">Sistema de gerenciamento para clínicas médicas com agendamento de consultas, prontuários eletrônicos e controle financeiro.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-white/10 text-xs">React</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">Node.js</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">MongoDB</span>
+            </div>
+          </div>
+          
+          <div class="border border-white/20 p-6 hover:border-white transition-all">
+            <h3 class="text-2xl font-bold mb-3">Portfolio JV</h3>
+            <p class="mb-4">Portfólio profissional com design minimalista e responsivo, destacando projetos e habilidades de forma interativa e moderna.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-white/10 text-xs">HTML</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">CSS</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">JavaScript</span>
+            </div>
+          </div>
+          
+          <div class="border border-white/20 p-6 hover:border-white transition-all">
+            <h3 class="text-2xl font-bold mb-3">Folheando</h3>
+            <p class="mb-4">Aplicativo de gerenciamento e recomendação de livros, com integração de APIs para informações de livros e comunidade de leitores.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-white/10 text-xs">React Native</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">Firebase</span>
+              <span class="px-3 py-1 bg-white/10 text-xs">API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="py-16 bg-black/50">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8">SKILLS</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Frontend</h3>
+            <p>React, HTML, CSS, JavaScript</p>
+          </div>
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Backend</h3>
+            <p>Node.js, Express, MongoDB</p>
+          </div>
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Mobile</h3>
+            <p>React Native, Flutter</p>
+          </div>
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Design</h3>
+            <p>Figma, Photoshop, Illustrator</p>
+          </div>
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Tools</h3>
+            <p>Git, VS Code, Docker</p>
+          </div>
+          <div class="border border-white/20 p-4 hover:bg-white/5 transition-all">
+            <h3 class="text-xl font-bold">Other</h3>
+            <p>SEO, UI/UX, Web Audio</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer class="py-8 border-t border-white/20">
+      <div class="container mx-auto text-center">
+        <p class="mb-4">João Vitor Martins | Developer & Designer</p>
+        <p class="text-sm text-gray-500">
+          Esta é uma versão estática do portfólio criada para GitHub Pages. <br>
+          Para ver o projeto completo com todas as funcionalidades, acesse <a href="https://github.com/jotavtech" class="text-blue-400 hover:underline">github.com/jotavtech</a>
+        </p>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>`;
+
+  // Criar CSS básico
+  const cssContent = `
+body {
+  font-family: monospace, sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.7;
+  }
+}
+
+.text-flicker {
+  animation: flicker 2s infinite alternate;
+}
+
+/* Y2K Estilo Elementos */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.border-glow {
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.2);
+}
+
+.text-glow {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Efeitos hover */
+a, button {
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-shadow: 0 0 5px white;
+}
+
+/* Elementos tribais */
+.tribal-border {
+  position: relative;
+}
+
+.tribal-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%);
+  pointer-events: none;
+}
+`;
+  
+  fs.writeFileSync('dist/index.html', htmlContent);
+  fs.writeFileSync('dist/styles.css', cssContent);
+  console.log(`${colors.fg.green}✓ HTML e CSS estáticos criados${colors.reset}`);
+  
+  // Copiar a pasta public diretamente
+  if (fs.existsSync('client/public')) {
+    fs.cpSync('client/public', 'dist', { recursive: true });
+    console.log(`${colors.fg.green}✓ Arquivos públicos copiados${colors.reset}`);
+  }
+  
   console.log(`${colors.fg.green}✓ Build do frontend concluído${colors.reset}`);
 } catch (error) {
   console.error(`${colors.fg.red}✗ Erro ao fazer build do frontend: ${error}${colors.reset}`);
