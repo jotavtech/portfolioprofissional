@@ -1267,3 +1267,87 @@
   background: rgba(255, 255, 255, 0.3);
   animation: speedLines 0.5s linear infinite;
 }
+
+/* Estilos do footer do Jotaverso */
+.neon-footer-box {
+  background: rgba(20, 20, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  padding: 20px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.neon-footer-box:hover {
+  box-shadow: 0 0 25px rgba(255, 0, 200, 0.4);
+  transform: translateY(-5px);
+}
+
+.neon-text {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pink-shadow {
+  text-shadow: 0 0 5px #ff00cc, 0 0 10px #ff00cc;
+}
+
+.blue-shadow {
+  text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+}
+
+.yellow-shadow {
+  text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+}
+
+.rainbow-shadow {
+  animation: rainbow-text 5s linear infinite;
+}
+
+@keyframes rainbow-text {
+  0% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+  20% { text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc; }
+  40% { text-shadow: 0 0 10px #0099ff, 0 0 20px #0099ff; }
+  60% { text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; }
+  80% { text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00; }
+  100% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+}
+
+.grid-background {
+  background: 
+    linear-gradient(to right, rgba(5, 5, 20, 0.9), rgba(20, 5, 25, 0.9)),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(0deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px) 0 0 / 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-overlay {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
+  animation: grid-move 10s linear infinite;
+}
+
+@keyframes grid-move {
+  from { background-position: 0 0; }
+  to { background-position: 0 200px; }
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: rgba(255, 0, 200, 0.3);
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.7);
+}

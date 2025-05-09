@@ -360,9 +360,105 @@ export default function Universo() {
           </div>
         </main>
         
-        <footer className="mt-20 text-center pb-10">
-          <div className="flame-divider mb-6"></div>
-          <p className="metal-text text-sm" data-text="© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS">© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS</p>
+        <footer className="mt-20 pb-16">
+          <div className="flame-divider mb-10"></div>
+          
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="neon-footer-box">
+              <h3 className="text-xl font-bold mb-4 neon-text pink-shadow">Contato</h3>
+              <ul className="space-y-2">
+                <li className="hover:text-pink-400 transition-colors">
+                  <span className="mr-2">📱</span> 83 999290376
+                </li>
+                <li className="hover:text-pink-400 transition-colors">
+                  <span className="mr-2">📧</span> martinsjoao1227@gmail.com
+                </li>
+              </ul>
+            </div>
+            
+            <div className="neon-footer-box">
+              <h3 className="text-xl font-bold mb-4 neon-text blue-shadow">Redes Sociais</h3>
+              <div className="flex space-x-4 justify-center">
+                <motion.a 
+                  href="#" 
+                  className="social-icon" 
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                  </svg>
+                </motion.a>
+                <motion.a 
+                  href="#" 
+                  className="social-icon" 
+                  whileHover={{ scale: 1.2, rotate: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </motion.a>
+                <motion.a 
+                  href="#" 
+                  className="social-icon" 
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                </motion.a>
+              </div>
+            </div>
+            
+            <div className="neon-footer-box">
+              <h3 className="text-xl font-bold mb-4 neon-text yellow-shadow">Links Rápidos</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link to="/" className="hover:text-yellow-400 transition-colors">Portfolio Principal</Link>
+                </li>
+                <li>
+                  <a href="/api/download-cv" className="hover:text-yellow-400 transition-colors">Baixar CV</a>
+                </li>
+              </ul>
+            </div>
+          </motion.div>
+          
+          <div className="grid-background h-20 relative flex items-center justify-center mb-8">
+            <div className="absolute inset-0 grid-overlay"></div>
+            <motion.h2 
+              className="text-2xl font-bold relative z-10 neon-text rainbow-shadow"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              JOTAVERSO
+            </motion.h2>
+          </div>
+          
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            <p className="metal-text text-sm mb-3" data-text="© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS">
+              © 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS
+            </p>
+            <p className="text-xs opacity-70">
+              Inspirado na estética neon do GTA VI e cultura cybertribal
+            </p>
+          </motion.div>
         </footer>
       </div>
     </div>
