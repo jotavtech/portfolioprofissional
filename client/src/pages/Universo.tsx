@@ -1,34 +1,52 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'wouter';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Universo() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
+  // Adicionando mais estados para melhorar a experiência da página
+  const [showGuitarEffect, setShowGuitarEffect] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  
   useEffect(() => {
     // Criar elemento de áudio para reproduzir rock
     const audio = new Audio('/rock.mp3');
     audio.loop = true;
+    audio.volume = 0.7;
     audioRef.current = audio;
     
-    // Tentar iniciar o áudio automaticamente (pode ser bloqueado pelos navegadores)
-    const playPromise = audio.play();
+    // Devido às políticas dos navegadores, o áudio só pode ser reproduzido após interação do usuário
+    // Por isso temos o botão de tocar explícito
     
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        setIsPlaying(true);
-      }).catch(() => {
-        // Auto-play foi bloqueado
-        setIsPlaying(false);
-      });
-    }
+    // Animação de guitarra a cada 10 segundos
+    const guitarInterval = setInterval(() => {
+      if (isPlaying) {
+        setShowGuitarEffect(true);
+        setTimeout(() => setShowGuitarEffect(false), 2000);
+      }
+    }, 10000);
+    
+    // Detecta primeiro clique na página para permitir áudio
+    const handleUserInteraction = () => {
+      if (!hasUserInteracted) {
+        setHasUserInteracted(true);
+        document.removeEventListener('click', handleUserInteraction);
+      }
+    };
+    
+    document.addEventListener('click', handleUserInteraction);
     
     return () => {
-      audio.pause();
-      audio.src = '';
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+      clearInterval(guitarInterval);
+      document.removeEventListener('click', handleUserInteraction);
     };
-  }, []);
+  }, [isPlaying, hasUserInteracted]);
   
   const toggleAudio = () => {
     if (!audioRef.current) return;
@@ -46,6 +64,30 @@ export default function Universo() {
       {/* Fundo estilo rock dos anos 90 */}
       <div className="rock-background absolute inset-0 z-0"></div>
       
+      {/* Animação de guitarra que aparece ocasionalmente */}
+      <AnimatePresence>
+        {showGuitarEffect && (
+          <motion.div 
+            className="guitar-effect" 
+            initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.5, rotate: 15 }}
+            transition={{ duration: 0.5 }}
+          >
+            <svg width="150" height="400" viewBox="0 0 150 400" className="guitar-svg">
+              <path d="M70,20 L80,20 L85,100 L90,120 L90,300 L75,350 L65,350 L50,300 L50,120 L55,100 L60,20 Z" fill="#600" />
+              <rect x="55" y="320" width="30" height="60" rx="5" fill="#300" />
+              <rect x="60" y="100" width="20" height="200" fill="#900" />
+              <rect x="55" y="70" width="30" height="30" rx="2" fill="#111" />
+              <rect x="60" y="30" width="20" height="40" fill="#333" />
+              <circle cx="70" cy="335" r="15" fill="#111" />
+              <line x1="70" y1="320" x2="70" y2="350" stroke="#fff" strokeWidth="1" />
+              <line x1="55" y1="335" x2="85" y2="335" stroke="#fff" strokeWidth="1" />
+            </svg>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       <div className="relative z-10 container mx-auto px-4 py-16">
         <header className="mb-12 flex justify-between items-center">
           <Link to="/">
@@ -58,13 +100,19 @@ export default function Universo() {
             </motion.button>
           </Link>
           
-          <button 
+          <motion.button 
             onClick={toggleAudio}
             className="audio-toggle"
             aria-label={isPlaying ? 'Pausar música' : 'Tocar música'}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            animate={isPlaying ? { 
+              boxShadow: ["0 0 10px #f00", "0 0 20px #f00", "0 0 10px #f00"]
+            } : {}}
+            transition={{ duration: 1, repeat: isPlaying ? Infinity : 0 }}
           >
-            {isPlaying ? 'Pausar Rock' : 'Tocar Rock'}
-          </button>
+            {isPlaying ? 'Pausar Rock 🤘' : 'Tocar Rock 🎸'}
+          </motion.button>
         </header>
         
         <main>

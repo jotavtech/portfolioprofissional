@@ -455,6 +455,26 @@
   background: linear-gradient(45deg, #500, #800);
 }
 
+/* Efeito de guitarra flutuando */
+.guitar-effect {
+  position: fixed;
+  right: 5%;
+  top: 30%;
+  z-index: 20;
+  pointer-events: none;
+  filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
+}
+
+.guitar-svg {
+  animation: rockGuitar 3s ease-in-out infinite;
+}
+
+@keyframes rockGuitar {
+  0% { transform: rotate(-3deg); }
+  50% { transform: rotate(5deg); }
+  100% { transform: rotate(-3deg); }
+}
+
 .back-button, .audio-toggle {
   background: linear-gradient(to bottom, #900, #500);
   border: none;
