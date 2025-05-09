@@ -320,7 +320,7 @@
 
 .universo-button {
   position: fixed;
-  bottom: 30px;
+  top: 100px; /* Posicionado logo abaixo do header */
   right: 30px;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
