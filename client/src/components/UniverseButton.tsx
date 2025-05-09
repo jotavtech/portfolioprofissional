@@ -169,14 +169,14 @@ export function UniverseButton() {
     }
   };
   
-  // Verificar se estamos na página universo para alternar o destino do botão
+  // Verificar se estamos na página jotaverso para alternar o destino do botão
   const [location] = useLocation();
-  const isUniversePage = location === '/universo';
+  const isUniversePage = location === '/jotaverso' || location === '/universo';
   
   return (
     <>
       {showPortal && <div className="portal" />}
-      <Link to={isUniversePage ? '/' : '/universo'}>
+      <Link to={isUniversePage ? '/' : '/jotaverso'}>
         <motion.button 
           ref={buttonRef}
           className="universo-button"

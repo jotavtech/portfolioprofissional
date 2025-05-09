@@ -54,6 +54,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/universo" component={Universo} />
+          <Route path="/jotaverso" component={Universo} />
           <Route component={NotFound} />
         </Switch>
       </motion.div>
