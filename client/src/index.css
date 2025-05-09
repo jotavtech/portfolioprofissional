@@ -302,11 +302,7 @@
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 
-/* Animação de rastro para o carro */
-@keyframes trailAnimation {
-  0% { opacity: 0.7; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(0.5); }
-}
+/* Removido rastro do carro */
 
 /* Cursor personalizado */
 .custom-cursor {
