@@ -1,22 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function About() {
-  const { scrollYProgress } = useScroll();
-  
-  // Transformação para o movimento do Porsche baseado no scroll
-  // Fazemos o carro se mover de um lado para o outro várias vezes enquanto rolamos a página
-  const porscheX = useTransform(
-    scrollYProgress, 
-    [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], 
-    ["-5%", "105%", "-5%", "105%", "-5%", "105%", "-5%"]
-  );
-  
-  // Transformação para a rotação das rodas baseado no scroll - roda mais rápido durante as mudanças de direção
-  const wheelRotation = useTransform(
-    scrollYProgress, 
-    [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], 
-    [0, 500, 1000, 1500, 2000, 2500, 3000]
-  );
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -51,47 +35,7 @@ export default function About() {
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
-        {/* Espaço vazio para manter o layout - o carro Ferrari foi removido */}
-        
-        {/* Porsche controlado pelo scroll */}
-        <div className="relative h-32 mb-12 overflow-hidden">
-          <div className="absolute w-full h-[2px] bg-white/30 top-3/4 left-0 right-0"></div>
-          
-          {/* Porsche Car com movimento baseado no scroll */}
-          <motion.div 
-            className="absolute z-20 pointer-events-none"
-            style={{ x: porscheX }}
-          >
-            <img 
-              src="/attached_assets/porsche.png" 
-              alt="Porsche" 
-              className="h-16 md:h-20 object-contain"
-            />
-            
-            {/* Rodas que giram com o scroll */}
-            <motion.div 
-              className="absolute bottom-[2px] left-7 w-10 h-10"
-              style={{ rotate: wheelRotation }}
-            >
-              <img 
-                src="/attached_assets/rodaporsche.webp" 
-                alt="Roda Porsche" 
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-            
-            <motion.div 
-              className="absolute bottom-[2px] left-[75px] w-10 h-10"
-              style={{ rotate: wheelRotation }}
-            >
-              <img 
-                src="/attached_assets/rodaporsche.webp" 
-                alt="Roda Porsche" 
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-          </motion.div>
-        </div>
+        {/* O carro Porsche foi removido */}
         
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
