@@ -9,88 +9,84 @@ const PorscheCar = memo(function PorscheCar() {
   const lastScrollY = useRef(0);
   const speedLinesRef = useRef<HTMLDivElement>(null);
   
-  // Criar linhas de velocidade de forma otimizada
+  // Linhas de velocidade super simplificadas
   useEffect(() => {
-    if (speed > 4) { // Aumentamos o limite de velocidade para reduzir os efeitos
-      // Adiciona linhas apenas quando a velocidade é significativa
-      // Reduz significativamente a quantidade de linhas
-      const linesCount = Math.min(2, Math.floor(speed / 4));
-      
-      // Reduz ainda mais a frequência (apenas 30% das vezes)
-      if (linesCount > 0 && Math.random() > 0.7) {
-        const newLines: {id: number, left: number, width: number, top: number}[] = [];
+    if (speed > 5) { // Aumentamos ainda mais o limite para reduzir os efeitos
+      // Gera linhas com muito menos frequência (apenas 20% das vezes)
+      if (Math.random() > 0.8) {
+        const newLine = {
+          id: Date.now(),
+          left: Math.random() * 100, // Posição horizontal aleatória (%)
+          width: Math.random() * 60 + 20, // Largura ainda mais reduzida
+          top: Math.random() * 10 // Posição vertical reduzida
+        };
         
-        for (let i = 0; i < linesCount; i++) {
-          newLines.push({
-            id: Date.now() + i,
-            left: Math.random() * 100, // Posição horizontal aleatória (%)
-            width: Math.random() * 80 + 20, // Largura reduzida
-            top: Math.random() * 15 // Posição vertical reduzida
-          });
-        }
-        
-        // Manter apenas 5 linhas no máximo para economizar memória
-        setSpeedLines(prev => [...prev, ...newLines].slice(-5));
+        // Manter apenas 3 linhas no máximo para economizar memória
+        setSpeedLines(prev => [...prev, newLine].slice(-3));
       }
     }
-  }, [speed > 4 ? Math.floor(speed / 2) : 0]); // Reduzimos a frequência das atualizações
+  }, [speed > 5 ? Math.floor(speed / 3) : 0]); // Ainda menos atualizações
   
   useEffect(() => {
     // Variável para controlar o throttling do evento de scroll
     let isThrottled = false;
     let lastTimeScrolled = 0;
     
-    // Função otimizada para atualizar a posição do carro com base no scroll
+    // Função ultra otimizada para atualizar a posição do carro com base no scroll
     const handleScroll = () => {
       const now = Date.now();
       
-      // Throttle mais agressivo (apenas 30 frames por segundo)
-      if (isThrottled && now - lastTimeScrolled < 33) { // ~30fps (1000ms/30 ≈ 33ms)
+      // Throttle super agressivo (apenas 15 frames por segundo - suficiente para efeito visual)
+      if (isThrottled && now - lastTimeScrolled < 66) { // ~15fps (1000ms/15 ≈ 66ms)
         return;
       }
       
       isThrottled = true;
       lastTimeScrolled = now;
       
-      // Usa setTimeout em vez de requestAnimationFrame para maior controle da frequência
       setTimeout(() => {
         isThrottled = false;
-      }, 33);
+      }, 66);
       
       const currentScrollY = window.scrollY;
       const scrollDiff = Math.abs(currentScrollY - lastScrollY.current);
       
-      // Apenas se a diferença de scroll for significativa (reduz cálculos)
-      if (scrollDiff > 3) {
-        // Calcular velocidade baseada na diferença de scroll (velocidade máxima reduzida)
-        const newSpeed = Math.min(8, scrollDiff * 0.15);
-        setSpeed(newSpeed);
+      // Apenas processa diferenças mais significativas de scroll
+      if (scrollDiff > 5) { // Aumentado o limiar para reduzir cálculos
+        // Velocidade com cálculo simplificado
+        const newSpeed = Math.min(8, scrollDiff * 0.1); // Reduzido o multiplicador
         
-        // Determina a direção do scroll de forma simplificada
+        // Batch de atualizações com um único setTimeout com delay zero para performance
         const isScrollingDown = currentScrollY > lastScrollY.current;
         
-        // Combina as atualizações de estado para reduzir re-renders
-        if (isScrollingDown) {
-          setDirection('forward');
-          setPosition(prev => Math.min(window.innerWidth - 150, prev + scrollDiff * 0.6));
-        } else {
-          setDirection('backward');
-          setPosition(prev => Math.max(-150, prev - scrollDiff * 0.6));
-        }
+        // Usa setTimeout com delay zero para batchear atualizações
+        setTimeout(() => {
+          setSpeed(newSpeed);
+          setDirection(isScrollingDown ? 'forward' : 'backward');
+          setPosition(prev => {
+            if (isScrollingDown) {
+              return Math.min(window.innerWidth - 150, prev + scrollDiff * 0.5);
+            } else {
+              return Math.max(-150, prev - scrollDiff * 0.5);
+            }
+          });
+        }, 0);
       }
       
-      // Atualiza o último valor de scroll conhecido
       lastScrollY.current = currentScrollY;
     };
     
-    // Efeito de diminuição de velocidade quando parado (intervalo muito mais longo)
+    // Efeito de diminuição de velocidade super otimizado
     const slowDownInterval = setInterval(() => {
-      if (!document.hidden && speed > 0.1) {
-        setSpeed(prev => prev * 0.9);
-      } else if (speed <= 0.1 && speed > 0) {
-        setSpeed(0); // Define como 0 imediatamente se for muito baixo
+      // Só atualiza se a velocidade for significativa e a página estiver visível
+      if (!document.hidden && speed > 0.2) {
+        // Redução mais agressiva para menos atualizações
+        setSpeed(prev => prev * 0.8);
+      } else if (speed <= 0.2 && speed > 0) {
+        // Vai direto para zero para evitar múltiplas renderizações pequenas
+        setSpeed(0);
       }
-    }, 400); // Intervalo muito maior para minimizar atualizações
+    }, 600); // Intervalo ainda mais longo para reduzir drasticamente atualizações
     
     // Registra o event listener para o scroll com passive true para performance
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -114,21 +110,23 @@ const PorscheCar = memo(function PorscheCar() {
         }}
       />
       
-      {/* Linhas de velocidade - versão simplificada */}
-      <div className="speed-lines" ref={speedLinesRef}>
-        {speed > 3 && speedLines.slice(0, 3).map(line => (
-          <div 
-            key={line.id}
-            className="speed-line"
-            style={{
-              left: `${line.left}%`,
-              width: `${line.width}px`,
-              bottom: `${line.top}px`,
-              opacity: 0.3
-            }}
-          />
-        ))}
-      </div>
+      {/* Linhas de velocidade - ultra simplificada para performance */}
+      {speed > 5 && ( // Só mostra em velocidades maiores
+        <div className="speed-lines" ref={speedLinesRef}>
+          {speedLines.slice(0, 2).map(line => ( // Máximo 2 linhas
+            <div 
+              key={line.id}
+              className="speed-line"
+              style={{
+                left: `${line.left}%`,
+                width: `${line.width}px`,
+                bottom: `${line.top}px`,
+                opacity: 0.2 // Reduz opacidade
+              }}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 });
