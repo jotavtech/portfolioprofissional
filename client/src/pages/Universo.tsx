@@ -222,7 +222,7 @@ export default function Universo() {
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <div className="rock-card">
-              <h2 className="rock-title">SOBRE</h2>
+              <h2 className="rock-title" data-content="SOBRE">SOBRE</h2>
               <p>
                 Bem-vindo ao Universo Rock, uma experiência alternativa do meu portfolio 
                 inspirada na estética rebelde do rock dos anos 90. Aqui você encontra projetos
@@ -231,7 +231,7 @@ export default function Universo() {
             </div>
             
             <div className="rock-card">
-              <h2 className="rock-title">PROJETOS</h2>
+              <h2 className="rock-title" data-content="PROJETOS">PROJETOS</h2>
               <ul className="rock-projects">
                 <li>Metal Madness - Design de UI para banda de heavy metal</li>
                 <li>Sound Design - Produção de audio para websites</li>
@@ -259,12 +259,103 @@ export default function Universo() {
               transition={{ delay: 0.8, duration: 0.8 }}
             >
               {/* Placeholders para imagens de projetos rock */}
-              <div className="rock-image-card">Rock Project 1</div>
-              <div className="rock-image-card">Rock Project 2</div>
-              <div className="rock-image-card">Rock Project 3</div>
-              <div className="rock-image-card">Rock Project 4</div>
-              <div className="rock-image-card">Rock Project 5</div>
-              <div className="rock-image-card">Rock Project 6</div>
+              <div className="rock-image-card" onClick={(e) => {
+                // Efeito de clique com ondas
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Metal Madness
+              </div>
+              <div className="rock-image-card" onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Sound Design
+              </div>
+              <div className="rock-image-card" onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Crowd Surf
+              </div>
+              <div className="rock-image-card" onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Web Vibes
+              </div>
+              <div className="rock-image-card" onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Audio Wave
+              </div>
+              <div className="rock-image-card" onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const span = document.createElement('span');
+                span.style.left = x + 'px';
+                span.style.top = y + 'px';
+                e.currentTarget.appendChild(span);
+                
+                setTimeout(() => {
+                  span.remove();
+                }, 700);
+              }}>
+                Digital Audio
+              </div>
             </motion.div>
           </div>
         </main>
