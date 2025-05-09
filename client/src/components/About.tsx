@@ -50,18 +50,18 @@ export default function About() {
             whileInView={{ x: "150%" }}
             viewport={{ once: false }}
             transition={{ 
-              duration: 4, 
+              duration: 6, 
               ease: "easeInOut",
               repeat: Infinity,
-              repeatDelay: 1
+              repeatDelay: 0.5
             }}
           >
             {/* Porsche Car SVG */}
             <div className="relative w-64 h-32">
               {/* Car Body */}
               <motion.svg width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M40,20 L60,10 L160,10 L190,20 L220,40 L230,60 L30,60 L20,50 L20,30 Z" fill="white" stroke="black" strokeWidth="1"/>
-                <path d="M60,10 L70,40 L160,40 L170,20 Z" fill="white" stroke="black" strokeWidth="1"/>
+                <path d="M40,20 L60,10 L160,10 L190,20 L220,40 L230,60 L30,60 L20,50 L20,30 Z" fill="#1E3A8A" stroke="black" strokeWidth="1"/>
+                <path d="M60,10 L70,40 L160,40 L170,20 Z" fill="#1E3A8A" stroke="black" strokeWidth="1"/>
                 <rect x="80" y="15" width="40" height="25" fill="black" opacity="0.7"/>
                 <rect x="130" y="15" width="30" height="25" fill="black" opacity="0.7"/>
                 
@@ -78,7 +78,7 @@ export default function About() {
                 <motion.g
                   animate={{ rotate: 360 }}
                   transition={{ 
-                    duration: 1,
+                    duration: 0.5,
                     repeat: Infinity,
                     ease: "linear",
                   }}
@@ -95,7 +95,7 @@ export default function About() {
                 <motion.g
                   animate={{ rotate: 360 }}
                   transition={{ 
-                    duration: 1,
+                    duration: 0.5,
                     repeat: Infinity,
                     ease: "linear",
                   }}
