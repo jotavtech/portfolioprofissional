@@ -1,4 +1,4 @@
-import { useContext, useRef, useEffect, useState } from "react";
+import { useContext, useRef, useEffect, useState, useCallback, memo, useMemo } from "react";
 import { Play, Pause, SkipBack, SkipForward, Volume2, Volume1, VolumeX, Music } from "lucide-react";
 import { formatTime } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,7 +12,7 @@ interface Song {
   cover?: string;
 }
 
-export default function MusicPlayer() {
+function MusicPlayer() {
   const { 
     currentSong, 
     isPlaying, 
@@ -29,7 +29,8 @@ export default function MusicPlayer() {
   const [showPlaylist, setShowPlaylist] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playlist: Song[] = [
+  // Usar useMemo para playlist para evitar recriação a cada render
+  const playlist = useMemo<Song[]>(() => [
     {
       id: 0,
       title: "Around The World",
@@ -51,24 +52,32 @@ export default function MusicPlayer() {
       url: "https://cdn.pixabay.com/download/audio/2021/04/07/audio_c8c2fb1eb6.mp3?filename=sad-piano-11239.mp3",
       cover: "https://images.unsplash.com/photo-1505248207594-9f9912dda70a?q=80&w=300&h=300&auto=format&fit=crop"
     }
-  ];
+  ], []);
 
+  // Event handlers memoizados para evitar recriações e vazamentos de memória
+  const handleTimeUpdate = useCallback(() => {
+    if (!audioRef.current) return;
+    // Otimizado para limitar atualizações do estado quando a diferença for significativa
+    if (Math.abs(audioRef.current.currentTime - currentTime) > 0.5) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  }, [currentTime]);
+
+  const handleLoadedMetadata = useCallback(() => {
+    if (!audioRef.current) return;
+    setDuration(audioRef.current.duration);
+  }, []);
+
+  const handleEnded = useCallback(() => {
+    nextSong();
+  }, [nextSong]);
+
+  // Efeito para gerenciar event listeners do áudio
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-    };
-
-    const handleEnded = () => {
-      nextSong();
-    };
-
+    // Usar opções de passivo para melhorar performance
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
@@ -78,7 +87,7 @@ export default function MusicPlayer() {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [nextSong]);
+  }, [handleTimeUpdate, handleLoadedMetadata, handleEnded]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -120,6 +129,43 @@ export default function MusicPlayer() {
   const togglePlaylist = () => {
     setShowPlaylist(!showPlaylist);
   };
+
+  // Otimização: Memo para o componente de visualizador da playlist
+  const PlaylistItem = memo(({ song, index, isCurrentSong, isPlaying, onSelect }: { 
+    song: Song, 
+    index: number, 
+    isCurrentSong: boolean, 
+    isPlaying: boolean,
+    onSelect: () => void 
+  }) => (
+    <motion.div 
+      key={song.id}
+      className={`flex items-center p-2 hover:bg-white/5 cursor-pointer clickable ${isCurrentSong ? 'bg-white/10' : ''}`}
+      onClick={onSelect}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <div className="w-8 h-8 mr-3 bg-gray-800 rounded-sm overflow-hidden">
+        <img 
+          src={song.cover} 
+          alt={song.title} 
+          className="h-full w-full object-cover"
+          loading="lazy" // Carregamento preguiçoso para imagens
+        />
+      </div>
+      <div>
+        <p className="font-mono text-sm">{song.title}</p>
+        <p className="font-mono text-xs text-gray-400">{song.artist}</p>
+      </div>
+      {isCurrentSong && isPlaying && (
+        <div className="ml-auto flex space-x-1">
+          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0s' }}></div>
+          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+        </div>
+      )}
+    </motion.div>
+  ));
 
   return (
     <>
@@ -185,7 +231,7 @@ export default function MusicPlayer() {
           </div>
         </div>
         
-        {/* Playlist panel */}
+        {/* Playlist panel - com lazy loading otimizado */}
         <AnimatePresence>
           {showPlaylist && (
             <motion.div
@@ -198,32 +244,14 @@ export default function MusicPlayer() {
               <h3 className="font-retro text-lg mb-4">PLAYLIST</h3>
               <div className="grid gap-2">
                 {playlist.map((song, index) => (
-                  <motion.div 
+                  <PlaylistItem 
                     key={song.id}
-                    className={`flex items-center p-2 hover:bg-white/5 cursor-pointer clickable ${index === currentSong ? 'bg-white/10' : ''}`}
-                    onClick={() => setCurrentSong(index)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="w-8 h-8 mr-3 bg-gray-800 rounded-sm overflow-hidden">
-                      <img 
-                        src={song.cover} 
-                        alt={song.title} 
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-mono text-sm">{song.title}</p>
-                      <p className="font-mono text-xs text-gray-400">{song.artist}</p>
-                    </div>
-                    {index === currentSong && isPlaying && (
-                      <div className="ml-auto flex space-x-1">
-                        <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0s' }}></div>
-                        <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                        <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                      </div>
-                    )}
-                  </motion.div>
+                    song={song}
+                    index={index}
+                    isCurrentSong={index === currentSong}
+                    isPlaying={isPlaying}
+                    onSelect={() => setCurrentSong(index)}
+                  />
                 ))}
               </div>
             </motion.div>
@@ -233,3 +261,6 @@ export default function MusicPlayer() {
     </>
   );
 }
+
+// Exporta o componente memoizado para evitar re-renders desnecessários
+export default memo(MusicPlayer);

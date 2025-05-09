@@ -1,15 +1,15 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext, memo, useCallback } from "react";
 import { motion } from "framer-motion";
 import RecordPlayer from "./RecordPlayer";
 import { scrollToSection } from "@/lib/utils";
 import { MusicPlayerContext } from "@/contexts/MusicPlayerContext";
 
-export default function Hero() {
+function Hero() {
   const { isPlaying, togglePlay } = useContext(MusicPlayerContext);
   const magneticTextRef = useRef<HTMLHeadingElement>(null);
   const magneticTextElementsRef = useRef<HTMLSpanElement[]>([]);
 
-  // Create magnetic text effect for the title
+  // Create magnetic text effect for the title - otimizado
   useEffect(() => {
     if (!magneticTextRef.current) return;
     
@@ -34,50 +34,95 @@ export default function Hero() {
       });
     });
     
-    // Handle mouse movement for the magnetic effect
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      const rect = magneticTextContainer.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      magneticTextElementsRef.current.forEach((charSpan, index) => {
-        const charRect = charSpan.getBoundingClientRect();
-        const charCenterX = charRect.left + charRect.width / 2;
-        const charCenterY = charRect.top + charRect.height / 2;
-        
-        // Calculate distance from mouse to this character
-        const distanceX = clientX - charCenterX;
-        const distanceY = clientY - charCenterY;
-        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-        
-        // Only affect characters within a certain radius
-        const radius = 200;
-        if (distance < radius) {
-          // Calculate the effect strength based on distance (closer = stronger)
-          const strength = (radius - distance) / radius;
-          
-          // Calculate the movement amount
-          const moveX = distanceX * strength * 0.2;
-          const moveY = distanceY * strength * 0.2;
-          
-          // Apply the transform
-          charSpan.style.transform = `translate(${moveX}px, ${moveY}px)`;
-          charSpan.style.textShadow = `0 0 ${5 * strength}px rgba(255, 255, 255, ${0.8 * strength})`; 
-          charSpan.style.transition = 'transform 0.1s, text-shadow 0.1s';
-        } else {
-          // Reset the transform if the mouse is too far
-          charSpan.style.transform = '';
-          charSpan.style.textShadow = '';
-          charSpan.style.transition = 'transform 0.5s, text-shadow 0.5s';
-        }
-      });
-    };
+    // Otimização: Criar uma throttle para limitar o número de chamadas de mousemove
+    let lastExecution = 0;
+    let isThrottled = false;
+    let rafId: number | null = null;
+    let lastClientX = 0;
+    let lastClientY = 0;
     
-    document.addEventListener('mousemove', handleMouseMove);
+    // Handle mouse movement for the magnetic effect
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+      // Guarda a posição do mouse para uso no rAF
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      
+      if (isThrottled) return;
+      
+      isThrottled = true;
+      
+      // Agenda o processamento para o próximo frame de animação
+      rafId = requestAnimationFrame(() => {
+        const now = Date.now();
+        // Limita a execução a cada 16ms (aproximadamente 60fps)
+        if (now - lastExecution >= 16) {
+          // Executa a lógica apenas para caracteres próximos para poupar processamento
+          const rect = magneticTextContainer.getBoundingClientRect();
+          
+          // Calcular distância do mouse ao centro do texto
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const distToCenter = Math.sqrt(
+            Math.pow(lastClientX - centerX, 2) + 
+            Math.pow(lastClientY - centerY, 2)
+          );
+          
+          // Só processa se o mouse estiver relativamente próximo do texto
+          if (distToCenter < 300) {
+            const relevantSpans = magneticTextElementsRef.current.filter(span => {
+              const spanRect = span.getBoundingClientRect();
+              const spanCenterX = spanRect.left + spanRect.width / 2;
+              const spanCenterY = spanRect.top + spanRect.height / 2;
+              const dist = Math.sqrt(
+                Math.pow(lastClientX - spanCenterX, 2) + 
+                Math.pow(lastClientY - spanCenterY, 2)
+              );
+              return dist < 250; // Processa apenas os spans próximos
+            });
+            
+            relevantSpans.forEach(charSpan => {
+              const charRect = charSpan.getBoundingClientRect();
+              const charCenterX = charRect.left + charRect.width / 2;
+              const charCenterY = charRect.top + charRect.height / 2;
+              
+              // Calculate distance from mouse to this character
+              const distanceX = lastClientX - charCenterX;
+              const distanceY = lastClientY - charCenterY;
+              const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+              
+              // Only affect characters within a certain radius
+              const radius = 200;
+              if (distance < radius) {
+                // Calculate the effect strength based on distance (closer = stronger)
+                const strength = (radius - distance) / radius;
+                
+                // Calculate the movement amount
+                const moveX = distanceX * strength * 0.2;
+                const moveY = distanceY * strength * 0.2;
+                
+                // Apply the transform
+                charSpan.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                charSpan.style.textShadow = `0 0 ${5 * strength}px rgba(255, 255, 255, ${0.8 * strength})`;
+              } else {
+                // Reset the transform if the mouse is too far
+                charSpan.style.transform = '';
+                charSpan.style.textShadow = '';
+              }
+            });
+          }
+          
+          lastExecution = now;
+        }
+        
+        isThrottled = false;
+      });
+    }, []);
+    
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -185,3 +230,6 @@ export default function Hero() {
     </section>
   );
 }
+
+// Exporta componente com memo para evitar re-renders desnecessários
+export default memo(Hero);

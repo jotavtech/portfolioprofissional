@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, memo } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MusicPlayer from "./MusicPlayer";
 import CustomCursor from "./ui/custom-cursor";
-import UniverseButton from "./UniverseButton";
+import { UniverseButton } from "./UniverseButton";
 import PorscheCar from "./PorscheCar";
 import { motion } from "framer-motion";
 
