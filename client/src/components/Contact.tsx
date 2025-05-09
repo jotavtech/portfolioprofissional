@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Instagram, Loader2 } from "lucide-react";
+import { Github, Linkedin, Instagram, Loader2, MessageSquare } from "lucide-react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -29,6 +29,14 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function Contact() {
   const { toast } = useToast();
+  
+  // Função para abrir o WhatsApp
+  const openWhatsApp = () => {
+    // Número formatado sem o +55 para o link do WhatsApp
+    const phoneNumber = "5583999290376";
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
+  };
   
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -170,7 +178,16 @@ export default function Contact() {
                 
                 <div>
                   <p className="font-pixel text-sm mb-2">PHONE</p>
-                  <a href="tel:+5583999290376" className="font-mono text-gray-300 hover:text-white clickable">+55 83 999290376</a>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="tel:+5583999290376" className="font-mono text-gray-300 hover:text-white clickable">+55 83 999290376</a>
+                    <button 
+                      onClick={openWhatsApp} 
+                      className="flex items-center space-x-2 text-green-500 hover:text-green-400 transition-colors duration-300 clickable"
+                    >
+                      <span className="text-sm font-mono">WhatsApp</span>
+                      <MessageSquare size={16} className="animate-pulse" />
+                    </button>
+                  </div>
                 </div>
                 
                 <div>
@@ -184,7 +201,7 @@ export default function Contact() {
               <p className="font-pixel text-sm mb-4">SOCIAL MEDIA</p>
               <div className="flex space-x-4">
                 <a 
-                  href="https://github.com/" 
+                  href="https://github.com/jotavtech" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="h-10 w-10 border border-white/50 flex items-center justify-center hover:bg-white hover:text-black transition-colors duration-300 clickable"
