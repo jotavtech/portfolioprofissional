@@ -26,7 +26,7 @@ export function UniverseButton() {
     return () => clearInterval(interval);
   }, [isHovering]);
   
-  // Efeito sonoro ao passar mouse usando Web Audio API em vez de arquivo MP3
+  // Efeito sonoro ao passar mouse usando Web Audio API - estilo GTA VI
   const playHoverSound = () => {
     try {
       // Criar contexto de áudio
@@ -35,16 +35,52 @@ export function UniverseButton() {
       gainNode.gain.value = 0.1; // Volume baixo
       gainNode.connect(audioContext.destination);
       
-      // Criar oscilador para som de "zap elétrico"
-      const oscillator = audioContext.createOscillator();
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.2);
+      // Criar oscilador principal com som futurista estilo GTA VI
+      const oscillator1 = audioContext.createOscillator();
+      oscillator1.type = 'sine';
+      oscillator1.frequency.setValueAtTime(440, audioContext.currentTime);
+      oscillator1.frequency.exponentialRampToValueAtTime(220, audioContext.currentTime + 0.3);
       
-      // Conectar e iniciar
-      oscillator.connect(gainNode);
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.2);
+      // Segundo oscilador para efeito mais rico
+      const oscillator2 = audioContext.createOscillator();
+      oscillator2.type = 'triangle';
+      oscillator2.frequency.setValueAtTime(880, audioContext.currentTime);
+      oscillator2.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.3);
+      
+      // Efeito de distorção para som mais digital
+      const distortion = audioContext.createWaveShaper();
+      function makeDistortionCurve(amount: number) {
+        const k = typeof amount === 'number' ? amount : 50;
+        const n_samples = 44100;
+        const curve = new Float32Array(n_samples);
+        const deg = Math.PI / 180;
+        
+        for (let i = 0; i < n_samples; ++i) {
+          const x = i * 2 / n_samples - 1;
+          curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+        }
+        return curve;
+      }
+      
+      distortion.curve = makeDistortionCurve(400);
+      distortion.oversample = '4x';
+      
+      // Aplicar filtro passa-baixa para suavizar
+      const filter = audioContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 1000;
+      
+      // Conectar tudo
+      oscillator1.connect(distortion);
+      oscillator2.connect(distortion);
+      distortion.connect(filter);
+      filter.connect(gainNode);
+      
+      // Iniciar e parar os osciladores
+      oscillator1.start();
+      oscillator2.start();
+      oscillator1.stop(audioContext.currentTime + 0.3);
+      oscillator2.stop(audioContext.currentTime + 0.3);
     } catch (e) {
       console.log('Audio effect error:', e);
     }
