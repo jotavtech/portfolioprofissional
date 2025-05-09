@@ -338,7 +338,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Audio Wave
+                Neon City
               </div>
               <div className="rock-image-card" onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -354,7 +354,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Digital Audio
+                Vice City UI
               </div>
             </motion.div>
           </div>
@@ -362,7 +362,7 @@ export default function Universo() {
         
         <footer className="mt-20 text-center pb-10">
           <div className="flame-divider mb-6"></div>
-          <p className="metal-text text-sm" data-text="© 2025 UNIVERSO ROCK - TODOS OS DIREITOS RESERVADOS">© 2025 UNIVERSO ROCK - TODOS OS DIREITOS RESERVADOS</p>
+          <p className="metal-text text-sm" data-text="© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS">© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS</p>
         </footer>
       </div>
     </div>
