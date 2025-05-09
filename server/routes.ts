@@ -44,7 +44,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // CV download endpoint
   app.get('/api/download-cv', (req: Request, res: Response) => {
-    const cvPath = path.resolve(__dirname, '../attached_assets/Beige Bold Graphic Designer CV Resume.pdf (1).pdf');
+    const cvPath = path.join(process.cwd(), 'attached_assets', 'Beige Bold Graphic Designer CV Resume.pdf (1).pdf');
     
     // Check if file exists
     if (!fs.existsSync(cvPath)) {

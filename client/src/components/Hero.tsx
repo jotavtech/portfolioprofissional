@@ -13,19 +13,25 @@ export default function Hero() {
   useEffect(() => {
     if (!magneticTextRef.current) return;
     
-    const text = "JOÃO VITOR";
+    const text = "JOÃO\nVITOR";
     const magneticTextContainer = magneticTextRef.current;
     
     // Clear existing content
     magneticTextContainer.innerHTML = '';
     
-    // Split the text into individual characters with spans
-    text.split('').forEach((char) => {
-      const charSpan = document.createElement('span');
-      charSpan.className = 'magnetic-text inline-block';
-      charSpan.textContent = char === ' ' ? '\u00A0' : char;
-      magneticTextContainer.appendChild(charSpan);
-      magneticTextElementsRef.current.push(charSpan);
+    // Split the text into individual characters with spans, handling newlines
+    text.split('\n').forEach((line, lineIndex) => {
+      if (lineIndex > 0) {
+        magneticTextContainer.appendChild(document.createElement('br'));
+      }
+      
+      line.split('').forEach((char) => {
+        const charSpan = document.createElement('span');
+        charSpan.className = 'magnetic-text inline-block';
+        charSpan.textContent = char === ' ' ? '\u00A0' : char;
+        magneticTextContainer.appendChild(charSpan);
+        magneticTextElementsRef.current.push(charSpan);
+      });
     });
     
     // Handle mouse movement for the magnetic effect
@@ -101,7 +107,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          GRAPHIC DESIGNER + DEVELOPER
+          DESIGNER GRÁFICO + DESENVOLVEDOR
         </motion.p>
       </motion.div>
       
@@ -154,7 +160,7 @@ export default function Hero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              CONTACT
+              CONTATO
             </motion.button>
             <motion.a 
               href="/api/download-cv" 
@@ -163,7 +169,7 @@ export default function Hero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              DOWNLOAD CV
+              BAIXAR CV
             </motion.a>
           </div>
         </motion.div>

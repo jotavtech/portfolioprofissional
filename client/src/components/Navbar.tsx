@@ -35,10 +35,11 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex space-x-8">
-          <button onClick={() => handleNavClick("home")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">HOME</button>
-          <button onClick={() => handleNavClick("about")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">ABOUT</button>
-          <button onClick={() => handleNavClick("projects")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">PROJECTS</button>
-          <button onClick={() => handleNavClick("contact")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">CONTACT</button>
+          <button onClick={() => handleNavClick("home")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">INÍCIO</button>
+          <button onClick={() => handleNavClick("about")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">SOBRE</button>
+          <button onClick={() => handleNavClick("skills")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">HABILIDADES</button>
+          <button onClick={() => handleNavClick("projects")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">PROJETOS</button>
+          <button onClick={() => handleNavClick("contact")} className="nav-link font-retro text-lg hover:text-gray-300 transition-colors duration-300 clickable">CONTATO</button>
         </div>
 
         <div className="md:hidden">
@@ -51,10 +52,11 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div className={`md:hidden bg-black border-t border-white/10 ${isMenuOpen ? 'block' : 'hidden'}`}>
         <div className="container mx-auto px-4 py-3 flex flex-col space-y-3">
-          <button onClick={() => handleNavClick("home")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">HOME</button>
-          <button onClick={() => handleNavClick("about")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">ABOUT</button>
-          <button onClick={() => handleNavClick("projects")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">PROJECTS</button>
-          <button onClick={() => handleNavClick("contact")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 text-left clickable">CONTACT</button>
+          <button onClick={() => handleNavClick("home")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">INÍCIO</button>
+          <button onClick={() => handleNavClick("about")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">SOBRE</button>
+          <button onClick={() => handleNavClick("skills")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">HABILIDADES</button>
+          <button onClick={() => handleNavClick("projects")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 border-b border-white/10 text-left clickable">PROJETOS</button>
+          <button onClick={() => handleNavClick("contact")} className="nav-link font-retro text-lg hover:text-gray-300 py-2 text-left clickable">CONTATO</button>
         </div>
       </div>
     </nav>
