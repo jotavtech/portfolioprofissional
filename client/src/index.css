@@ -550,9 +550,10 @@
   display: inline-block;
   animation: neonPulse 4s infinite;
   text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
-/* Efeito de texto similar ao GTA VI, com textura metálica pulsante */
+/* Efeito de texto similar ao GTA VI, apenas com brilho neon */
 .metal-text::before {
   content: attr(data-text);
   position: absolute;
@@ -560,17 +561,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.8) 45%,  
-    rgba(255, 255, 255, 0.8) 55%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 200%;
   mix-blend-mode: overlay;
   animation: metalShine 6s ease-in-out infinite alternate;
   pointer-events: none;
+  filter: blur(1px);
+  opacity: 0.7;
 }
 
 .metal-text::after {
@@ -581,15 +576,6 @@
   right: -2px;
   bottom: -2px;
   z-index: -1;
-  background: linear-gradient(
-    to right,
-    #ff2d55 0%,
-    #ff9500 30%, 
-    #ffcc00 50%,
-    #ff9500 70%,
-    #ff2d55 100%
-  );
-  background-size: 200% 200%;
   filter: blur(10px);
   opacity: 0.7;
   animation: textGlow 8s ease infinite;
@@ -1214,9 +1200,10 @@
   width: 150px;
   height: auto;
   z-index: 100;
-  transition: transform 0.5s ease-out;
+  transition: transform 0.2s ease-out, left 0.2s ease-out;
   transform: scaleX(1);
   will-change: transform, left;
+  filter: drop-shadow(0 0 10px rgba(255, 100, 50, 0.5));
 }
 
 .porsche-car.moving-forward {
@@ -1225,4 +1212,58 @@
 
 .porsche-car.moving-backward {
   transform: scaleX(-1);
+}
+
+/* Efeitos de velocidade */
+.porsche-car::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to left, rgba(255, 100, 50, 0.8), transparent);
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.porsche-car.moving-forward::before {
+  opacity: 1;
+}
+
+.porsche-car.moving-backward::before {
+  right: auto;
+  left: -30px;
+  background: linear-gradient(to right, rgba(255, 100, 50, 0.8), transparent);
+  opacity: 1;
+}
+
+/* Efeito de trilha de velocidade */
+@keyframes speedLines {
+  0% {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+.speed-lines {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  pointer-events: none;
+  z-index: 90;
+}
+
+.speed-line {
+  position: absolute;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  animation: speedLines 0.5s linear infinite;
 }
