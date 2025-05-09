@@ -414,6 +414,29 @@
   box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
 }
 
+/* Dica visual para mostrar que o título UNIVERSO ROCK é clicável */
+.universe-return {
+  position: relative;
+}
+
+.universe-return:after {
+  content: "Clique para voltar";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: 'Space Mono', monospace;
+  color: #fff;
+  text-shadow: 0 0 5px #f00;
+}
+
+.universe-return:hover:after {
+  opacity: 1;
+}
+
 .rock-title {
   font-family: 'Press Start 2P', cursive;
   color: #f00;

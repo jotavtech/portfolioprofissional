@@ -1,4 +1,4 @@
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
@@ -77,12 +77,16 @@ export function UniverseButton() {
     }
   };
   
+  // Verificar se estamos na página universo para alternar o destino do botão
+  const [location] = useLocation();
+  const isUniversePage = location === '/universo';
+  
   return (
-    <Link to="/universo">
+    <Link to={isUniversePage ? '/' : '/universo'}>
       <motion.button 
         ref={buttonRef}
         className="universo-button"
-        aria-label="Ir para o universo rock n' roll"
+        aria-label={isUniversePage ? "Voltar ao portfolio original" : "Ir para o universo rock n' roll"}
         onMouseEnter={playHoverSound}
         onMouseLeave={handleMouseLeave}
         variants={buttonVariants}

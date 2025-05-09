@@ -190,14 +190,27 @@ export default function Universo() {
         </header>
         
         <main>
-          <motion.h1 
-            className="text-6xl font-bold metal-text mb-8 text-center"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            UNIVERSO ROCK
-          </motion.h1>
+          <Link to="/">
+            <motion.h1 
+              className="text-6xl font-bold metal-text mb-8 text-center cursor-pointer universe-return"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ 
+                scale: 1.05, 
+                textShadow: "0 0 15px #fff, 0 0 25px #f00, 0 0 35px #f00" 
+              }}
+              title="Voltar para o portfolio original"
+              onClick={() => {
+                // Parar a música ao voltar
+                if (audioRef.current && isPlaying) {
+                  audioRef.current.pause();
+                }
+              }}
+            >
+              UNIVERSO ROCK
+            </motion.h1>
+          </Link>
           
           <div className="flame-divider mb-12"></div>
           
