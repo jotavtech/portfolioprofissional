@@ -193,7 +193,7 @@ export default function Universo() {
           <Link to="/">
             <motion.h1 
               className="text-6xl font-bold metal-text mb-8 text-center cursor-pointer universe-return"
-              data-text="UNIVERSO ROCK"
+              data-text="JOTAVERSO"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -209,7 +209,7 @@ export default function Universo() {
                 }
               }}
             >
-              UNIVERSO ROCK
+              JOTAVERSO
             </motion.h1>
           </Link>
           
@@ -224,19 +224,19 @@ export default function Universo() {
             <div className="rock-card">
               <h2 className="rock-title" data-content="SOBRE">SOBRE</h2>
               <p>
-                Bem-vindo ao Universo Rock, uma experiência alternativa do meu portfolio 
-                inspirada na estética rebelde do rock dos anos 90. Aqui você encontra projetos
-                com uma abordagem mais pesada e artística.
+                Bem-vindo ao Jotaverso, uma experiência alternativa do meu portfolio 
+                inspirada na estética futurista do GTA VI. Aqui você encontra projetos
+                com uma abordagem mais moderna e interativa.
               </p>
             </div>
             
             <div className="rock-card">
               <h2 className="rock-title" data-content="PROJETOS">PROJETOS</h2>
               <ul className="rock-projects">
-                <li>Metal Madness - Design de UI para banda de heavy metal</li>
-                <li>Sound Design - Produção de audio para websites</li>
-                <li>Crowd Surf - Plataforma para bandas independentes</li>
-                <li>Web Vibes - Website com tema musical e interativo</li>
+                <li>Neon Dreams - Design de UI futurista com efeitos neon</li>
+                <li>Digital Wave - Desenvolvimento de websites interativos</li>
+                <li>Cyber Portal - Plataforma com interfaces modernas</li>
+                <li>GTA Inspired - Website com inspiração visual em jogos</li>
               </ul>
             </div>
           </motion.div>
@@ -274,7 +274,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Metal Madness
+                Neon Dreams
               </div>
               <div className="rock-image-card" onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -290,7 +290,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Sound Design
+                Digital Wave
               </div>
               <div className="rock-image-card" onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -306,7 +306,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Crowd Surf
+                Cyber Portal
               </div>
               <div className="rock-image-card" onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -322,7 +322,7 @@ export default function Universo() {
                   span.remove();
                 }, 700);
               }}>
-                Web Vibes
+                GTA Inspired
               </div>
               <div className="rock-image-card" onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();

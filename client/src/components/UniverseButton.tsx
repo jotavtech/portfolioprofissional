@@ -124,7 +124,7 @@ export function UniverseButton() {
       <motion.button 
         ref={buttonRef}
         className="universo-button"
-        aria-label={isUniversePage ? "Voltar ao portfolio original" : "Ir para o universo rock n' roll"}
+        aria-label={isUniversePage ? "Voltar ao portfolio original" : "Ir para o Jotaverso"}
         onMouseEnter={playHoverSound}
         onMouseLeave={handleMouseLeave}
         variants={buttonVariants}
@@ -137,7 +137,7 @@ export function UniverseButton() {
             <div className="lightning" style={{ left: "35px" }} />
           </>
         )}
-        UNIVERSO
+        JOTAVERSO
       </motion.button>
     </Link>
   );
