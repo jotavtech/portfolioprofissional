@@ -18,30 +18,67 @@ export default function CyberTribalElements() {
   // Referência para o container principal
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Inicializa elementos tribais em posições aleatórias - reduzindo a quantidade para performance
+  // Inicializa elementos tribais sob demanda com base na posição de scroll
   useEffect(() => {
-    const initialElements = [];
-    
-    // Reduzido de 15 para 8 elementos para otimização de performance
-    for (let i = 0; i < 8; i++) {
-      // Mais elementos geométricos (mais leves) que tribais
-      const type = Math.random() > 0.7 ? 'tribal' : 'geometric';
-      const subType = Math.floor(Math.random() * 5);
+    // Função auxiliar para criar elementos apenas quando necessário
+    const createElementsForPosition = (scrollPosition: number) => {
+      const initialElements = [];
+      const sectionHeight = 500; // Altura aproximada de cada "seção" virtual
+      const maxSections = Math.ceil(document.body.scrollHeight / sectionHeight);
       
-      initialElements.push({
-        id: i,
-        type: `${type}-${subType}`,
-        x: Math.random() * 100,
-        y: Math.random() * 300 + (i * 80), // Mais espaçados
-        rotation: Math.random() * 360,
-        scale: 0.4 + Math.random() * 0.6, // Escalas menores
-        opacity: 0.2 + Math.random() * 0.3, // Menos opaco
-        visible: false
-      });
-    }
+      // Número de seções a popular com base na posição atual do scroll
+      const sectionsToPopulate = Math.min(
+        3, // No máximo 3 seções para evitar sobrecarga
+        Math.ceil((scrollPosition + window.innerHeight * 2) / sectionHeight)
+      );
+      
+      // Limite o número total de elementos criados
+      const maxElements = 8;
+      const elementsPerSection = Math.floor(maxElements / sectionsToPopulate);
+      
+      for (let section = 0; section < sectionsToPopulate; section++) {
+        const sectionOffset = section * sectionHeight;
+        
+        // Distribui os elementos dentro desta seção
+        for (let i = 0; i < elementsPerSection; i++) {
+          // Mais elementos geométricos (mais leves) que tribais
+          const type = Math.random() > 0.7 ? 'tribal' : 'geometric';
+          const subType = Math.floor(Math.random() * 5);
+          
+          initialElements.push({
+            id: section * elementsPerSection + i,
+            type: `${type}-${subType}`,
+            x: Math.random() * 100,
+            y: sectionOffset + Math.random() * sectionHeight, // Posicionado dentro da seção
+            rotation: Math.random() * 360,
+            scale: 0.4 + Math.random() * 0.6, // Escalas menores
+            opacity: 0.2 + Math.random() * 0.3, // Menos opaco
+            visible: false
+          });
+        }
+      }
+      
+      setElements(initialElements);
+    };
     
-    setElements(initialElements);
-  }, []);
+    // Criar elementos iniciais com base na posição atual da página
+    createElementsForPosition(window.scrollY);
+    
+    // Atualiza os elementos quando houver scrolls significativos
+    const handleScrollCreation = () => {
+      // Se já temos elementos suficientes, não criamos mais
+      if (elements.length >= 8) return;
+      
+      createElementsForPosition(window.scrollY);
+    };
+    
+    // Adiciona evento com throttling agressivo
+    window.addEventListener('scroll', handleScrollCreation, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScrollCreation);
+    };
+  }, [elements.length]);
   
   // Gerencia eventos de scroll - versão ultra otimizada
   useEffect(() => {
