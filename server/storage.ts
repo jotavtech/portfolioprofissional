@@ -43,6 +43,11 @@ export class MemStorage implements IStorage {
     // Update currentProjectId to be the max ID + 1
     this.currentProjectId = Math.max(this.currentProjectId, project.id + 1);
   }
+  
+  clearProjects(): void {
+    this.projects.clear();
+    this.currentProjectId = 1;
+  }
 }
 
 export interface IStorage {
@@ -52,6 +57,7 @@ export interface IStorage {
   getAllProjects(): Project[];
   getProjectById(id: number): Project | undefined;
   addProject(project: Project): void;
+  clearProjects(): void; // Novo método para limpar projetos
 }
 
 export const storage = new MemStorage();

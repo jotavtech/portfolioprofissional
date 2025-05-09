@@ -47,4 +47,5 @@ export interface IStorage {
   getAllProjects(): Project[];
   getProjectById(id: number): Project | undefined;
   addProject(project: Project): void;
+  clearProjects(): void; // Método para limpar todos os projetos
 }
