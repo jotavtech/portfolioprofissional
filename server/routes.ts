@@ -93,6 +93,60 @@ function initializeProjectsData() {
         category: "app",
         technologies: ["React Native", "Firebase", "API"],
         link: "https://exemplo.com/folheando"
+      },
+      {
+        id: 4,
+        title: "Pixel Art Creator",
+        description: "Ferramenta online para criação de pixel art com recursos de animação, paleta de cores customizáveis e exportação em vários formatos.",
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "design",
+        technologies: ["JavaScript", "Canvas API", "GSAP"],
+        link: "https://exemplo.com/pixelart"
+      },
+      {
+        id: 5,
+        title: "TechBlog",
+        description: "Blog focado em tecnologia com sistema de gerenciamento de conteúdo personalizado, categorização de artigos e recursos de SEO.",
+        image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "web",
+        technologies: ["Next.js", "Tailwind CSS", "Prisma"],
+        link: "https://exemplo.com/techblog"
+      },
+      {
+        id: 6,
+        title: "Crypto Dashboard",
+        description: "Dashboard para monitoramento de criptomoedas em tempo real com gráficos interativos, alertas de preço e portfolio personalizado.",
+        image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "data",
+        technologies: ["React", "Chart.js", "WebSocket"],
+        link: "https://exemplo.com/cryptodash"
+      },
+      {
+        id: 7,
+        title: "Fitness Tracker",
+        description: "Aplicativo para acompanhamento de atividades físicas, metas de condicionamento e progresso com recursos de gamificação.",
+        image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "app",
+        technologies: ["Flutter", "Firebase", "Health API"],
+        link: "https://exemplo.com/fittrack"
+      },
+      {
+        id: 8,
+        title: "Weather UI Kit",
+        description: "Kit de interface para aplicativos de previsão do tempo com componentes personalizáveis, animações e integração com APIs de clima.",
+        image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "ui",
+        technologies: ["Figma", "Adobe XD", "Sketch"],
+        link: "https://exemplo.com/weatherui"
+      },
+      {
+        id: 9,
+        title: "Game Music Composer",
+        description: "Ferramenta para composição de músicas e efeitos sonoros para jogos com biblioteca de samples e exportação em vários formatos.",
+        image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&h=500&auto=format&fit=crop",
+        category: "audio",
+        technologies: ["Web Audio API", "Tone.js", "SVG"],
+        link: "https://exemplo.com/gamemusic"
       }
     ];
 

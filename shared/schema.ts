@@ -32,7 +32,7 @@ export const projectSchema = z.object({
   title: z.string(),
   description: z.string(),
   image: z.string(),
-  category: z.enum(["web", "design", "app"]),
+  category: z.enum(["web", "design", "app", "data", "ui", "audio"]),
   technologies: z.array(z.string()),
   link: z.string(),
 });

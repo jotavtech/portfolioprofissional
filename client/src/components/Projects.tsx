@@ -63,30 +63,62 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <button 
+          <motion.button 
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'all' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
             onClick={() => filterProjects("all")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
           >
             TODOS
-          </button>
-          <button 
+          </motion.button>
+          <motion.button 
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'web' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
             onClick={() => filterProjects("web")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
           >
             WEB
-          </button>
-          <button 
+          </motion.button>
+          <motion.button 
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'design' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
             onClick={() => filterProjects("design")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
           >
             DESIGN
-          </button>
-          <button 
+          </motion.button>
+          <motion.button 
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'app' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
             onClick={() => filterProjects("app")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
           >
             APP
-          </button>
+          </motion.button>
+          <motion.button 
+            className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'ui' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
+            onClick={() => filterProjects("ui")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            UI/UX
+          </motion.button>
+          <motion.button 
+            className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'data' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
+            onClick={() => filterProjects("data")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            DATA
+          </motion.button>
+          <motion.button 
+            className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'audio' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
+            onClick={() => filterProjects("audio")}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            AUDIO
+          </motion.button>
         </motion.div>
         
         {isLoading ? (
@@ -114,40 +146,106 @@ export default function Projects() {
               {filteredProjects.map((project) => (
                 <motion.div
                   key={project.id}
-                  className="project-card bg-white/5 border border-white/20 overflow-hidden"
+                  className="project-card bg-white/5 border border-white/20 overflow-hidden relative transform-gpu group"
                   variants={projectVariants}
+                  whileHover={{ 
+                    scale: 1.03, 
+                    boxShadow: "0 10px 30px -15px rgba(255, 255, 255, 0.3)",
+                    borderColor: "rgba(255, 255, 255, 0.5)"
+                  }}
                 >
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover object-center"
-                  />
-                  <div className="p-6">
+                  {/* Easter Egg: Hidden mini-game trigger on triple click */}
+                  <div 
+                    className="absolute top-2 right-2 w-6 h-6 opacity-0 z-10 cursor-pointer hover:opacity-30 transition-opacity"
+                    title="Easter egg: triplo clique para um mini-game"
+                    onDoubleClick={(e) => {
+                      const target = e.currentTarget;
+                      setTimeout(() => {
+                        const clickCount = parseInt(target.getAttribute('data-clicks') || '0') + 1;
+                        if (clickCount >= 3) {
+                          alert('🎮 Mini-game desbloqueado! Uma versão de Snake será implementada em breve.');
+                          target.setAttribute('data-clicks', '0');
+                        } else {
+                          target.setAttribute('data-clicks', clickCount.toString());
+                        }
+                      }, 300);
+                    }}
+                  >
+                    <span className="font-pixel text-xl text-white opacity-0 group-hover:opacity-100 transition-opacity">🎮</span>
+                  </div>
+                  
+                  {/* Main project card content */}
+                  <div className="overflow-hidden">
+                    <motion.img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-48 object-cover object-center transition-transform"
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.1, transition: { duration: 0.4 } }}
+                    />
+                  </div>
+                  
+                  <div className="p-6 relative z-0 overflow-hidden">
+                    {/* Cyber-tribal animated background pattern */}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent z-[-1] opacity-0 group-hover:opacity-100"
+                      initial={{ opacity: 0, backgroundSize: "100% 100%" }}
+                      whileHover={{ 
+                        opacity: 1,
+                        backgroundPosition: ["0% 0%", "100% 100%"],
+                        transition: { duration: 10, repeat: Infinity, repeatType: "mirror" }
+                      }}
+                    />
+                    
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="font-retro text-xl">{project.title}</h3>
-                      <span className="bg-white text-black text-xs px-2 py-1 font-mono">
+                      <motion.h3 
+                        className="font-retro text-xl"
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 5, transition: { duration: 0.2, type: "spring" } }}
+                      >
+                        {project.title}
+                      </motion.h3>
+                      <motion.span 
+                        className="bg-white text-black text-xs px-2 py-1 font-mono"
+                        whileHover={{ scale: 1.1 }}
+                      >
                         {project.category.toUpperCase()}
-                      </span>
+                      </motion.span>
                     </div>
+                    
                     <p className="font-mono text-sm text-gray-300 mb-6">
                       {project.description}
                     </p>
+                    
                     <div className="flex justify-between items-center">
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech, idx) => (
-                          <span key={idx} className="text-xs font-mono bg-white/10 px-2 py-1">
+                          <motion.span 
+                            key={idx} 
+                            className="text-xs font-mono bg-white/10 px-2 py-1"
+                            whileHover={{ 
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                              y: -2
+                            }}
+                          >
                             {tech}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
-                      <a
+                      
+                      <motion.a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-pixel text-sm underline clickable"
+                        className="font-pixel text-sm underline clickable relative"
+                        whileHover={{ 
+                          scale: 1.1,
+                          textShadow: "0 0 8px rgba(255, 255, 255, 0.5)" 
+                        }}
+                        whileTap={{ scale: 0.95 }}
                       >
                         VER →
-                      </a>
+                      </motion.a>
                     </div>
                   </div>
                 </motion.div>
