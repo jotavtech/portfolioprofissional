@@ -52,7 +52,7 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-pixel text-4xl animate-glitch mb-2">PROJECTS</h2>
+          <h2 className="font-pixel text-4xl animate-glitch mb-2">PROJETOS</h2>
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
@@ -67,7 +67,7 @@ export default function Projects() {
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'all' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
             onClick={() => filterProjects("all")}
           >
-            ALL
+            TODOS
           </button>
           <button 
             className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'web' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
@@ -146,7 +146,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="font-pixel text-sm underline clickable"
                       >
-                        VIEW →
+                        VER →
                       </a>
                     </div>
                   </div>
