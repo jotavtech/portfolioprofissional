@@ -36,21 +36,21 @@ function MusicPlayer() {
       title: "Around The World",
       artist: "Piano Version",
       url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-9835.mp3",
-      cover: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=300&h=300&auto=format&fit=crop"
+      cover: "/vinil-placeholder.png" // Placeholder alternativo ao invés de imagem de piano
     },
     {
       id: 1,
       title: "Cochise",
       artist: "Piano Cover",
       url: "https://cdn.pixabay.com/download/audio/2021/08/08/audio_88447e769c.mp3?filename=tuesday-glitch-soft-piano-notification-sound-7074.mp3",
-      cover: "https://images.unsplash.com/photo-1571974599782-fac5b67b2f6e?q=80&w=300&h=300&auto=format&fit=crop"
+      cover: "/vinil-placeholder.png"
     },
     {
       id: 2,
       title: "What You Are",
       artist: "Piano Solo",
       url: "https://cdn.pixabay.com/download/audio/2021/04/07/audio_c8c2fb1eb6.mp3?filename=sad-piano-11239.mp3",
-      cover: "https://images.unsplash.com/photo-1505248207594-9f9912dda70a?q=80&w=300&h=300&auto=format&fit=crop"
+      cover: "/vinil-placeholder.png"
     }
   ], []);
 
@@ -145,13 +145,8 @@ function MusicPlayer() {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <div className="w-8 h-8 mr-3 bg-gray-800 rounded-sm overflow-hidden">
-        <img 
-          src={song.cover} 
-          alt={song.title} 
-          className="h-full w-full object-cover"
-          loading="lazy" // Carregamento preguiçoso para imagens
-        />
+      <div className="w-8 h-8 mr-3 flex items-center justify-center bg-gray-800 rounded-sm overflow-hidden border border-white/20">
+        <Music size={16} className="text-white/70" />
       </div>
       <div>
         <p className="font-mono text-sm">{song.title}</p>
@@ -193,17 +188,6 @@ function MusicPlayer() {
             >
               {isPlaying ? <Pause size={22} /> : <Play size={22} />}
             </button>
-            
-            <motion.div 
-              className="h-10 w-10 bg-gray-800 rounded-sm overflow-hidden border border-white/20 hidden md:block"
-              whileHover={{ scale: 1.05 }}
-            >
-              <img 
-                src={playlist[currentSong].cover} 
-                alt={playlist[currentSong].title} 
-                className="h-full w-full object-cover"
-              />
-            </motion.div>
             
             <div>
               <p className="font-retro text-xs md:text-sm">NOW PLAYING</p>
