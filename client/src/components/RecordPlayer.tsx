@@ -31,16 +31,16 @@ function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
     }
   ], []);
 
-  // Detect song changes and trigger disc swap animation - otimizado
+  // Detect song changes and trigger disc swap animation - versão ainda mais otimizada
   useEffect(() => {
     if (previousSong !== null && previousSong !== currentSong) {
       setIsChangingDisc(true);
       
-      // Usando requestAnimationFrame para sincronizar com o ciclo de renderização
+      // Tempo reduzido para 500ms para corresponder à nova animação CSS mais rápida
       const timeoutId = setTimeout(() => {
         setCurrentDiscDesign(currentSong);
         setIsChangingDisc(false);
-      }, 750);
+      }, 500);
       
       return () => clearTimeout(timeoutId);
     }
@@ -48,8 +48,8 @@ function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
 
   return (
     <div className="relative mb-8 w-72 h-72 md:w-96 md:h-96 clickable perspective-container" onClick={togglePlay}>
-      {/* Record player base */}
-      <div className="absolute inset-0 bg-gray-900 rounded-lg border border-white/30 shadow-glow transform rotate-1 -z-10"></div>
+      {/* Record player base - versão otimizada */}
+      <div className="absolute inset-0 bg-gray-900 rounded-lg border border-white/20 transform rotate-1 -z-10"></div>
       
       <AnimatePresence>
         <motion.div
@@ -59,23 +59,29 @@ function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
           transition={{ 
             repeat: isPlaying ? Infinity : 0, 
             duration: 12, 
-            ease: "linear" 
+            ease: "linear",
+            // Usar GPU para melhorar performance de animação
+            type: "tween"
           }}
         >
           {/* Main Record Body */}
           <div className={`absolute inset-0 ${discDesigns[currentDiscDesign].mainColor}`}></div>
           
           <motion.div
-            className="vinyl-arm absolute top-[10%] right-[20%] w-24 h-1 bg-white shadow-glow"
+            className="vinyl-arm absolute top-[10%] right-[20%] w-24 h-1 bg-white"
             style={{ 
               originX: 1, 
-              originY: 0.5 
+              originY: 0.5,
+              // Adicionar willChange para melhorar performance
+              willChange: "transform"
             }}
             animate={{ 
               rotate: isPlaying ? 25 : 10 
             }}
             transition={{ 
-              duration: 0.5 
+              duration: 0.5,
+              // Menos pontos intermediários para performance
+              type: "tween"
             }}
           >
             <div className="absolute right-0 w-3 h-3 bg-white rounded-full -translate-y-1/2"></div>
@@ -95,15 +101,15 @@ function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
           <div className="absolute top-1/2 left-1/2 w-[70%] h-[70%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute top-1/2 left-1/2 w-[50%] h-[50%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
           
-          {/* Light reflection effect */}
-          <div className="absolute top-[10%] left-[20%] w-[20%] h-[30%] bg-white/10 rounded-full blur-md transform rotate-45"></div>
+          {/* Light reflection effect simplificado */}
+          <div className="absolute top-[10%] left-[20%] w-[20%] h-[30%] bg-white/5 rounded-full transform rotate-45"></div>
         </motion.div>
       </AnimatePresence>
       
-      {/* Player controls */}
+      {/* Player controls - simplificados */}
       <div className="absolute bottom-2 right-8 flex space-x-2">
-        <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-        <div className="w-5 h-1 bg-white/70 self-center"></div>
+        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+        <div className="w-5 h-1 bg-white/50 self-center"></div>
       </div>
     </div>
   );
