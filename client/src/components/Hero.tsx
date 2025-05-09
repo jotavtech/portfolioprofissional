@@ -41,8 +41,8 @@ function Hero() {
     let lastClientX = 0;
     let lastClientY = 0;
     
-    // Handle mouse movement for the magnetic effect
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    // Handle mouse movement for the magnetic effect - função normal sem useCallback
+    const handleMouseMove = (e: MouseEvent) => {
       // Guarda a posição do mouse para uso no rAF
       lastClientX = e.clientX;
       lastClientY = e.clientY;
@@ -116,7 +116,7 @@ function Hero() {
         
         isThrottled = false;
       });
-    }, []);
+    };
     
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     

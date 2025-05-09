@@ -54,30 +54,30 @@ function MusicPlayer() {
     }
   ], []);
 
-  // Event handlers memoizados para evitar recriações e vazamentos de memória
-  const handleTimeUpdate = useCallback(() => {
-    if (!audioRef.current) return;
-    // Otimizado para limitar atualizações do estado quando a diferença for significativa
-    if (Math.abs(audioRef.current.currentTime - currentTime) > 0.5) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, [currentTime]);
-
-  const handleLoadedMetadata = useCallback(() => {
-    if (!audioRef.current) return;
-    setDuration(audioRef.current.duration);
-  }, []);
-
-  const handleEnded = useCallback(() => {
-    nextSong();
-  }, [nextSong]);
-
-  // Efeito para gerenciar event listeners do áudio
+  // Efeito para gerenciar event listeners do áudio - simplificado
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Usar opções de passivo para melhorar performance
+    // Event handlers definidos dentro do efeito para evitar problemas com hooks
+    const handleTimeUpdate = () => {
+      if (!audioRef.current) return;
+      // Otimizado para limitar atualizações do estado quando a diferença for significativa
+      if (Math.abs(audioRef.current.currentTime - currentTime) > 0.5) {
+        setCurrentTime(audioRef.current.currentTime);
+      }
+    };
+
+    const handleLoadedMetadata = () => {
+      if (!audioRef.current) return;
+      setDuration(audioRef.current.duration);
+    };
+
+    const handleEnded = () => {
+      nextSong();
+    };
+
+    // Adicionar event listeners
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
@@ -87,7 +87,7 @@ function MusicPlayer() {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [handleTimeUpdate, handleLoadedMetadata, handleEnded]);
+  }, [currentTime, nextSong]);
 
   useEffect(() => {
     const audio = audioRef.current;

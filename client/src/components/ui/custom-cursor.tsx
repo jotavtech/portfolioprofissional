@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback, memo } from "react";
+import { useEffect, useState, memo } from "react";
 import { motion } from "framer-motion";
 
 function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
 
-  // Otimizar tratamento de eventos com useCallback e throttling
+  // Otimizar tratamento de eventos com throttling
   useEffect(() => {
     // Variáveis para throttling
     let isThrottled = false;
@@ -13,8 +13,8 @@ function CustomCursor() {
     let lastMouseY = 0;
     let rafId: number | null = null;
     
-    // Otimizado para usar requestAnimationFrame
-    const mouseMove = useCallback((e: MouseEvent) => {
+    // Função otimizada com requestAnimationFrame
+    const mouseMove = (e: MouseEvent) => {
       // Armazena a posição atual do mouse
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
@@ -32,14 +32,14 @@ function CustomCursor() {
         });
         isThrottled = false;
       });
-    }, []);
+    };
 
-    // Memoizados para evitar recriações desnecessárias
-    const mouseDown = useCallback(() => setCursorVariant("clicked"), []);
-    const mouseUp = useCallback(() => setCursorVariant("default"), []);
+    // Funções simplificadas sem useCallback
+    const mouseDown = () => setCursorVariant("clicked");
+    const mouseUp = () => setCursorVariant("default");
     
     // Otimizado para verificar apenas uma vez, sem acessar classList em cada movimentação
-    const handleMouseOver = useCallback((e: MouseEvent) => {
+    const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const tagName = target.tagName.toLowerCase();
       
@@ -49,7 +49,7 @@ function CustomCursor() {
       } else {
         setCursorVariant("default");
       }
-    }, []);
+    };
 
     // Todos os event listeners com passive: true para melhor performance
     window.addEventListener("mousemove", mouseMove, { passive: true });
