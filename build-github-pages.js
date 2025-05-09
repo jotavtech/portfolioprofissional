@@ -125,7 +125,7 @@ try {
   <main id="root">
     <header class="py-6 sm:py-8 border-b border-white/20">
       <div class="container mx-auto flex flex-col items-center text-center px-4">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 animate-pulse">JV PORTFOLIO</h1>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 gradient-text">JV PORTFOLIO</h1>
         <p class="text-lg sm:text-xl mb-4 sm:mb-6">Desenvolvimento Web & Design</p>
         <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-3 sm:mb-4">
           <a href="https://github.com/jotavtech" target="_blank" class="px-3 sm:px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">GITHUB</a>
@@ -137,7 +137,7 @@ try {
     
     <section class="py-10 sm:py-16 bg-black">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center text-glow">PROJETOS</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center gradient-text">PROJETOS</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
           <!-- Projeto 1 - com efeitos aprimorados -->
           <div class="border border-white/20 p-4 sm:p-6 hover:border-white transition-all tribal-border hover:bg-black/40 transform hover:-translate-y-1 focus-within:ring-2 focus-within:ring-white/50">
@@ -180,7 +180,7 @@ try {
     
     <section class="py-10 sm:py-16 bg-black/50">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-glow">SKILLS</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 gradient-text">SKILLS</h2>
         <!-- Versão em 3D com camadas -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto perspective-container">
           <div class="border border-white/20 p-3 sm:p-4 hover:bg-white/5 transition-all transform-3d hover:transform-scale focus-within:ring-2 focus-within:ring-white/50">
@@ -294,12 +294,27 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 1px;
 }
 
-.border-glow {
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.2);
+/* Gradiente animado */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.text-glow {
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+.gradient-text {
+  background: linear-gradient(-45deg, #ffffff, #cccccc, #666666, #dddddd, #999999, #eeeeee);
+  background-size: 400% 400%;
+  animation: gradientAnimation 12s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
 }
 
 /* Efeitos hover */
