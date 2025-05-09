@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -67,27 +67,19 @@ export default function Universo() {
         
         <main>
           <Link to="/">
-            <motion.h1 
-              className="text-6xl font-bold metal-text mb-8 text-center cursor-pointer universe-return"
+            {/* Título simplificado para melhor performance */}
+            <h1 
+              className="text-6xl font-bold metal-text mb-8 text-center cursor-pointer universe-return hover:scale-105 transition-transform duration-300"
               data-text="JOTAVERSO"
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ scale: 1.05 }}
               title="Voltar para o portfolio original"
             >
               JOTAVERSO
-            </motion.h1>
+            </h1>
           </Link>
           
           <div className="flame-divider mb-12"></div>
           
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 animate-fade-in">
             <div className="rock-card">
               <h2 className="rock-title" data-content="SOBRE">SOBRE</h2>
               <p>
@@ -106,136 +98,59 @@ export default function Universo() {
                 <li>GTA Inspired - Website com inspiração visual em jogos</li>
               </ul>
             </div>
-          </motion.div>
+          </div>
           
           <div className="mt-16">
-            <motion.h2 
-              className="text-4xl font-bold metal-text mb-8 text-center"
+            {/* Título otimizado sem Framer Motion */}
+            <h2 
+              className="text-4xl font-bold metal-text mb-8 text-center animate-fade-in"
               data-text="GALERIA"
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
             >
               GALERIA
-            </motion.h2>
+            </h2>
             
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-3 gap-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-            >
-              {/* Placeholders para imagens de projetos rock */}
-              <div className="rock-image-card" onClick={(e) => {
-                // Efeito de clique com ondas
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                Neon Dreams
-              </div>
-              <div className="rock-image-card" onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                Digital Wave
-              </div>
-              <div className="rock-image-card" onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                Cyber Portal
-              </div>
-              <div className="rock-image-card" onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                GTA Inspired
-              </div>
-              <div className="rock-image-card" onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                Neon City
-              </div>
-              <div className="rock-image-card" onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const span = document.createElement('span');
-                span.style.left = x + 'px';
-                span.style.top = y + 'px';
-                e.currentTarget.appendChild(span);
-                
-                setTimeout(() => {
-                  span.remove();
-                }, 700);
-              }}>
-                Vice City UI
-              </div>
-            </motion.div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-fade-in">
+              {/* Cards de imagem com efeito de clique otimizado */}
+              {[
+                "Neon Dreams", 
+                "Digital Wave", 
+                "Cyber Portal", 
+                "GTA Inspired", 
+                "Neon City", 
+                "Vice City UI"
+              ].map((title, index) => (
+                <div 
+                  key={index} 
+                  className="rock-image-card" 
+                  onClick={(e) => {
+                    // Efeito de clique otimizado com menor frequência
+                    if (window.innerWidth > 768) { // Só aplica em telas grandes
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      
+                      const span = document.createElement('span');
+                      span.style.left = x + 'px';
+                      span.style.top = y + 'px';
+                      e.currentTarget.appendChild(span);
+                      
+                      setTimeout(() => {
+                        span.remove();
+                      }, 700);
+                    }
+                  }}
+                >
+                  {title}
+                </div>
+              ))}
+            </div>
           </div>
         </main>
         
         <footer className="mt-20 pb-16">
           <div className="flame-divider mb-10"></div>
           
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 animate-fade-in">
             <div className="neon-footer-box">
               <h3 className="text-xl font-bold mb-4 neon-text pink-shadow">Contato</h3>
               <ul className="space-y-2">
@@ -250,41 +165,32 @@ export default function Universo() {
             
             <div className="neon-footer-box">
               <h3 className="text-xl font-bold mb-4 neon-text blue-shadow">Redes Sociais</h3>
+              {/* Ícones de redes sociais gerados dinamicamente */}
               <div className="flex space-x-4 justify-center">
-                <motion.a 
-                  href="#" 
-                  className="social-icon" 
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                  </svg>
-                </motion.a>
-                <motion.a 
-                  href="#" 
-                  className="social-icon" 
-                  whileHover={{ scale: 1.2, rotate: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                </motion.a>
-                <motion.a 
-                  href="#" 
-                  className="social-icon" 
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                  </svg>
-                </motion.a>
+                {[
+                  {
+                    id: 'facebook',
+                    path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  },
+                  {
+                    id: 'instagram',
+                    path: "M8 3a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5V8a5 5 0 0 0-5-5H8zm9 2.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+                  },
+                  {
+                    id: 'linkedin',
+                    path: "M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"
+                  }
+                ].map((icon, index) => (
+                  <a 
+                    key={index}
+                    href="#" 
+                    className="social-icon hover:scale-110 transition-transform"
+                  >
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                      <path d={icon.path} />
+                    </svg>
+                  </a>
+                ))}
               </div>
             </div>
             
@@ -299,7 +205,7 @@ export default function Universo() {
                 </li>
               </ul>
             </div>
-          </motion.div>
+          </div>
           
           <div className="grid-background h-20 relative flex items-center justify-center mb-8">
             <div className="absolute inset-0 grid-overlay"></div>
@@ -310,19 +216,14 @@ export default function Universo() {
             </h2>
           </div>
           
-          <motion.div 
-            className="text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
+          <div className="text-center animate-fade-in">
             <p className="metal-text text-sm mb-3" data-text="© 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS">
               © 2025 JOTAVERSO - TODOS OS DIREITOS RESERVADOS
             </p>
             <p className="text-xs opacity-70">
               Inspirado na estética neon do GTA VI e cultura cybertribal
             </p>
-          </motion.div>
+          </div>
         </footer>
       </div>
     </div>
