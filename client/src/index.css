@@ -1104,15 +1104,15 @@
   opacity: 1;
 }
 
-/* Efeito de trilha de velocidade */
-@keyframes speedLines {
+/* Efeito de trilha de velocidade simplificado */
+@keyframes speedLinesSimple {
   0% {
-    opacity: 0.7;
+    opacity: 0.5;
     transform: translateX(0);
   }
   100% {
     opacity: 0;
-    transform: translateX(-200px);
+    transform: translateX(-150px);
   }
 }
 
@@ -1121,16 +1121,17 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30px;
+  height: 20px;
   pointer-events: none;
   z-index: 90;
+  opacity: 0.6;
 }
 
 .speed-line {
   position: absolute;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.3);
-  animation: speedLines 0.5s linear infinite;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: speedLinesSimple 0.8s linear;
 }
 
 /* Estilos do footer do Jotaverso */
