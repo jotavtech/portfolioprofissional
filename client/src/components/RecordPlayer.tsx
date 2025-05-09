@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, memo, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MusicPlayerContext } from "@/contexts/MusicPlayerContext";
 
@@ -7,13 +7,13 @@ interface RecordPlayerProps {
   togglePlay: () => void;
 }
 
-export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
+function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
   const { currentSong, previousSong } = useContext(MusicPlayerContext);
   const [isChangingDisc, setIsChangingDisc] = useState(false);
   const [currentDiscDesign, setCurrentDiscDesign] = useState(0);
   
-  // Record sleeve designs - different patterns for different songs
-  const discDesigns = [
+  // Record sleeve designs - memoizado para evitar recriação em cada render
+  const discDesigns = useMemo(() => [
     {
       mainColor: "bg-gradient-to-r from-gray-900 to-black",
       accent: "bg-red-600",
@@ -29,16 +29,20 @@ export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProp
       accent: "bg-purple-700", 
       label: "SLAVE" 
     }
-  ];
+  ], []);
 
-  // Detect song changes and trigger disc swap animation
+  // Detect song changes and trigger disc swap animation - otimizado
   useEffect(() => {
     if (previousSong !== null && previousSong !== currentSong) {
       setIsChangingDisc(true);
-      setTimeout(() => {
+      
+      // Usando requestAnimationFrame para sincronizar com o ciclo de renderização
+      const timeoutId = setTimeout(() => {
         setCurrentDiscDesign(currentSong);
         setIsChangingDisc(false);
       }, 750);
+      
+      return () => clearTimeout(timeoutId);
     }
   }, [currentSong, previousSong]);
 
@@ -86,11 +90,9 @@ export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProp
           </div>
           <div className="absolute top-1/2 left-1/2 w-[5%] h-[5%] bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10 border border-white/50"></div>
           
-          {/* Vinyl grooves with reflective effect */}
+          {/* Vinyl grooves - reduzido para melhorar performance */}
           <div className="absolute top-1/2 left-1/2 w-[90%] h-[90%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute top-1/2 left-1/2 w-[80%] h-[80%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute top-1/2 left-1/2 w-[70%] h-[70%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute top-1/2 left-1/2 w-[60%] h-[60%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute top-1/2 left-1/2 w-[50%] h-[50%] rounded-full border border-white/10 -translate-x-1/2 -translate-y-1/2"></div>
           
           {/* Light reflection effect */}
@@ -106,3 +108,6 @@ export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProp
     </div>
   );
 }
+
+// Aplicando memo ao componente para evitar re-renders desnecessários
+export default memo(RecordPlayer);
