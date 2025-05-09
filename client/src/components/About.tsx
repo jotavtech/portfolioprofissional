@@ -4,10 +4,19 @@ export default function About() {
   const { scrollYProgress } = useScroll();
   
   // Transformação para o movimento do Porsche baseado no scroll
-  const porscheX = useTransform(scrollYProgress, [0.3, 0.9], ["-5%", "105%"]);
+  // Fazemos o carro se mover de um lado para o outro várias vezes enquanto rolamos a página
+  const porscheX = useTransform(
+    scrollYProgress, 
+    [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], 
+    ["-5%", "105%", "-5%", "105%", "-5%", "105%", "-5%"]
+  );
   
-  // Transformação para a rotação das rodas baseado no scroll
-  const wheelRotation = useTransform(scrollYProgress, [0.3, 0.9], [0, 1500]);
+  // Transformação para a rotação das rodas baseado no scroll - roda mais rápido durante as mudanças de direção
+  const wheelRotation = useTransform(
+    scrollYProgress, 
+    [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], 
+    [0, 500, 1000, 1500, 2000, 2500, 3000]
+  );
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,83 +51,7 @@ export default function About() {
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
-        {/* Porsche Animation */}
-        <motion.div 
-          className="mb-16 relative h-40 md:h-60 overflow-hidden"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="absolute w-full h-[1px] bg-white/30 top-3/4 left-0 right-0"></div>
-          
-          <motion.div 
-            className="absolute left-[-150px] z-10"
-            initial={{ x: "-100%" }}
-            whileInView={{ x: "150%" }}
-            viewport={{ once: false }}
-            transition={{ 
-              duration: 6, 
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatDelay: 0.5
-            }}
-          >
-            {/* Porsche Car SVG */}
-            <div className="relative w-64 h-32">
-              {/* Car Body */}
-              <motion.svg width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M40,20 L60,10 L160,10 L190,20 L220,40 L230,60 L30,60 L20,50 L20,30 Z" fill="#1E3A8A" stroke="black" strokeWidth="1"/>
-                <path d="M60,10 L70,40 L160,40 L170,20 Z" fill="#1E3A8A" stroke="black" strokeWidth="1"/>
-                <rect x="80" y="15" width="40" height="25" fill="black" opacity="0.7"/>
-                <rect x="130" y="15" width="30" height="25" fill="black" opacity="0.7"/>
-                
-                {/* Car Details */}
-                <path d="M220,40 L230,60" stroke="black" strokeWidth="1"/>
-                <path d="M20,50 L30,60" stroke="black" strokeWidth="1"/>
-                <path d="M20,30 L20,50" stroke="black" strokeWidth="1"/>
-                
-                {/* Headlights */}
-                <circle cx="215" cy="35" r="5" fill="yellow" />
-                <circle cx="25" cy="35" r="5" fill="red" />
-                
-                {/* Front Wheel */}
-                <motion.g
-                  animate={{ rotate: 360 }}
-                  transition={{ 
-                    duration: 0.5,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  style={{ transformOrigin: "55px 60px" }}
-                >
-                  <circle cx="55" cy="60" r="15" fill="black" />
-                  <circle cx="55" cy="60" r="10" fill="#333" />
-                  <circle cx="55" cy="60" r="5" fill="#666" />
-                  <line x1="55" y1="50" x2="55" y2="70" stroke="white" strokeWidth="1" />
-                  <line x1="45" y1="60" x2="65" y2="60" stroke="white" strokeWidth="1" />
-                </motion.g>
-                
-                {/* Rear Wheel */}
-                <motion.g
-                  animate={{ rotate: 360 }}
-                  transition={{ 
-                    duration: 0.5,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  style={{ transformOrigin: "180px 60px" }}
-                >
-                  <circle cx="180" cy="60" r="15" fill="black" />
-                  <circle cx="180" cy="60" r="10" fill="#333" />
-                  <circle cx="180" cy="60" r="5" fill="#666" />
-                  <line x1="180" y1="50" x2="180" y2="70" stroke="white" strokeWidth="1" />
-                  <line x1="170" y1="60" x2="190" y2="60" stroke="white" strokeWidth="1" />
-                </motion.g>
-              </motion.svg>
-            </div>
-          </motion.div>
-        </motion.div>
+        {/* Espaço vazio para manter o layout - o carro Ferrari foi removido */}
         
         {/* Porsche controlado pelo scroll */}
         <div className="relative h-32 mb-12 overflow-hidden">
