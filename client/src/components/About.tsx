@@ -1,6 +1,14 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function About() {
+  const { scrollYProgress } = useScroll();
+  
+  // Transformação para o movimento do Porsche baseado no scroll
+  const porscheX = useTransform(scrollYProgress, [0.3, 0.9], ["-5%", "105%"]);
+  
+  // Transformação para a rotação das rodas baseado no scroll
+  const wheelRotation = useTransform(scrollYProgress, [0.3, 0.9], [0, 1500]);
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -111,6 +119,46 @@ export default function About() {
             </div>
           </motion.div>
         </motion.div>
+        
+        {/* Porsche controlado pelo scroll */}
+        <div className="relative h-32 mb-12 overflow-hidden">
+          <div className="absolute w-full h-[2px] bg-white/30 top-3/4 left-0 right-0"></div>
+          
+          {/* Porsche Car com movimento baseado no scroll */}
+          <motion.div 
+            className="absolute z-20 pointer-events-none"
+            style={{ x: porscheX }}
+          >
+            <img 
+              src="/attached_assets/porsche.png" 
+              alt="Porsche" 
+              className="h-16 md:h-20 object-contain"
+            />
+            
+            {/* Rodas que giram com o scroll */}
+            <motion.div 
+              className="absolute bottom-[2px] left-7 w-10 h-10"
+              style={{ rotate: wheelRotation }}
+            >
+              <img 
+                src="/attached_assets/rodaporsche.webp" 
+                alt="Roda Porsche" 
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+            
+            <motion.div 
+              className="absolute bottom-[2px] left-[75px] w-10 h-10"
+              style={{ rotate: wheelRotation }}
+            >
+              <img 
+                src="/attached_assets/rodaporsche.webp" 
+                alt="Roda Porsche" 
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+          </motion.div>
+        </div>
         
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
