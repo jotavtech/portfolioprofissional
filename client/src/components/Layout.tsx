@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import MusicPlayer from "./MusicPlayer";
 import CustomCursor from "./ui/custom-cursor";
 import UniverseButton from "./UniverseButton";
+import PorscheCar from "./PorscheCar";
 import { motion } from "framer-motion";
 
 interface LayoutProps {
@@ -43,6 +44,9 @@ export default function Layout({ children }: LayoutProps) {
       
       {/* Botão Universo - fixo na página */}
       <UniverseButton />
+      
+      {/* Carro Porsche que se move com scroll */}
+      <PorscheCar />
       
       <main className="flex-grow">
         {children}

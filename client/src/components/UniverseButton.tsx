@@ -119,9 +119,7 @@ export function UniverseButton() {
   // Portal effect when clicking the button
   const handlePortalEffect = () => {
     try {
-      // Only show portal effect when going TO the universe page
-      const [location] = useLocation();
-      const isUniversePage = location === '/universo';
+      // Use current location - don't call useLocation inside a handler
       
       if (!isUniversePage) {
         setShowPortal(true);
