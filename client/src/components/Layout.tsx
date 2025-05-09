@@ -5,6 +5,7 @@ import MusicPlayer from "./MusicPlayer";
 import CustomCursor from "./ui/custom-cursor";
 import { UniverseButton } from "./UniverseButton";
 import PorscheCar from "./PorscheCar";
+import ScrollAnimatedDecorations from "./ScrollAnimatedDecorations";
 import { motion } from "framer-motion";
 
 interface LayoutProps {
@@ -47,6 +48,9 @@ export default function Layout({ children }: LayoutProps) {
       
       {/* Carro Porsche que se move com scroll */}
       <PorscheCar />
+      
+      {/* Elementos cibertribais animados com scroll */}
+      <ScrollAnimatedDecorations />
       
       <main className="flex-grow">
         {children}

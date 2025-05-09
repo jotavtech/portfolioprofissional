@@ -1351,3 +1351,196 @@
   background: rgba(255, 0, 200, 0.3);
   box-shadow: 0 0 15px rgba(255, 0, 200, 0.7);
 }
+
+/* Estilos para elementos cibertribais */
+.cyber-tribal-elements {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tribal-element {
+  transition: transform 0.5s ease-out, opacity 0.3s ease-in-out;
+}
+
+.tribal-element.tribal svg path,
+.tribal-element.tribal svg circle,
+.tribal-element.tribal svg line,
+.tribal-element.tribal svg polyline,
+.tribal-element.tribal svg rect {
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: all 0.3s ease;
+}
+
+.tribal-element.tribal:hover svg path,
+.tribal-element.tribal:hover svg circle,
+.tribal-element.tribal:hover svg line,
+.tribal-element.tribal:hover svg polyline,
+.tribal-element.tribal:hover svg rect {
+  stroke: #ff00cc;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(255, 0, 204, 0.5));
+}
+
+.tribal-element.geometric svg path,
+.tribal-element.geometric svg circle,
+.tribal-element.geometric svg line,
+.tribal-element.geometric svg polyline,
+.tribal-element.geometric svg rect {
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* Efeito de rastro para elementos tribais */
+@keyframes tribal-glow {
+  0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); }
+  50% { filter: drop-shadow(0 0 10px rgba(255, 0, 204, 0.5)); }
+  100% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); }
+}
+
+.tribal-element.tribal {
+  animation: tribal-glow 3s infinite alternate;
+}
+
+/* Estilos para Cyber Tribal Background */
+.cyber-tribal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Grid cyberpunk de fundo */
+.cyber-grid {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transition: opacity 0.5s ease, background-size 1s ease;
+}
+
+/* Padrões tribais centrais */
+.tribal-patterns {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.tribal-circle {
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+/* Fluxo de linhas */
+.cyber-flow {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 3px,
+    transparent 30px
+  );
+  transition: opacity 0.5s ease;
+}
+
+/* Linhas de escaneamento horizontais */
+.scan-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255, 0, 255, 0.01) 3px,
+    rgba(255, 0, 255, 0.01) 4px
+  );
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Overlay para dar sensação de profundidade */
+.depth-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.8) 80%);
+  transition: background 0.5s ease;
+}
+
+/* Animação pulsante para elementos tribais */
+@keyframes pulse-tribal {
+  0% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.05); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0.3; }
+}
+
+/* Estilos para as decorações animadas por scroll */
+.scroll-triggered-decorations {
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tribal-symbol {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.tribal-symbol path {
+  transition: stroke 0.5s ease;
+}
+
+.tribal-symbol:hover path {
+  stroke: #00ccff;
+}
+
+/* Efeito pulsante para marcadores laterais */
+.tribal-side-marker, .tribal-side-marker-right {
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.tribal-side-marker:hover, .tribal-side-marker-right:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 0, 204, 0.8));
+}
+
+/* Linha de progresso de scroll */
+.scroll-progress-line, .scroll-progress-line-right {
+  transition: height 0.1s ease-out;
+}
+
+/* Animação para o símbolo tribal que aparece com scroll */
+@keyframes tribal-appear {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+.tribal-symbol-container svg {
+  animation: glow-pulse 4s infinite alternate;
+}
+
+@keyframes glow-pulse {
+  0% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); }
+  50% { filter: drop-shadow(0 0 5px rgba(255, 0, 204, 0.7)); }
+  100% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); }
+}
