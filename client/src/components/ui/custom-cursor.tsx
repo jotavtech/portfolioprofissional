@@ -74,7 +74,7 @@ export default function CustomCursor() {
       className="fixed top-0 left-0 rounded-full z-50 pointer-events-none"
       variants={variants}
       animate={cursorVariant}
-      transition={{ duration: 0.1, ease: "linear" }}
+      transition={{ duration: 0, ease: "linear" }}
     />
   );
 }

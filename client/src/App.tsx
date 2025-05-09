@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
+import Skills from "@/components/Skills";
 import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 
 function Router() {

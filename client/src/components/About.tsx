@@ -30,7 +30,7 @@ export default function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-pixel text-4xl animate-glitch mb-2">ABOUT ME</h2>
+          <h2 className="font-pixel text-4xl animate-glitch mb-2">SOBRE MIM</h2>
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
@@ -72,157 +72,39 @@ export default function About() {
           </motion.div>
           
           <motion.div className="space-y-8" variants={itemVariants}>
-            <motion.div className="bg-white/5 p-6 border border-white/10 relative min-h-[400px]" variants={itemVariants}>
-              <h3 className="font-retro text-2xl mb-8">SKILLS</h3>
+            <motion.div className="bg-white/5 p-6 border border-white/10" variants={itemVariants}>
+              <h3 className="font-retro text-2xl mb-8">INTERESSES</h3>
               
-              <div className="relative flex justify-center items-center perspective-container overflow-hidden">
-                <div className="w-full max-w-md mx-auto">
-                  <motion.div 
-                    className="skill-cards-stack relative mx-auto" 
-                    initial={{ rotateY: 0 }}
-                    whileInView={{ rotateY: 15 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    style={{ transformStyle: 'preserve-3d', perspective: '1000px', height: '350px' }}
-                  >
-                    {/* HTML Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 0, rotateY: 0, z: 60 }}
-                      whileHover={{ 
-                        y: "-20px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 70,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">HTML</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">90%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Estruturação semântica e acessível de páginas web</p>
-                      </div>
-                    </motion.div>
-                    
-                    {/* CSS Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto mt-8 max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 20, rotateY: 5, z: 50 }}
-                      whileHover={{ 
-                        y: "-10px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 70,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">CSS</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">85%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Estilização avançada e layouts responsivos</p>
-                      </div>
-                    </motion.div>
-                    
-                    {/* JavaScript Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto mt-16 max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 40, rotateY: 10, z: 40 }}
-                      whileHover={{ 
-                        y: "20px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 80,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">JAVASCRIPT</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">80%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Programação dinâmica e interatividade</p>
-                      </div>
-                    </motion.div>
-                    
-                    {/* React Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto mt-24 max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 60, rotateY: 15, z: 30 }}
-                      whileHover={{ 
-                        y: "50px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 90,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">REACT</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">75%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Desenvolvimento de interfaces modernas</p>
-                      </div>
-                    </motion.div>
-                    
-                    {/* Prototipagem Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto mt-32 max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 80, rotateY: 20, z: 20 }}
-                      whileHover={{ 
-                        y: "80px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 100,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">PROTOTIPAGEM</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">85%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Design de interfaces e experiência de usuário</p>
-                      </div>
-                    </motion.div>
-                    
-                    {/* Banco de Dados Card */}
-                    <motion.div 
-                      className="absolute left-0 right-0 top-0 mx-auto mt-40 max-w-[250px] bg-black/80 border border-white/50 p-6 rounded-sm shadow-glow"
-                      initial={{ y: 100, rotateY: 25, z: 10 }}
-                      whileHover={{ 
-                        y: "110px", 
-                        rotateY: 15, 
-                        scale: 1.05,
-                        zIndex: 110,
-                        boxShadow: "0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 10px 10px -5px rgba(255, 255, 255, 0.04)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-center">
-                        <h4 className="font-pixel text-xl mb-2 text-glow">BANCO DE DADOS</h4>
-                        <div className="w-16 h-16 mx-auto mb-3 border border-white/50 flex items-center justify-center">
-                          <span className="text-3xl font-pixel">65%</span>
-                        </div>
-                        <p className="font-mono text-xs text-gray-300">Modelagem e gerenciamento de dados</p>
-                      </div>
-                    </motion.div>
-                  </motion.div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">UI/UX</h4>
+                  <p className="font-mono text-xs">Criação de interfaces e experiências de usuário intuitivas</p>
+                </div>
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">WEB</h4>
+                  <p className="font-mono text-xs">Desenvolvimento front-end com foco em interfaces modernas</p>
+                </div>
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">MOBILE</h4>
+                  <p className="font-mono text-xs">Aplicativos para Android e iOS com React Native</p>
+                </div>
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">GAMES</h4>
+                  <p className="font-mono text-xs">Desenvolvimento de jogos e experiências interativas</p>
+                </div>
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">IA</h4>
+                  <p className="font-mono text-xs">Aplicações de inteligência artificial e automação</p>
+                </div>
+                <div className="p-4 border border-white/20 text-center">
+                  <h4 className="font-pixel mb-2">3D</h4>
+                  <p className="font-mono text-xs">Modelagem e animação 3D para web e aplicações</p>
                 </div>
               </div>
             </motion.div>
             
             <motion.div className="bg-white/5 p-6 border border-white/10" variants={itemVariants}>
-              <h3 className="font-retro text-2xl mb-4">LANGUAGES</h3>
+              <h3 className="font-retro text-2xl mb-4">IDIOMAS</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="mb-4">
                   <p className="font-pixel mb-2">PORTUGUÊS</p>
