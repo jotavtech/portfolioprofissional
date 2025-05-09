@@ -59,12 +59,13 @@ function MusicPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Event handlers definidos dentro do efeito para evitar problemas com hooks
+    // Event handlers com throttling para reduzir atualizações de estado
     const handleTimeUpdate = () => {
       if (!audioRef.current) return;
-      // Otimizado para limitar atualizações do estado quando a diferença for significativa
-      if (Math.abs(audioRef.current.currentTime - currentTime) > 0.5) {
-        setCurrentTime(audioRef.current.currentTime);
+      // Só atualiza o tempo a cada segundo para reduzir drasticamente as re-renderizações
+      const newTime = Math.floor(audioRef.current.currentTime);
+      if (Math.floor(currentTime) !== newTime) {
+        setCurrentTime(newTime);
       }
     };
 
@@ -154,9 +155,9 @@ function MusicPlayer() {
       </div>
       {isCurrentSong && isPlaying && (
         <div className="ml-auto flex space-x-1">
-          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0s' }}></div>
-          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-          <div className="w-1 h-4 bg-white animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          <div className="w-1 h-3 bg-white/70"></div>
+          <div className="w-1 h-4 bg-white/80"></div>
+          <div className="w-1 h-2 bg-white/70"></div>
         </div>
       )}
     </motion.div>
@@ -164,7 +165,7 @@ function MusicPlayer() {
 
   return (
     <>
-      <div className="fixed bottom-0 w-full bg-black border-t border-white/20 music-player z-40 group shadow-glow">
+      <div className="fixed bottom-0 w-full bg-black border-t border-white/20 music-player z-40 group">
         <audio 
           ref={audioRef} 
           src={playlist[currentSong].url}
@@ -172,11 +173,13 @@ function MusicPlayer() {
         />
         
         <div className="music-progress cursor-pointer" onClick={handleProgressClick}>
-          <motion.div 
+          <div 
             className="progress-bar bg-white h-full"
-            initial={{ width: "0%" }}
-            animate={{ width: `${progressPercentage}%` }}
-            transition={{ duration: 0.1 }}
+            style={{ 
+              width: `${progressPercentage}%`,
+              transition: 'width 0.1s',
+              willChange: 'width'
+            }}
           />
         </div>
         
@@ -219,7 +222,7 @@ function MusicPlayer() {
         <AnimatePresence>
           {showPlaylist && (
             <motion.div
-              className="absolute bottom-full left-0 w-full bg-black/90 backdrop-blur-sm border-t border-white/20 p-4"
+              className="absolute bottom-full left-0 w-full bg-black border-t border-white/20 p-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}

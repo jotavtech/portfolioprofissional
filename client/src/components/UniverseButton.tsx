@@ -8,86 +8,12 @@ export function UniverseButton() {
   const [showPortal, setShowPortal] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
-  // Efeito de raio aleatório automático
-  useEffect(() => {
-    const triggerLightning = () => {
-      setShowLightning(true);
-      setTimeout(() => {
-        setShowLightning(false);
-      }, 500);
-    };
-    
-    // Dispara raio a cada 7-15 segundos
-    const interval = setInterval(() => {
-      if (!isHovering) {
-        triggerLightning();
-      }
-    }, Math.random() * 8000 + 7000);
-    
-    return () => clearInterval(interval);
-  }, [isHovering]);
+  // Efeito de raio foi removido para otimização (mantido apenas no hover)
+  // Não usamos mais o intervalo para poupar recursos
   
-  // Efeito sonoro ao passar mouse usando Web Audio API - estilo GTA VI
+  // Efeito visual simplificado ao passar o mouse (sem áudio para otimização)
   const playHoverSound = () => {
-    try {
-      // Criar contexto de áudio
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const gainNode = audioContext.createGain();
-      gainNode.gain.value = 0.1; // Volume baixo
-      gainNode.connect(audioContext.destination);
-      
-      // Criar oscilador principal com som futurista estilo GTA VI
-      const oscillator1 = audioContext.createOscillator();
-      oscillator1.type = 'sine';
-      oscillator1.frequency.setValueAtTime(440, audioContext.currentTime);
-      oscillator1.frequency.exponentialRampToValueAtTime(220, audioContext.currentTime + 0.3);
-      
-      // Segundo oscilador para efeito mais rico
-      const oscillator2 = audioContext.createOscillator();
-      oscillator2.type = 'triangle';
-      oscillator2.frequency.setValueAtTime(880, audioContext.currentTime);
-      oscillator2.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.3);
-      
-      // Efeito de distorção para som mais digital
-      const distortion = audioContext.createWaveShaper();
-      
-      // Criar a curva de distorção externamente para evitar error de strict mode
-      const makeDistortionCurve = (amount: number): Float32Array => {
-        const k = typeof amount === 'number' ? amount : 50;
-        const n_samples = 44100;
-        const curve = new Float32Array(n_samples);
-        const deg = Math.PI / 180;
-        
-        for (let i = 0; i < n_samples; ++i) {
-          const x = i * 2 / n_samples - 1;
-          curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-        }
-        return curve;
-      };
-      
-      distortion.curve = makeDistortionCurve(400);
-      distortion.oversample = '4x';
-      
-      // Aplicar filtro passa-baixa para suavizar
-      const filter = audioContext.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 1000;
-      
-      // Conectar tudo
-      oscillator1.connect(distortion);
-      oscillator2.connect(distortion);
-      distortion.connect(filter);
-      filter.connect(gainNode);
-      
-      // Iniciar e parar os osciladores
-      oscillator1.start();
-      oscillator2.start();
-      oscillator1.stop(audioContext.currentTime + 0.3);
-      oscillator2.stop(audioContext.currentTime + 0.3);
-    } catch (e) {
-      console.log('Audio effect error:', e);
-    }
-    
+    // Removido efeito de áudio para melhorar performance
     setIsHovering(true);
     setShowLightning(true);
   };
@@ -116,56 +42,15 @@ export function UniverseButton() {
     }
   };
   
-  // Portal effect when clicking the button
+  // Efeito visual simplificado (sem áudio)
   const handlePortalEffect = () => {
-    try {
-      // Use current location - don't call useLocation inside a handler
+    if (!isUniversePage) {
+      setShowPortal(true);
       
-      if (!isUniversePage) {
-        setShowPortal(true);
-        
-        // Create audio context
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const gainNode = audioContext.createGain();
-        gainNode.connect(audioContext.destination);
-        
-        // Create oscillators for portal sound
-        const oscillator1 = audioContext.createOscillator();
-        const oscillator2 = audioContext.createOscillator();
-        
-        oscillator1.connect(gainNode);
-        oscillator2.connect(gainNode);
-        
-        oscillator1.type = 'sine';
-        oscillator2.type = 'sawtooth';
-        
-        oscillator1.frequency.setValueAtTime(80, audioContext.currentTime);
-        oscillator1.frequency.exponentialRampToValueAtTime(
-          800, audioContext.currentTime + 0.8
-        );
-        
-        oscillator2.frequency.setValueAtTime(120, audioContext.currentTime);
-        oscillator2.frequency.exponentialRampToValueAtTime(
-          1200, audioContext.currentTime + 0.8
-        );
-        
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.1);
-        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.5);
-        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1);
-        
-        oscillator1.start();
-        oscillator2.start();
-        oscillator1.stop(audioContext.currentTime + 1);
-        oscillator2.stop(audioContext.currentTime + 1);
-        
-        // Hide portal after animation completes
-        setTimeout(() => {
-          setShowPortal(false);
-        }, 1000);
-      }
-    } catch (e) {
-      console.error('Portal effect error:', e);
+      // Esconder o portal após um tempo reduzido
+      setTimeout(() => {
+        setShowPortal(false);
+      }, 500); // Reduzido para melhorar performance
     }
   };
   
