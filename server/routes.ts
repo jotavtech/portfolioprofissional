@@ -6,6 +6,13 @@ import path from "path";
 import { contactSchema, Project } from "@shared/schema";
 import { ZodError } from "zod";
 
+// Exportando função para acessar projetos para o script de build
+export function getProjectsData() {
+  // Inicializa os dados se necessário
+  initializeProjectsData();
+  return storage.getAllProjects();
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // API Endpoints
   app.get('/api/projects', (req: Request, res: Response) => {

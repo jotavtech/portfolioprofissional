@@ -1,6 +1,11 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+// Obter o diretório atual para ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Cores para outputs no console
 const colors = {
@@ -49,8 +54,66 @@ try {
   process.exit(1);
 }
 
-// Passo 2: Criar arquivos auxiliares para o GitHub Pages
-console.log(`\n${colors.fg.yellow}Passo 2: Criando arquivos para GitHub Pages${colors.reset}`);
+// Passo 2: Copiar os dados da API para arquivos estáticos
+console.log(`\n${colors.fg.yellow}Passo 2: Copiando dados da API para arquivos estáticos${colors.reset}`);
+
+const apiDir = path.join(__dirname, 'dist', 'api');
+if (!fs.existsSync(apiDir)) {
+  fs.mkdirSync(apiDir, { recursive: true });
+}
+
+// Copiar os projetos
+try {
+  // Buscando diretamente os dados de projetos - criando script temporário
+  const tempScript = `
+// Temporary script to get projects data
+import { getProjectsData } from './server/routes.js';
+console.log(JSON.stringify(getProjectsData(), null, 2));
+  `;
+  fs.writeFileSync('temp-get-projects.js', tempScript);
+  execSync('node temp-get-projects.js > dist/api/projects.json', { stdio: 'inherit' });
+  fs.unlinkSync('temp-get-projects.js'); // Remover script temporário
+  console.log(`${colors.fg.green}✓ Dados de projetos copiados para API estática${colors.reset}`);
+} catch (error) {
+  console.log(`${colors.fg.yellow}! Usando dados de projetos estáticos${colors.reset}`);
+  
+  // Falha ao executar diretamente, vamos usar um arquivo estático
+  const projectsData = [
+    {
+      "id": 1,
+      "title": "Clínica",
+      "description": "Sistema de gerenciamento para clínicas médicas com agendamento de consultas, prontuários eletrônicos e controle financeiro.",
+      "image": "https://images.unsplash.com/photo-1516549655959-df999a316cd6?q=80&w=800&h=500&auto=format&fit=crop",
+      "category": "web",
+      "technologies": ["React", "Node.js", "MongoDB"],
+      "link": "https://exemplo.com/clinica"
+    },
+    {
+      "id": 2,
+      "title": "Portfolio JV",
+      "description": "Portfólio profissional com design minimalista e resposivo, destacando projetos e habilidades de forma interativa e moderna.",
+      "image": "https://images.unsplash.com/photo-1481887328591-3e277f9473dc?q=80&w=800&h=500&auto=format&fit=crop",
+      "category": "web",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "link": "https://exemplo.com/portfoliojv"
+    },
+    {
+      "id": 3,
+      "title": "Folheando",
+      "description": "Aplicativo de gerenciamento e recomendação de livros, com integração de APIs para informações de livros e comunidade de leitores.",
+      "image": "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800&h=500&auto=format&fit=crop",
+      "category": "app",
+      "technologies": ["React Native", "Firebase", "API"],
+      "link": "https://exemplo.com/folheando"
+    }
+  ];
+  
+  fs.writeFileSync(path.join(apiDir, 'projects.json'), JSON.stringify(projectsData, null, 2));
+  console.log(`${colors.fg.green}✓ Dados de projetos estáticos criados${colors.reset}`);
+}
+
+// Passo 3: Criar arquivos auxiliares para o GitHub Pages
+console.log(`\n${colors.fg.yellow}Passo 3: Criando arquivos para GitHub Pages${colors.reset}`);
 
 // Criar arquivo 404.html para suportar SPA com roteamento no navegador
 const notFoundPath = path.join(__dirname, 'dist', '404.html');
@@ -65,6 +128,35 @@ try {
   // Criar arquivo .nojekyll para evitar processamento do Jekyll
   fs.writeFileSync(path.join(__dirname, 'dist', '.nojekyll'), '');
   console.log(`${colors.fg.green}✓ .nojekyll criado${colors.reset}`);
+  
+  // Injetar script no index.html para lidar com modo GitHub Pages
+  const indexHtmlInject = indexContent.replace(
+    '<head>',
+    `<head>
+    <script>
+      // Verificar se estamos no GitHub Pages
+      const isGitHubPages = window.location.hostname.endsWith('.github.io') || 
+                           !window.location.hostname.includes('localhost');
+      
+      // Se estamos no GitHub Pages, instrui o fetch a buscar dados estáticos
+      if (isGitHubPages) {
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          // Se for uma requisição para a API, redireciona para o JSON estático
+          if (typeof url === 'string' && url.startsWith('/api/')) {
+            const newUrl = url + '.json';
+            console.log('GitHub Pages: Redirecionando fetch para', newUrl);
+            return originalFetch(newUrl, options);
+          }
+          return originalFetch(url, options);
+        };
+        console.log('GitHub Pages: Modo de compatibilidade ativado');
+      }
+    </script>`
+  );
+  fs.writeFileSync(indexHtmlPath, indexHtmlInject);
+  fs.writeFileSync(notFoundPath, indexHtmlInject); // Atualizar também o 404.html
+  console.log(`${colors.fg.green}✓ Script de compatibilidade injetado${colors.reset}`);
 } catch (error) {
   console.error(`${colors.fg.red}✗ Erro ao criar arquivos auxiliares: ${error}${colors.reset}`);
   process.exit(1);
@@ -79,6 +171,12 @@ if (!fs.existsSync(destDir)) {
   fs.mkdirSync(destDir, { recursive: true });
 }
 
+// Criar diretório para o CV
+const cvDir = path.join(__dirname, 'dist', 'api', 'download-cv');
+if (!fs.existsSync(cvDir)) {
+  fs.mkdirSync(cvDir, { recursive: true });
+}
+
 try {
   // Copiar imagens e outros assets
   const files = fs.readdirSync(assetsDir);
@@ -89,7 +187,14 @@ try {
     // Ignorar arquivos específicos se necessário
     if (fs.statSync(srcPath).isFile()) {
       fs.copyFileSync(srcPath, destPath);
-      console.log(`${colors.fg.green}✓ Copiado: ${file}${colors.reset}`);
+      console.log(`${colors.fg.green}✓ Copiado para assets: ${file}${colors.reset}`);
+      
+      // Se for o CV, copiar também para o diretório da API
+      if (file.toLowerCase().includes('cv') || file.toLowerCase().includes('resume')) {
+        const cvDestPath = path.join(cvDir, 'joao-vitor-cv.pdf');
+        fs.copyFileSync(srcPath, cvDestPath);
+        console.log(`${colors.fg.green}✓ CV copiado para API para download direto${colors.reset}`);
+      }
     }
   });
 } catch (error) {
