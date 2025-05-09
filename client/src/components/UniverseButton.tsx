@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 export function UniverseButton() {
   const [showLightning, setShowLightning] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [showPortal, setShowPortal] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
   // Efeito de raio aleatório automático
@@ -115,31 +116,90 @@ export function UniverseButton() {
     }
   };
   
+  // Portal effect when clicking the button
+  const handlePortalEffect = () => {
+    try {
+      // Only show portal effect when going TO the universe page
+      const [location] = useLocation();
+      const isUniversePage = location === '/universo';
+      
+      if (!isUniversePage) {
+        setShowPortal(true);
+        
+        // Create audio context
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+        
+        // Create oscillators for portal sound
+        const oscillator1 = audioContext.createOscillator();
+        const oscillator2 = audioContext.createOscillator();
+        
+        oscillator1.connect(gainNode);
+        oscillator2.connect(gainNode);
+        
+        oscillator1.type = 'sine';
+        oscillator2.type = 'sawtooth';
+        
+        oscillator1.frequency.setValueAtTime(80, audioContext.currentTime);
+        oscillator1.frequency.exponentialRampToValueAtTime(
+          800, audioContext.currentTime + 0.8
+        );
+        
+        oscillator2.frequency.setValueAtTime(120, audioContext.currentTime);
+        oscillator2.frequency.exponentialRampToValueAtTime(
+          1200, audioContext.currentTime + 0.8
+        );
+        
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.1);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.5);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1);
+        
+        oscillator1.start();
+        oscillator2.start();
+        oscillator1.stop(audioContext.currentTime + 1);
+        oscillator2.stop(audioContext.currentTime + 1);
+        
+        // Hide portal after animation completes
+        setTimeout(() => {
+          setShowPortal(false);
+        }, 1000);
+      }
+    } catch (e) {
+      console.error('Portal effect error:', e);
+    }
+  };
+  
   // Verificar se estamos na página universo para alternar o destino do botão
   const [location] = useLocation();
   const isUniversePage = location === '/universo';
   
   return (
-    <Link to={isUniversePage ? '/' : '/universo'}>
-      <motion.button 
-        ref={buttonRef}
-        className="universo-button"
-        aria-label={isUniversePage ? "Voltar ao portfolio original" : "Ir para o Jotaverso"}
-        onMouseEnter={playHoverSound}
-        onMouseLeave={handleMouseLeave}
-        variants={buttonVariants}
-        whileHover="hover"
-        whileTap={{ scale: 0.95 }}
-      >
-        {showLightning && (
-          <>
-            <div className="lightning" style={{ left: "-20px" }} />
-            <div className="lightning" style={{ left: "35px" }} />
-          </>
-        )}
-        JOTAVERSO
-      </motion.button>
-    </Link>
+    <>
+      {showPortal && <div className="portal" />}
+      <Link to={isUniversePage ? '/' : '/universo'}>
+        <motion.button 
+          ref={buttonRef}
+          className="universo-button"
+          aria-label={isUniversePage ? "Voltar ao portfolio original" : "Ir para o Jotaverso"}
+          onMouseEnter={playHoverSound}
+          onMouseLeave={handleMouseLeave}
+          onClick={handlePortalEffect}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap={{ scale: 0.95 }}
+        >
+          {showLightning && (
+            <>
+              <div className="lightning" style={{ left: "-20px" }} />
+              <div className="lightning" style={{ left: "35px" }} />
+            </>
+          )}
+          JOTAVERSO
+        </motion.button>
+      </Link>
+    </>
   );
 }
 
