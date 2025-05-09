@@ -193,6 +193,7 @@ export default function Universo() {
           <Link to="/">
             <motion.h1 
               className="text-6xl font-bold metal-text mb-8 text-center cursor-pointer universe-return"
+              data-text="UNIVERSO ROCK"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -243,6 +244,7 @@ export default function Universo() {
           <div className="mt-16">
             <motion.h2 
               className="text-4xl font-bold metal-text mb-8 text-center"
+              data-text="GALERIA"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
@@ -269,7 +271,7 @@ export default function Universo() {
         
         <footer className="mt-20 text-center pb-10">
           <div className="flame-divider mb-6"></div>
-          <p className="metal-text text-sm">© 2025 UNIVERSO ROCK - TODOS OS DIREITOS RESERVADOS</p>
+          <p className="metal-text text-sm" data-text="© 2025 UNIVERSO ROCK - TODOS OS DIREITOS RESERVADOS">© 2025 UNIVERSO ROCK - TODOS OS DIREITOS RESERVADOS</p>
         </footer>
       </div>
     </div>

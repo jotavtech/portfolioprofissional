@@ -359,36 +359,225 @@
 
 /* Estilos do Universo Rock */
 .rock-universe {
-  background-color: #000;
-  background-image: 
-    linear-gradient(to bottom, rgba(50, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
-    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(200,0,0,.1)' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-color: #05030a;
   overflow-x: hidden;
+  position: relative;
 }
 
+/* Gradiente de fundo estilo GTA VI com rosa e azul neon */
+.rock-universe::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(125deg, 
+      rgba(255, 0, 128, 0.2) 0%, 
+      rgba(20, 0, 50, 0.3) 25%, 
+      rgba(0, 50, 100, 0.2) 50%, 
+      rgba(140, 0, 50, 0.3) 75%, 
+      rgba(255, 0, 100, 0.2) 100%
+    );
+  z-index: 0;
+  animation: gtaBackground 30s infinite alternate;
+}
+
+@keyframes gtaBackground {
+  0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 50%; filter: hue-rotate(30deg); }
+  100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+}
+
+/* Grade de linhas horizontais (estilo retrowave) */
+.rock-universe::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 0, 100, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 100, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  z-index: 1;
+  opacity: 0.5;
+  animation: gridMove 20s linear infinite;
+  transform-origin: center bottom;
+  perspective: 1000px;
+  transform: rotateX(60deg) scale(1.5) translateY(25%);
+}
+
+@keyframes gridMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 40px, 0 40px; }
+}
+
+/* Estrelas cintilantes no fundo */
 .rock-background {
-  background: repeating-linear-gradient(
-    -45deg,
-    #111,
-    #111 10px,
-    #000 10px,
-    #000 20px
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  background-size: 100px 100px;
+  z-index: 1;
+  opacity: 0.8;
+  animation: starTwinkle 5s infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Raios de luz neon estilo GTA VI */
+.rock-universe .container::before {
+  content: "";
+  position: absolute;
+  top: -200%;
+  left: -200%;
+  width: 500%;
+  height: 400%;
+  background: conic-gradient(
+    rgba(255, 0, 140, 0) 310deg,
+    rgba(255, 0, 140, 0.1) 320deg,
+    rgba(255, 0, 140, 0.3) 330deg,
+    rgba(255, 0, 140, 0.7) 340deg,
+    rgba(255, 0, 140, 0.3) 350deg,
+    rgba(255, 0, 140, 0.1) 360deg
   );
-  opacity: 0.3;
+  animation: rotateLightRay 20s infinite linear;
+  z-index: 0;
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+@keyframes rotateLightRay {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .metal-text {
   font-family: 'Press Start 2P', cursive;
-  color: #ddd;
-  text-shadow: 
-    0 0 5px #fff,
-    0 0 10px #fff,
-    0 0 15px #f00,
-    0 0 20px #f00,
-    0 0 25px #f00,
-    0 0 30px #f00,
-    0 0 35px #f00;
+  color: #fff;
   letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  animation: neonPulse 4s infinite;
+  text-transform: uppercase;
+}
+
+/* Efeito de texto similar ao GTA VI, com textura metálica pulsante */
+.metal-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 45%,  
+    rgba(255, 255, 255, 0.8) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 200%;
+  mix-blend-mode: overlay;
+  animation: metalShine 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.metal-text::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(
+    to right,
+    #ff2d55 0%,
+    #ff9500 30%, 
+    #ffcc00 50%,
+    #ff9500 70%,
+    #ff2d55 100%
+  );
+  background-size: 200% 200%;
+  filter: blur(10px);
+  opacity: 0.7;
+  animation: textGlow 8s ease infinite;
+}
+
+@keyframes metalShine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes textGlow {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg) blur(10px);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(60deg) blur(8px);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg) blur(10px);
+  }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #ff2d55,
+      0 0 20px #ff2d55,
+      0 0 25px #ff2d55,
+      0 0 30px #ff2d55,
+      0 0 35px #ff2d55;
+  }
+  50% {
+    text-shadow: 
+      0 0 5px #fff,
+      0 0 15px #ff9500,
+      0 0 20px #ff9500,
+      0 0 25px #ff9500,
+      0 0 30px #ff9500,
+      0 0 35px #ff9500,
+      0 0 40px #ff9500;
+  }
+}
+
+@keyframes neonFlicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 15px #f00,
+      0 0 20px #f00,
+      0 0 25px #f00,
+      0 0 30px #f00,
+      0 0 35px #f00;
+  }
+  20%, 24%, 55% { 
+    text-shadow: none;
+  }
 }
 
 .flame-divider {
@@ -398,6 +587,43 @@
   );
   position: relative;
   margin: 30px 0;
+  animation: flamePulse 2s infinite alternate;
+}
+
+@keyframes flamePulse {
+  0% {
+    filter: brightness(100%) blur(0px);
+    height: 4px;
+  }
+  100% {
+    filter: brightness(150%) blur(1px);
+    height: 6px;
+  }
+}
+
+.flame-divider::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 15px;
+  top: -15px;
+  background: radial-gradient(ellipse at center, rgba(255, 120, 0, 0.5) 0%, rgba(255, 120, 0, 0) 70%);
+  animation: flameGlow 3s infinite alternate;
+}
+
+.flame-divider::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 15px;
+  bottom: -15px;
+  background: radial-gradient(ellipse at center, rgba(255, 120, 0, 0.3) 0%, rgba(255, 120, 0, 0) 70%);
+  animation: flameGlow 2s infinite alternate-reverse;
+}
+
+@keyframes flameGlow {
+  0% { opacity: 0.3; transform: scaleY(0.8); }
+  100% { opacity: 0.7; transform: scaleY(1.2); }
 }
 
 .rock-card {
@@ -405,13 +631,42 @@
   border: 1px solid #900;
   border-radius: 4px;
   padding: 20px;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.rock-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, #f00, #ff0, #f00, #f80, #f00);
+  background-size: 400% 400%;
+  z-index: -1;
+  filter: blur(15px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: gradientBorder 15s ease infinite;
+}
+
+@keyframes gradientBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .rock-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(255, 0, 0, 0.5);
+}
+
+.rock-card:hover::before {
+  opacity: 0.8;
 }
 
 /* Dica visual para mostrar que o título UNIVERSO ROCK é clicável */
@@ -466,16 +721,37 @@
   align-items: center;
   justify-content: center;
   border: 1px solid #900;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   font-family: 'Press Start 2P', cursive;
   color: #f00;
   font-size: 14px;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 0 8px #f00;
+}
+
+.rock-image-card::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: rotate(45deg) translateX(-450%);
+  transition: 0.7s all;
 }
 
 .rock-image-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 
+    0 0 30px rgba(255, 0, 0, 0.6),
+    0 0 60px rgba(255, 60, 0, 0.3);
   background: linear-gradient(45deg, #500, #800);
+  color: #fff;
+  z-index: 10;
+}
+
+.rock-image-card:hover::before {
+  transform: rotate(45deg) translateX(450%);
 }
 
 /* Efeito de guitarra flutuando */
