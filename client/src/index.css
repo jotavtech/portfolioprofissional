@@ -1039,27 +1039,10 @@
   0% {
     opacity: 0;
     transform: scale(0);
-    border-radius: 50%;
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
-    border-radius: 40%;
-    box-shadow: 
-      0 0 20px rgba(255, 0, 85, 0.7),
-      0 0 40px rgba(0, 200, 255, 0.5),
-      0 0 60px rgba(120, 0, 255, 0.3),
-      inset 0 0 40px rgba(255, 100, 255, 0.5);
   }
   100% {
     opacity: 1;
     transform: scale(15);
-    border-radius: 0;
-    box-shadow: 
-      0 0 100px rgba(255, 0, 85, 0.7),
-      0 0 150px rgba(0, 200, 255, 0.5),
-      0 0 200px rgba(120, 0, 255, 0.3),
-      inset 0 0 80px rgba(255, 100, 255, 0.5);
   }
 }
 
@@ -1070,15 +1053,10 @@
   transform: translate(-50%, -50%);
   width: 10px;
   height: 10px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 0, 85, 0.7) 0%,
-    rgba(0, 200, 255, 0.5) 50%,
-    rgba(120, 0, 255, 0.3) 100%
-  );
+  background: rgba(255, 0, 85, 0.5);
   z-index: 9999;
   pointer-events: none;
-  animation: portalOpen 1s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+  animation: portalOpen 0.8s ease-out forwards;
 }
 
 .porsche-car {
@@ -1091,7 +1069,6 @@
   transition: transform 0.2s ease-out, left 0.2s ease-out;
   transform: scaleX(1);
   will-change: transform, left;
-  filter: drop-shadow(0 0 10px rgba(255, 100, 50, 0.5));
 }
 
 .porsche-car.moving-forward {
@@ -1161,16 +1138,14 @@
   background: rgba(20, 20, 30, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
   padding: 20px;
   text-align: center;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .neon-footer-box:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 200, 0.4);
-  transform: translateY(-5px);
+  border-color: rgba(255, 0, 200, 0.4);
+  transform: translateY(-2px);
 }
 
 .neon-text {
@@ -1233,7 +1208,6 @@
 
 .social-icon:hover {
   background: rgba(255, 0, 200, 0.3);
-  box-shadow: 0 0 15px rgba(255, 0, 200, 0.7);
 }
 
 /* Estilos para elementos cibertribais */
@@ -1270,7 +1244,6 @@
 .tribal-element.tribal:hover svg rect {
   stroke: #ff00cc;
   stroke-width: 2;
-  filter: drop-shadow(0 0 5px rgba(255, 0, 204, 0.5));
 }
 
 .tribal-element.geometric svg path,
@@ -1283,15 +1256,9 @@
   transition: all 0.3s ease;
 }
 
-/* Efeito de rastro para elementos tribais */
-@keyframes tribal-glow {
-  0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); }
-  50% { filter: drop-shadow(0 0 10px rgba(255, 0, 204, 0.5)); }
-  100% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); }
-}
-
+/* Efeito simplificado para elementos tribais */
 .tribal-element.tribal {
-  animation: tribal-glow 3s infinite alternate;
+  opacity: 0.8;
 }
 
 /* Estilos para Cyber Tribal Background */
@@ -1385,10 +1352,6 @@
   z-index: 0;
 }
 
-.tribal-symbol {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-}
-
 .tribal-symbol path {
   transition: stroke 0.5s ease;
 }
@@ -1397,14 +1360,13 @@
   stroke: #00ccff;
 }
 
-/* Efeito pulsante para marcadores laterais */
+/* Marcadores laterais */
 .tribal-side-marker, .tribal-side-marker-right {
-  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
-  transition: filter 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .tribal-side-marker:hover, .tribal-side-marker-right:hover {
-  filter: drop-shadow(0 0 8px rgba(255, 0, 204, 0.8));
+  opacity: 0.8;
 }
 
 /* Linha de progresso de scroll */
@@ -1412,19 +1374,12 @@
   transition: height 0.1s ease-out;
 }
 
-/* Animação para o símbolo tribal que aparece com scroll */
+/* Animação simplificada para o símbolo tribal que aparece com scroll */
 @keyframes tribal-appear {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.2); opacity: 0.8; }
+  0% { transform: scale(0.8); opacity: 0; }
   100% { transform: scale(1); opacity: 0.7; }
 }
 
 .tribal-symbol-container svg {
-  animation: glow-pulse 4s infinite alternate;
-}
-
-@keyframes glow-pulse {
-  0% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); }
-  50% { filter: drop-shadow(0 0 5px rgba(255, 0, 204, 0.7)); }
-  100% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); }
+  opacity: 0.7;
 }
