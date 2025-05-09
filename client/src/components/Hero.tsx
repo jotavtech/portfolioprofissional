@@ -93,7 +93,8 @@ export default function Hero() {
         
         <motion.h1 
           ref={magneticTextRef}
-          className="font-pixel text-center md:text-right text-3xl md:text-4xl lg:text-6xl mt-4 text-glow"
+          className="font-pixel text-center md:text-right text-3xl md:text-4xl lg:text-6xl mt-4 metal-text"
+          data-text="JOÃO VITOR"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
@@ -102,7 +103,8 @@ export default function Hero() {
         </motion.h1>
         
         <motion.p 
-          className="font-retro text-center md:text-right text-xl mt-2 animate-glitch"
+          className="font-retro text-center md:text-right text-xl mt-2 metal-text"
+          data-text="DESIGNER GRÁFICO + DESENVOLVEDOR"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -118,9 +120,9 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.3 }}
       >
         <motion.div 
-          className="bg-black bg-opacity-80 p-6 border border-white/20 max-w-md mx-auto md:ml-8 shadow-glow"
+          className="rock-card max-w-md mx-auto md:ml-8"
           whileHover={{ 
-            boxShadow: "0 0 30px rgba(255, 255, 255, 0.15), 0 0 60px rgba(255, 255, 255, 0.1)" 
+            boxShadow: "0 15px 30px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 45, 85, 0.4)"
           }}
         >
           <div className="flex space-x-4 mb-6">
@@ -141,7 +143,7 @@ export default function Hero() {
             ></motion.div>
           </div>
           
-          <h2 className="font-retro text-2xl mb-4 animate-glitch">RESUMO</h2>
+          <h2 className="font-retro text-2xl mb-4 metal-text" data-text="RESUMO">RESUMO</h2>
           
           <motion.p 
             className="font-mono text-sm mb-4"
@@ -156,8 +158,11 @@ export default function Hero() {
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             <motion.button 
               onClick={() => scrollToSection("contact")}
-              className="clickable bg-white text-black font-pixel py-2 px-6 text-center border-2 border-white hover:bg-black hover:text-white transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
+              className="clickable back-button"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2 }
+              }}
               whileTap={{ scale: 0.95 }}
             >
               CONTATO
@@ -165,8 +170,11 @@ export default function Hero() {
             <motion.a 
               href="/api/download-cv" 
               download
-              className="clickable bg-transparent text-white font-pixel py-2 px-6 text-center border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
+              className="clickable audio-toggle"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2 }
+              }}
               whileTap={{ scale: 0.95 }}
             >
               BAIXAR CV

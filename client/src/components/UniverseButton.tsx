@@ -49,7 +49,9 @@ export function UniverseButton() {
       
       // Efeito de distorção para som mais digital
       const distortion = audioContext.createWaveShaper();
-      function makeDistortionCurve(amount: number) {
+      
+      // Criar a curva de distorção externamente para evitar error de strict mode
+      const makeDistortionCurve = (amount: number): Float32Array => {
         const k = typeof amount === 'number' ? amount : 50;
         const n_samples = 44100;
         const curve = new Float32Array(n_samples);
@@ -60,7 +62,7 @@ export function UniverseButton() {
           curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
         }
         return curve;
-      }
+      };
       
       distortion.curve = makeDistortionCurve(400);
       distortion.oversample = '4x';
