@@ -264,31 +264,18 @@
 }
 
 .shadow-glow {
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1),
-              0 0 30px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .text-glow {
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
-               0 0 10px rgba(255, 255, 255, 0.3);
+  font-weight: bold;
 }
 
 .follow-cursor-subtle {
   transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.scanline {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, transparent 50%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.03));
-  background-size: 100% 4px;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.2;
-}
+/* Scanline removida para otimização */
 
 @keyframes fadeIn {
   to {
@@ -390,14 +377,8 @@
 .universo-button:hover {
   transform: translateY(-2px) scale(1.05);
   color: white;
-  text-shadow: 
-    0 0 5px white,
-    0 0 10px white,
-    0 0 15px #ff2d55,
-    0 0 20px #ff2d55;
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.5),
-    0 0 30px rgba(255, 45, 85, 0.5);
+  opacity: 0.9;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .universo-button:hover::after {
@@ -548,12 +529,11 @@
   letter-spacing: 2px;
   position: relative;
   display: inline-block;
-  animation: neonPulse 4s infinite;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  font-weight: bold;
 }
 
-/* Efeito de texto similar ao GTA VI, apenas com brilho neon */
+/* Efeito de texto simplificado */
 .metal-text::before {
   content: attr(data-text);
   position: absolute;
@@ -562,23 +542,8 @@
   width: 100%;
   height: 100%;
   mix-blend-mode: overlay;
-  animation: metalShine 6s ease-in-out infinite alternate;
   pointer-events: none;
-  filter: blur(1px);
-  opacity: 0.7;
-}
-
-.metal-text::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  z-index: -1;
-  filter: blur(10px);
-  opacity: 0.7;
-  animation: textGlow 8s ease infinite;
+  opacity: 0.8;
 }
 
 @keyframes metalShine {
@@ -587,60 +552,6 @@
   }
   100% {
     background-position: 200% 0;
-  }
-}
-
-@keyframes textGlow {
-  0% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg) blur(10px);
-  }
-  50% {
-    background-position: 100% 50%;
-    filter: hue-rotate(60deg) blur(8px);
-  }
-  100% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg) blur(10px);
-  }
-}
-
-@keyframes neonPulse {
-  0%, 100% {
-    text-shadow: 
-      0 0 5px #fff,
-      0 0 10px #fff,
-      0 0 15px #ff2d55,
-      0 0 20px #ff2d55,
-      0 0 25px #ff2d55,
-      0 0 30px #ff2d55,
-      0 0 35px #ff2d55;
-  }
-  50% {
-    text-shadow: 
-      0 0 5px #fff,
-      0 0 15px #ff9500,
-      0 0 20px #ff9500,
-      0 0 25px #ff9500,
-      0 0 30px #ff9500,
-      0 0 35px #ff9500,
-      0 0 40px #ff9500;
-  }
-}
-
-@keyframes neonFlicker {
-  0%, 18%, 22%, 25%, 53%, 57%, 100% {
-    text-shadow: 
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 15px #f00,
-      0 0 20px #f00,
-      0 0 25px #f00,
-      0 0 30px #f00,
-      0 0 35px #f00;
-  }
-  20%, 24%, 55% { 
-    text-shadow: none;
   }
 }
 

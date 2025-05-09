@@ -1,108 +1,73 @@
 import { useEffect, useState, memo } from "react";
-import { motion } from "framer-motion";
 
 function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [cursorVariant, setCursorVariant] = useState("default");
+  const [cursorSize, setCursorSize] = useState(24);
+  const [isHovering, setIsHovering] = useState(false);
 
   // Otimizar tratamento de eventos com throttling
   useEffect(() => {
-    // Variáveis para throttling
-    let isThrottled = false;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-    let rafId: number | null = null;
+    // Limitador de taxa para melhorar desempenho
+    let lastUpdateTime = 0;
+    const throttleInterval = 16; // ~60fps
     
-    // Função otimizada com requestAnimationFrame
+    // Simplifica a detecção de movimento do mouse
     const mouseMove = (e: MouseEvent) => {
-      // Armazena a posição atual do mouse
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
+      const now = Date.now();
+      if (now - lastUpdateTime < throttleInterval) return;
       
-      // Evita atualizações excessivas durante movimento rápido do mouse
-      if (isThrottled) return;
-      
-      isThrottled = true;
-      
-      // Agenda a atualização para o próximo frame de animação
-      rafId = requestAnimationFrame(() => {
-        setMousePosition({
-          x: lastMouseX,
-          y: lastMouseY,
-        });
-        isThrottled = false;
+      lastUpdateTime = now;
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY,
       });
     };
 
-    // Funções simplificadas sem useCallback
-    const mouseDown = () => setCursorVariant("clicked");
-    const mouseUp = () => setCursorVariant("default");
-    
-    // Otimizado para verificar apenas uma vez, sem acessar classList em cada movimentação
+    // Detectar apenas elementos clicáveis
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const tagName = target.tagName.toLowerCase();
+      const isClickable = 
+        target.tagName.toLowerCase() === "a" || 
+        target.tagName.toLowerCase() === "button" || 
+        target.classList.contains("clickable");
       
-      // Verificação simplificada para melhor performance
-      if (tagName === "a" || tagName === "button" || target.classList.contains("clickable")) {
-        setCursorVariant("hover");
-      } else {
-        setCursorVariant("default");
+      if (isClickable && !isHovering) {
+        setIsHovering(true);
+        setCursorSize(32);
+      } else if (!isClickable && isHovering) {
+        setIsHovering(false);
+        setCursorSize(24);
       }
     };
 
-    // Todos os event listeners com passive: true para melhor performance
+    // Listener único para movimento do mouse
     window.addEventListener("mousemove", mouseMove, { passive: true });
-    window.addEventListener("mousedown", mouseDown, { passive: true });
-    window.addEventListener("mouseup", mouseUp, { passive: true });
     window.addEventListener("mouseover", handleMouseOver, { passive: true });
 
     return () => {
-      // Limpeza adequada dos event listeners e cancelamento do rAF
       window.removeEventListener("mousemove", mouseMove);
-      window.removeEventListener("mousedown", mouseDown);
-      window.removeEventListener("mouseup", mouseUp);
       window.removeEventListener("mouseover", handleMouseOver);
-      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isHovering]);
 
-  const variants = {
-    default: {
-      x: mousePosition.x - 12,
-      y: mousePosition.y - 12,
-      height: 24,
-      width: 24,
-      backgroundColor: "transparent",
-      border: "2px solid white",
-    },
-    hover: {
-      x: mousePosition.x - 16,
-      y: mousePosition.y - 16,
-      height: 32,
-      width: 32,
-      backgroundColor: "white",
-      mixBlendMode: "difference" as "difference",
-    },
-    clicked: {
-      x: mousePosition.x - 12,
-      y: mousePosition.y - 12,
-      height: 24,
-      width: 24,
-      backgroundColor: "white",
-      mixBlendMode: "difference" as "difference",
-    },
-  };
+  // Renderiza um cursor estático em vez de usar motion
+  const cursorStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    height: cursorSize,
+    width: cursorSize,
+    borderRadius: '50%',
+    pointerEvents: 'none',
+    zIndex: 9999,
+    transform: `translate(${mousePosition.x - cursorSize/2}px, ${mousePosition.y - cursorSize/2}px)`,
+    border: isHovering ? 'none' : '2px solid white',
+    backgroundColor: isHovering ? 'white' : 'transparent',
+    mixBlendMode: isHovering ? 'difference' : 'normal',
+    transition: 'height 0.2s, width 0.2s, background-color 0.2s',
+  } as React.CSSProperties;
 
-  // Otimizado para usar um objeto pré-memoizado de variantes
-  return (
-    <motion.div
-      className="fixed top-0 left-0 rounded-full z-50 pointer-events-none"
-      variants={variants}
-      animate={cursorVariant}
-      transition={{ duration: 0, ease: "linear" }}
-    />
-  );
+  return <div style={cursorStyle} />;
 }
 
 // Exporta com memo para evitar re-renders desnecessários
