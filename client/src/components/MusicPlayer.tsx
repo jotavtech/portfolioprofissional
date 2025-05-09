@@ -33,23 +33,23 @@ export default function MusicPlayer() {
     {
       id: 0,
       title: "Around The World",
-      artist: "Red Hot Chili Peppers",
-      url: "https://cdn.pixabay.com/download/audio/2022/11/10/audio_35daee81be.mp3?filename=the-best-jazzy-new-york-15550.mp3",
-      cover: "https://images.unsplash.com/photo-1602848597941-0d3d3a2c1241?q=80&w=300&h=300&auto=format&fit=crop"
+      artist: "Piano Version",
+      url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-9835.mp3",
+      cover: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=300&h=300&auto=format&fit=crop"
     },
     {
       id: 1,
       title: "Cochise",
-      artist: "Audioslave",
-      url: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_ccebd5a3e7.mp3?filename=forest-15012.mp3",
-      cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=300&h=300&auto=format&fit=crop"
+      artist: "Piano Cover",
+      url: "https://cdn.pixabay.com/download/audio/2021/08/08/audio_88447e769c.mp3?filename=tuesday-glitch-soft-piano-notification-sound-7074.mp3",
+      cover: "https://images.unsplash.com/photo-1571974599782-fac5b67b2f6e?q=80&w=300&h=300&auto=format&fit=crop"
     },
     {
       id: 2,
       title: "What You Are",
-      artist: "Audioslave",
-      url: "https://cdn.pixabay.com/download/audio/2022/10/13/audio_2334d48853.mp3?filename=tech-house-vibes-130bpm-7741.mp3",
-      cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&h=300&auto=format&fit=crop"
+      artist: "Piano Solo",
+      url: "https://cdn.pixabay.com/download/audio/2021/04/07/audio_c8c2fb1eb6.mp3?filename=sad-piano-11239.mp3",
+      cover: "https://images.unsplash.com/photo-1505248207594-9f9912dda70a?q=80&w=300&h=300&auto=format&fit=crop"
     }
   ];
 

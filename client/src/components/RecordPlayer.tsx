@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { MusicPlayerContext } from "@/contexts/MusicPlayerContext";
 
 interface RecordPlayerProps {
   isPlaying: boolean;
@@ -7,6 +8,7 @@ interface RecordPlayerProps {
 }
 
 export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProps) {
+  const { currentSong, previousSong } = useContext(MusicPlayerContext);
   const [isChangingDisc, setIsChangingDisc] = useState(false);
   const [currentDiscDesign, setCurrentDiscDesign] = useState(0);
   
@@ -29,20 +31,16 @@ export default function RecordPlayer({ isPlaying, togglePlay }: RecordPlayerProp
     }
   ];
 
-  // Simulate disc swap when the play button is clicked
+  // Detect song changes and trigger disc swap animation
   useEffect(() => {
-    if (isPlaying) {
-      // Change disc design randomly when starting to play
-      const newDesign = Math.floor(Math.random() * discDesigns.length);
-      if (newDesign !== currentDiscDesign) {
-        setIsChangingDisc(true);
-        setTimeout(() => {
-          setCurrentDiscDesign(newDesign);
-          setIsChangingDisc(false);
-        }, 750); // Half the animation duration
-      }
+    if (previousSong !== null && previousSong !== currentSong) {
+      setIsChangingDisc(true);
+      setTimeout(() => {
+        setCurrentDiscDesign(currentSong);
+        setIsChangingDisc(false);
+      }, 750);
     }
-  }, [isPlaying]);
+  }, [currentSong, previousSong]);
 
   return (
     <div className="relative mb-8 w-72 h-72 md:w-96 md:h-96 clickable perspective-container" onClick={togglePlay}>
