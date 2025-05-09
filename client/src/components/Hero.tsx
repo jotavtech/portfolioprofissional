@@ -1,16 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import RecordPlayer from "./RecordPlayer";
 import { scrollToSection } from "@/lib/utils";
+import { MusicPlayerContext } from "@/contexts/MusicPlayerContext";
 
 export default function Hero() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, togglePlay } = useContext(MusicPlayerContext);
   const magneticTextRef = useRef<HTMLHeadingElement>(null);
   const magneticTextElementsRef = useRef<HTMLSpanElement[]>([]);
-  
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
 
   // Create magnetic text effect for the title
   useEffect(() => {
