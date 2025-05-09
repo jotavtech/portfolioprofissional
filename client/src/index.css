@@ -752,33 +752,15 @@
   font-weight: bold;
 }
 
-/* Efeito de texto estilo GTA VI - traçado com preenchimento gradiente */
+/* Efeito de texto estilo GTA VI - versão otimizada */
 .rock-title::before {
   content: attr(data-content);
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
-  background-image: linear-gradient(
-    90deg,
-    #ff2d55,
-    #ff9500,
-    #0095ff,
-    #ff2d55
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  filter: blur(4px);
-  opacity: 0.7;
-  animation: titleGlow 8s linear infinite;
-}
-
-@keyframes titleGlow {
-  0% { background-position: 0% 50%; filter: blur(4px); }
-  50% { background-position: 100% 50%; filter: blur(6px); }
-  100% { background-position: 0% 50%; filter: blur(4px); }
+  color: #ff2d55;
+  opacity: 0.3;
 }
 
 .rock-projects li {
@@ -1226,22 +1208,15 @@
 }
 
 .grid-background {
-  background: 
-    linear-gradient(to right, rgba(5, 5, 20, 0.9), rgba(20, 5, 25, 0.9)),
-    linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px) 0 0 / 20px 20px,
-    linear-gradient(0deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px) 0 0 / 20px 20px;
+  background: rgba(5, 5, 20, 0.9);
+  border-top: 1px solid rgba(255, 0, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 0, 255, 0.1);
   position: relative;
   overflow: hidden;
 }
 
 .grid-overlay {
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
-  animation: grid-move 10s linear infinite;
-}
-
-@keyframes grid-move {
-  from { background-position: 0 0; }
-  to { background-position: 0 200px; }
 }
 
 .social-icon {

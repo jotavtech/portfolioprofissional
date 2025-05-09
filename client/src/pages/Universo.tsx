@@ -19,19 +19,13 @@ export default function Universo() {
   
   return (
     <div className="rock-universe min-h-screen bg-black text-white relative">
-      {/* Fundo estilo rock dos anos 90 */}
+      {/* Fundo simplificado */}
       <div className="rock-background absolute inset-0 z-0"></div>
       
-      {/* Animação de guitarra que aparece ocasionalmente */}
+      {/* Animação de guitarra otimizada */}
       <AnimatePresence>
         {showGuitarEffect && (
-          <motion.div 
-            className="guitar-effect" 
-            initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.5, rotate: 15 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="guitar-effect">
             <svg width="150" height="400" viewBox="0 0 150 400" className="guitar-svg">
               <path d="M70,20 L80,20 L85,100 L90,120 L90,300 L75,350 L65,350 L50,300 L50,120 L55,100 L60,20 Z" fill="#600" />
               <rect x="55" y="320" width="30" height="60" rx="5" fill="#300" />
@@ -42,7 +36,7 @@ export default function Universo() {
               <line x1="70" y1="320" x2="70" y2="350" stroke="#fff" strokeWidth="1" />
               <line x1="55" y1="335" x2="85" y2="335" stroke="#fff" strokeWidth="1" />
             </svg>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
       
@@ -64,10 +58,8 @@ export default function Universo() {
             aria-label={isPlaying ? 'Pausar música' : 'Tocar música'}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            animate={isPlaying ? { 
-              boxShadow: ["0 0 10px #f00", "0 0 20px #f00", "0 0 10px #f00"]
-            } : {}}
-            transition={{ duration: 1, repeat: isPlaying ? Infinity : 0 }}
+            animate={isPlaying ? { opacity: [0.8, 1, 0.8] } : {}}
+            transition={{ duration: 1.5, repeat: isPlaying ? Infinity : 0 }}
           >
             {isPlaying ? 'Pausar Rock 🤘' : 'Tocar Rock 🎸'}
           </motion.button>
@@ -81,17 +73,8 @@ export default function Universo() {
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
-              whileHover={{ 
-                scale: 1.05, 
-                textShadow: "0 0 15px #fff, 0 0 25px #f00, 0 0 35px #f00" 
-              }}
+              whileHover={{ scale: 1.05 }}
               title="Voltar para o portfolio original"
-              onClick={() => {
-                // Parar a música ao voltar
-                if (audioRef.current && isPlaying) {
-                  audioRef.current.pause();
-                }
-              }}
             >
               JOTAVERSO
             </motion.h1>
@@ -320,14 +303,11 @@ export default function Universo() {
           
           <div className="grid-background h-20 relative flex items-center justify-center mb-8">
             <div className="absolute inset-0 grid-overlay"></div>
-            <motion.h2 
-              className="text-2xl font-bold relative z-10 neon-text rainbow-shadow"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+            <h2 
+              className="text-2xl font-bold relative z-10 neon-text"
             >
               JOTAVERSO
-            </motion.h2>
+            </h2>
           </div>
           
           <motion.div 
