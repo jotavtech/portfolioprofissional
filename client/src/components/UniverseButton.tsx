@@ -26,11 +26,29 @@ export function UniverseButton() {
     return () => clearInterval(interval);
   }, [isHovering]);
   
-  // Efeito sonoro ao passar mouse
+  // Efeito sonoro ao passar mouse usando Web Audio API em vez de arquivo MP3
   const playHoverSound = () => {
-    const audio = new Audio('/electric-zap.mp3');
-    audio.volume = 0.2;
-    audio.play().catch(e => console.log('Audio error:', e));
+    try {
+      // Criar contexto de áudio
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const gainNode = audioContext.createGain();
+      gainNode.gain.value = 0.1; // Volume baixo
+      gainNode.connect(audioContext.destination);
+      
+      // Criar oscilador para som de "zap elétrico"
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sawtooth';
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.2);
+      
+      // Conectar e iniciar
+      oscillator.connect(gainNode);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (e) {
+      console.log('Audio effect error:', e);
+    }
+    
     setIsHovering(true);
     setShowLightning(true);
   };
