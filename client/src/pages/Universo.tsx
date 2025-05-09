@@ -1,136 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Universo() {
   const [isPlaying, setIsPlaying] = useState(false);
-  // Ajustar tipo para corresponder à nossa implementação com Web Audio API
-  interface AudioControl {
-    play: () => void;
-    pause: () => void;
-  }
-  
-  const audioRef = useRef<AudioControl | null>(null);
-  
-  // Adicionando mais estados para melhorar a experiência da página
   const [showGuitarEffect, setShowGuitarEffect] = useState(false);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   
-  useEffect(() => {
-    // Usando Web Audio API para criar um som de rock sintético
-    // ao invés de depender de arquivo MP3 real
-    let audioContext: AudioContext | null = null;
-    let oscillator: OscillatorNode | null = null;
-    let gainNode: GainNode | null = null;
-    
-    // Função para criar um som de "guitarra" sintético
-    const setupSyntheticRockSound = () => {
-      try {
-        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-        gainNode = audioContext.createGain();
-        gainNode.gain.value = 0.3; // Volume mais baixo para não incomodar
-        gainNode.connect(audioContext.destination);
-        
-        // Oscilador para o som de "guitarra"
-        oscillator = audioContext.createOscillator();
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.value = 110; // Frequência de nota A2 (grave)
-        
-        // Aplicar distorção para soar mais como rock
-        const distortion = audioContext.createWaveShaper();
-        
-        // Função pré-definida fora do escopo da função principal para evitar erros de strict mode
-        const makeDistortionCurve = (amount: number): Float32Array => {
-          const k = amount;
-          const samples = 44100;
-          const curve = new Float32Array(samples);
-          const deg = Math.PI / 180;
-          
-          for (let i = 0; i < samples; ++i) {
-            const x = (i * 2) / samples - 1;
-            curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
-          }
-          return curve;
-        };
-        
-        distortion.curve = makeDistortionCurve(400);
-        distortion.oversample = '4x';
-        
-        oscillator.connect(distortion);
-        distortion.connect(gainNode);
-        
-        // Preparar para tocar quando solicitado
-        oscillator.start();
-        
-        // Inicialmente sem volume
-        gainNode.gain.value = 0;
-        
-        audioRef.current = {
-          play: () => {
-            if (gainNode) {
-              // Aumento gradual do volume
-              gainNode.gain.setValueAtTime(0, audioContext!.currentTime);
-              gainNode.gain.linearRampToValueAtTime(0.3, audioContext!.currentTime + 0.5);
-            }
-          },
-          pause: () => {
-            if (gainNode) {
-              // Diminuição gradual do volume
-              gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext!.currentTime);
-              gainNode.gain.linearRampToValueAtTime(0, audioContext!.currentTime + 0.5);
-            }
-          }
-        };
-      } catch (error) {
-        console.error('Erro ao criar áudio sintético:', error);
-      }
-    };
-    
-    // Animação de guitarra a cada 10 segundos
-    const guitarInterval = setInterval(() => {
-      if (isPlaying) {
-        setShowGuitarEffect(true);
-        setTimeout(() => setShowGuitarEffect(false), 2000);
-      }
-    }, 10000);
-    
-    // Detecta primeiro clique na página para permitir áudio
-    const handleUserInteraction = () => {
-      if (!hasUserInteracted) {
-        setHasUserInteracted(true);
-        setupSyntheticRockSound();
-        document.removeEventListener('click', handleUserInteraction);
-      }
-    };
-    
-    document.addEventListener('click', handleUserInteraction);
-    
-    // Iniciar a configuração se for a primeira vez
-    if (!audioRef.current) {
-      setupSyntheticRockSound();
-    }
-    
-    return () => {
-      if (oscillator) {
-        oscillator.stop();
-      }
-      if (audioContext) {
-        audioContext.close();
-      }
-      clearInterval(guitarInterval);
-      document.removeEventListener('click', handleUserInteraction);
-    };
-  }, [isPlaying, hasUserInteracted]);
-  
+  // Versão simplificada sem audio real para melhorar performance
   const toggleAudio = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
     setIsPlaying(!isPlaying);
+    
+    // Mostrar efeito da guitarra uma vez quando tocar
+    if (!isPlaying) {
+      setShowGuitarEffect(true);
+      setTimeout(() => setShowGuitarEffect(false), 2000);
+    }
   };
   
   return (

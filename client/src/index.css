@@ -748,8 +748,8 @@
   padding-bottom: 15px;
   position: relative;
   display: inline-block;
-  text-shadow: 0 0 10px rgba(255, 45, 85, 0.7);
   letter-spacing: 1px;
+  font-weight: bold;
 }
 
 /* Efeito de texto estilo GTA VI - traçado com preenchimento gradiente */
@@ -806,9 +806,9 @@
   font-size: 14px;
   position: relative;
   overflow: hidden;
-  text-shadow: 0 0 8px rgba(255, 0, 100, 1);
   border-radius: 4px;
   z-index: 5;
+  font-weight: bold;
 }
 
 /* Moldura de neon estilo GTA VI */
@@ -867,12 +867,9 @@
 
 .rock-image-card:hover {
   transform: scale(1.05) translateY(-5px);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(255, 45, 85, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   z-index: 10;
-  text-shadow: 0 0 10px rgba(255, 0, 100, 1);
 }
 
 /* Brilho mais forte na borda no hover */
@@ -964,10 +961,8 @@
 .back-button:hover, .audio-toggle:hover {
   transform: translateY(-2px) scale(1.03);
   color: white;
-  text-shadow: 0 0 5px white, 0 0 10px white;
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.5),
-    0 0 30px rgba(255, 0, 100, 0.6);
+  opacity: 0.9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .back-button:active, .audio-toggle:active {
@@ -1203,28 +1198,31 @@
 }
 
 .pink-shadow {
-  text-shadow: 0 0 5px #ff00cc, 0 0 10px #ff00cc;
+  color: #ff00cc;
+  font-weight: bold;
 }
 
 .blue-shadow {
-  text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+  color: #00ffff;
+  font-weight: bold;
 }
 
 .yellow-shadow {
-  text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+  color: #ffcc00;
+  font-weight: bold;
 }
 
 .rainbow-shadow {
-  animation: rainbow-text 5s linear infinite;
+  animation: rainbow-color 5s linear infinite;
 }
 
-@keyframes rainbow-text {
-  0% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
-  20% { text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc; }
-  40% { text-shadow: 0 0 10px #0099ff, 0 0 20px #0099ff; }
-  60% { text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; }
-  80% { text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00; }
-  100% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+@keyframes rainbow-color {
+  0% { color: #ff0000; }
+  20% { color: #ff00cc; }
+  40% { color: #0099ff; }
+  60% { color: #00ffcc; }
+  80% { color: #ffcc00; }
+  100% { color: #ff0000; }
 }
 
 .grid-background {
