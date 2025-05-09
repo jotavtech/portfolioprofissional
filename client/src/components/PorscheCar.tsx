@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, memo } from 'react';
 
-export function PorscheCar() {
+// Componente memoizado para evitar re-renders desnecessários
+const PorscheCar = memo(function PorscheCar() {
   const [position, setPosition] = useState(-150);
   const [direction, setDirection] = useState('forward');
   const [speed, setSpeed] = useState(0);
@@ -8,29 +9,52 @@ export function PorscheCar() {
   const lastScrollY = useRef(0);
   const speedLinesRef = useRef<HTMLDivElement>(null);
   
-  // Criar linhas de velocidade
+  // Criar linhas de velocidade de forma otimizada
   useEffect(() => {
     if (speed > 3) {
-      // Adiciona mais linhas conforme a velocidade aumenta
-      const linesCount = Math.min(10, Math.floor(speed / 3));
-      const newLines = [];
+      // Adiciona linhas apenas quando a velocidade é significativa
+      const linesCount = Math.min(5, Math.floor(speed / 3));
       
-      for (let i = 0; i < linesCount; i++) {
-        newLines.push({
-          id: Date.now() + i,
-          left: Math.random() * 100, // Posição horizontal aleatória (%)
-          width: Math.random() * 100 + 50, // Largura aleatória
-          top: Math.random() * 25 // Posição vertical aleatória
-        });
+      // Reduz a frequência de atualizações para performance
+      if (linesCount > 0 && Math.random() > 0.5) {
+        const newLines: {id: number, left: number, width: number, top: number}[] = [];
+        
+        for (let i = 0; i < linesCount; i++) {
+          newLines.push({
+            id: Date.now() + i,
+            left: Math.random() * 100, // Posição horizontal aleatória (%)
+            width: Math.random() * 100 + 50, // Largura aleatória
+            top: Math.random() * 25 // Posição vertical aleatória
+          });
+        }
+        
+        setSpeedLines(prev => [...prev, ...newLines].slice(-10)); // Limita a 10 linhas
       }
-      
-      setSpeedLines(prev => [...prev, ...newLines].slice(-20)); // Limita a 20 linhas
     }
-  }, [speed, position]);
+  }, [speed > 3 ? Math.floor(speed) : 0]); // Dependência simplificada
   
   useEffect(() => {
-    // Função para atualizar a posição do carro com base no scroll
+    // Variável para controlar o throttling do evento de scroll
+    let isThrottled = false;
+    let lastTimeScrolled = 0;
+    
+    // Função para atualizar a posição do carro com base no scroll (com throttle)
     const handleScroll = () => {
+      const now = Date.now();
+      
+      // Aplicar throttle (limitar execuções) para melhorar performance
+      if (isThrottled && now - lastTimeScrolled < 16) { // ~60fps (1000ms/60 ≈ 16ms)
+        return;
+      }
+      
+      isThrottled = true;
+      lastTimeScrolled = now;
+      
+      // Libera throttle no próximo frame
+      requestAnimationFrame(() => {
+        isThrottled = false;
+      });
+      
       const currentScrollY = window.scrollY;
       const scrollDiff = Math.abs(currentScrollY - lastScrollY.current);
       
@@ -44,22 +68,20 @@ export function PorscheCar() {
         setDirection('forward');
         setPosition(prev => {
           // Calcula nova posição com base no scroll (mais scroll = mais movimento)
-          const newPosition = Math.min(
+          return Math.min(
             window.innerWidth - 150, // Limita ao tamanho da tela - largura do carro
             prev + scrollDiff * 0.8 // Velocidade de movimento
           );
-          return newPosition;
         });
       } else if (currentScrollY < lastScrollY.current) {
         // Rolando para cima - carro dá ré
         setDirection('backward');
         setPosition(prev => {
           // Move o carro para trás quando rola para cima
-          const newPosition = Math.max(
+          return Math.max(
             -150, // Não deixa o carro sair totalmente para fora da tela
             prev - scrollDiff * 0.8 // Velocidade de ré
           );
-          return newPosition;
         });
       } else {
         // Sem movimento - reduz velocidade gradualmente
@@ -70,7 +92,7 @@ export function PorscheCar() {
       lastScrollY.current = currentScrollY;
     };
     
-    // Efeito de diminuição de velocidade quando parado
+    // Efeito de diminuição de velocidade quando parado (intervalo mais longo)
     const slowDownInterval = setInterval(() => {
       if (!document.hidden) {
         setSpeed(prev => {
@@ -78,10 +100,10 @@ export function PorscheCar() {
           return 0;
         });
       }
-    }, 100);
+    }, 200); // Intervalo maior para menos atualizações
     
-    // Registra o event listener para o scroll
-    window.addEventListener('scroll', handleScroll);
+    // Registra o event listener para o scroll com passive true para performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Limpa o event listener e o intervalo quando o componente é desmontado
     return () => {
@@ -121,6 +143,7 @@ export function PorscheCar() {
       </div>
     </>
   );
-}
+});
 
+// Exporta o componente memoizado
 export default PorscheCar;
