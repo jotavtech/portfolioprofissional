@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
+import Universo from "@/pages/Universo";
 import Skills from "@/components/Skills";
 import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 import { AnimatePresence, motion } from "framer-motion";
@@ -52,6 +53,7 @@ function Router() {
       >
         <Switch>
           <Route path="/" component={Home} />
+          <Route path="/universo" component={Universo} />
           <Route component={NotFound} />
         </Switch>
       </motion.div>

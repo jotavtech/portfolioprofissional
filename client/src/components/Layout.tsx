@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MusicPlayer from "./MusicPlayer";
 import CustomCursor from "./ui/custom-cursor";
+import UniverseButton from "./UniverseButton";
 import { motion } from "framer-motion";
 
 interface LayoutProps {
@@ -40,7 +41,8 @@ export default function Layout({ children }: LayoutProps) {
       <CustomCursor />
       <Navbar />
       
-      {/* Todos os carros foram removidos */}
+      {/* Botão Universo - fixo na página */}
+      <UniverseButton />
       
       <main className="flex-grow">
         {children}
