@@ -191,7 +191,7 @@ export default function Projects() {
                       <motion.img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-48 object-cover object-center transition-transform"
+                        className="w-full h-56 object-cover object-center transition-transform"
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.1, transition: { duration: 0.4 } }}
                       />
