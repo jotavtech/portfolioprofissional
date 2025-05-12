@@ -3,7 +3,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
-import LazySection from "@/components/LazySection";
+import LazyLoad from "@/components/LazyLoad";
 
 /**
  * Página principal com carregamento progressivo dos componentes
@@ -19,24 +19,24 @@ export default function Home() {
       <Hero />
       
       {/* About carrega quando está próximo de ser visível */}
-      <LazySection animation="fadeIn" rootMargin="0px 0px 300px 0px">
+      <LazyLoad animation="fade" rootMargin="0px 0px 300px 0px">
         <About />
-      </LazySection>
+      </LazyLoad>
       
       {/* Skills carrega com animação de deslizar para cima */}
-      <LazySection animation="slideUp" delay={100} rootMargin="0px 0px 250px 0px">
+      <LazyLoad animation="slideUp" delay={100} rootMargin="0px 0px 250px 0px">
         <Skills />
-      </LazySection>
+      </LazyLoad>
       
       {/* Projects carrega com animação de zoom */}
-      <LazySection animation="zoomIn" delay={150} rootMargin="0px 0px 200px 0px">
+      <LazyLoad animation="zoom" delay={150} rootMargin="0px 0px 200px 0px">
         <Projects />
-      </LazySection>
+      </LazyLoad>
       
       {/* Contact carrega por último com fade-in */}
-      <LazySection animation="fadeIn" delay={200} rootMargin="0px 0px 150px 0px">
+      <LazyLoad animation="fade" delay={200} rootMargin="0px 0px 150px 0px">
         <Contact />
-      </LazySection>
+      </LazyLoad>
     </>
   );
 }

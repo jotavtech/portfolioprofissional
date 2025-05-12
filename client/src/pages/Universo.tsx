@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import LazySection from '@/components/LazySection';
+import LazyLoad from '@/components/LazyLoad';
 
 export default function Universo() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -80,7 +80,7 @@ export default function Universo() {
           
           <div className="flame-divider mb-12"></div>
           
-          <LazySection animation="fadeIn" rootMargin="0px 0px 200px 0px">
+          <LazyLoad animation="fade" rootMargin="0px 0px 200px 0px">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="rock-card">
                 <h2 className="rock-title" data-content="SOBRE">SOBRE</h2>
@@ -101,10 +101,10 @@ export default function Universo() {
                 </ul>
               </div>
             </div>
-          </LazySection>
+          </LazyLoad>
           
           <div className="mt-16">
-            <LazySection animation="slideUp" delay={100} rootMargin="0px 0px 200px 0px">
+            <LazyLoad animation="slideUp" delay={100} rootMargin="0px 0px 200px 0px">
               {/* Título otimizado sem Framer Motion */}
               <h2 
                 className="text-4xl font-bold metal-text mb-8 text-center"
@@ -112,9 +112,9 @@ export default function Universo() {
               >
                 GALERIA
               </h2>
-            </LazySection>
+            </LazyLoad>
             
-            <LazySection animation="zoomIn" delay={200} rootMargin="0px 0px 150px 0px">
+            <LazyLoad animation="zoom" delay={200} rootMargin="0px 0px 150px 0px">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {/* Cards de imagem com efeito de clique otimizado */}
                 {[
@@ -150,14 +150,14 @@ export default function Universo() {
                   </div>
                 ))}
               </div>
-            </LazySection>
+            </LazyLoad>
           </div>
         </main>
         
         <footer className="mt-20 pb-16">
           <div className="flame-divider mb-10"></div>
           
-          <LazySection animation="fadeIn" delay={300} rootMargin="0px 0px 100px 0px">
+          <LazyLoad animation="fade" delay={300} rootMargin="0px 0px 100px 0px">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               <div className="neon-footer-box">
                 <h3 className="text-xl font-bold mb-4 neon-text pink-shadow">Contato</h3>
@@ -214,9 +214,9 @@ export default function Universo() {
                 </ul>
               </div>
             </div>
-          </LazySection>
+          </LazyLoad>
           
-          <LazySection animation="fadeIn" delay={400} rootMargin="0px 0px 50px 0px">
+          <LazyLoad animation="fade" delay={400} rootMargin="0px 0px 50px 0px">
             <div className="grid-background h-20 relative flex items-center justify-center mb-8">
               <div className="absolute inset-0 grid-overlay"></div>
               <h2 
@@ -234,7 +234,7 @@ export default function Universo() {
                 Inspirado na estética neon do GTA VI e cultura cybertribal
               </p>
             </div>
-          </LazySection>
+          </LazyLoad>
         </footer>
       </div>
     </div>
