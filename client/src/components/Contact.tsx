@@ -20,9 +20,9 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Instagram, Loader2, MessageSquare } from "lucide-react";
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+  name: z.string().min(2, { message: "Nome deve ter pelo menos 2 caracteres" }),
+  email: z.string().email({ message: "Por favor, digite um email válido" }),
+  message: z.string().min(10, { message: "Mensagem deve ter pelo menos 10 caracteres" }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -53,15 +53,15 @@ export default function Contact() {
     },
     onSuccess: () => {
       toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out, I'll get back to you soon.",
+        title: "Mensagem enviada!",
+        description: "Obrigado pelo contato, responderei em breve.",
       });
       form.reset();
     },
     onError: (error) => {
       toast({
-        title: "Something went wrong",
-        description: error.message || "Could not send your message. Please try again later.",
+        title: "Algo deu errado",
+        description: error.message || "Não foi possível enviar sua mensagem. Tente novamente mais tarde.",
         variant: "destructive",
       });
     },
@@ -81,7 +81,7 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-pixel text-4xl animate-glitch mb-2">CONTACT</h2>
+          <h2 className="font-pixel text-4xl animate-glitch mb-2">CONTATO</h2>
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
@@ -93,7 +93,7 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="bg-white/5 p-8 border border-white/20">
-            <h3 className="font-retro text-2xl mb-6">GET IN TOUCH</h3>
+            <h3 className="font-retro text-2xl mb-6">ENTRE EM CONTATO</h3>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -102,7 +102,7 @@ export default function Contact() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-mono text-sm">NAME</FormLabel>
+                      <FormLabel className="font-mono text-sm">NOME</FormLabel>
                       <FormControl>
                         <Input 
                           {...field} 
@@ -137,7 +137,7 @@ export default function Contact() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-mono text-sm">MESSAGE</FormLabel>
+                      <FormLabel className="font-mono text-sm">MENSAGEM</FormLabel>
                       <FormControl>
                         <Textarea 
                           {...field} 
@@ -151,16 +151,11 @@ export default function Contact() {
                 />
                 
                 <Button 
-                  type="submit" 
-                  disabled={isPending}
+                  type="button" 
+                  onClick={openWhatsApp}
                   className="bg-white text-black font-pixel py-3 px-8 w-full hover:bg-black hover:text-white hover:border hover:border-white transition-colors duration-300 clickable"
                 >
-                  {isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      SENDING...
-                    </>
-                  ) : "SEND MESSAGE"}
+                  CONVERSAR NO WHATSAPP
                 </Button>
               </form>
             </Form>
@@ -168,7 +163,7 @@ export default function Contact() {
           
           <div className="bg-white/5 p-8 border border-white/20 flex flex-col justify-between">
             <div>
-              <h3 className="font-retro text-2xl mb-6">CONTACT INFO</h3>
+              <h3 className="font-retro text-2xl mb-6">INFORMAÇÕES DE CONTATO</h3>
               
               <div className="space-y-6">
                 <div>
@@ -177,7 +172,7 @@ export default function Contact() {
                 </div>
                 
                 <div>
-                  <p className="font-pixel text-sm mb-2">PHONE</p>
+                  <p className="font-pixel text-sm mb-2">TELEFONE</p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <a href="tel:+5583999290376" className="font-mono text-gray-300 hover:text-white clickable">+55 83 999290376</a>
                     <button 
@@ -191,14 +186,14 @@ export default function Contact() {
                 </div>
                 
                 <div>
-                  <p className="font-pixel text-sm mb-2">ADDRESS</p>
+                  <p className="font-pixel text-sm mb-2">ENDEREÇO</p>
                   <p className="font-mono text-gray-300">58065 081 VALENTINA</p>
                 </div>
               </div>
             </div>
             
             <div className="mt-8">
-              <p className="font-pixel text-sm mb-4">SOCIAL MEDIA</p>
+              <p className="font-pixel text-sm mb-4">REDES SOCIAIS</p>
               <div className="flex space-x-4">
                 <a 
                   href="https://github.com/jotavtech" 

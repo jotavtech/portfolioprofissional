@@ -103,7 +103,7 @@ export default function Projects() {
               whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
-              APP
+              APLICATIVO
             </motion.button>
             <motion.button 
               className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'ui' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
@@ -119,7 +119,7 @@ export default function Projects() {
               whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
-              DATA
+              DADOS
             </motion.button>
             <motion.button 
               className={`px-4 py-2 font-retro text-sm project-filter clickable ${activeFilter === 'audio' ? 'bg-white text-black' : 'bg-transparent text-white border border-white'}`} 
@@ -127,7 +127,7 @@ export default function Projects() {
               whileHover={{ scale: 1.05, boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
-              AUDIO
+              ÁUDIO
             </motion.button>
           </motion.div>
         </LazyLoad>
@@ -256,7 +256,7 @@ export default function Projects() {
                           }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          VER →
+                          VISUALIZAR →
                         </motion.a>
                       </div>
                     </div>

@@ -79,27 +79,27 @@ function initializeProjectsData() {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Clínica",
-      description: "Sistema de gerenciamento para clínicas médicas com agendamento de consultas, prontuários eletrônicos e controle financeiro.",
-      image: "https://images.unsplash.com/photo-1516549655959-df999a316cd6?q=80&w=800&h=500&auto=format&fit=crop",
+      title: "Clínica Executivas",
+      description: "Sistema de gerenciamento para clínicas de massagem terapêutica com agendamento de consultas, prontuários eletrônicos e área administrativa.",
+      image: "/Clinica.png",
       category: "web",
       technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
       link: "https://exemplo.com/clinica"
     },
     {
       id: 2,
-      title: "Portfolio JV",
-      description: "Portfólio profissional com design minimalista e resposivo, destacando projetos e habilidades de forma interativa e moderna.",
-      image: "https://images.unsplash.com/photo-1481887328591-3e277f9473dc?q=80&w=800&h=500&auto=format&fit=crop",
+      title: "Templify",
+      description: "Plataforma de templates premium para pequenas empresas, com soluções rápidas e personalizáveis para sites profissionais.",
+      image: "/templify.png",
       category: "web",
       technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
-      link: "https://exemplo.com/portfoliojv"
+      link: "https://exemplo.com/templify"
     },
     {
       id: 3,
       title: "Folheando",
-      description: "Aplicativo de gerenciamento e recomendação de livros, com integração de APIs para informações de livros e comunidade de leitores.",
-      image: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800&h=500&auto=format&fit=crop",
+      description: "Aplicativo de gerenciamento e recomendação de livros, com integração para avaliações e comunidade de leitores.",
+      image: "/folheando.png",
       category: "app",
       technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
       link: "https://exemplo.com/folheando"
