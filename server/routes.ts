@@ -92,7 +92,7 @@ function initializeProjectsData() {
       description: "Portfólio profissional com design minimalista e resposivo, destacando projetos e habilidades de forma interativa e moderna.",
       image: "https://images.unsplash.com/photo-1481887328591-3e277f9473dc?q=80&w=800&h=500&auto=format&fit=crop",
       category: "web",
-      technologies: ["HTML", "CSS", "JavaScript"],
+      technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
       link: "https://exemplo.com/portfoliojv"
     },
     {
@@ -101,7 +101,7 @@ function initializeProjectsData() {
       description: "Aplicativo de gerenciamento e recomendação de livros, com integração de APIs para informações de livros e comunidade de leitores.",
       image: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800&h=500&auto=format&fit=crop",
       category: "app",
-      technologies: ["React Native", "Firebase", "API"],
+      technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
       link: "https://exemplo.com/folheando"
     }
   ];
