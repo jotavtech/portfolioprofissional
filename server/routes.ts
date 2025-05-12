@@ -62,6 +62,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.download(cvPath, 'joao-vitor-cv.pdf');
   });
 
+  // Rotas para servir as imagens dos projetos
+  app.get('/Clinica.png', (req: Request, res: Response) => {
+    const imagePath = path.join(process.cwd(), 'attached_assets', 'Clinica.png');
+    res.sendFile(imagePath);
+  });
+  
+  app.get('/templify.png', (req: Request, res: Response) => {
+    const imagePath = path.join(process.cwd(), 'attached_assets', 'templify.png');
+    res.sendFile(imagePath);
+  });
+  
+  app.get('/folheando.png', (req: Request, res: Response) => {
+    const imagePath = path.join(process.cwd(), 'attached_assets', 'folheando.png');
+    res.sendFile(imagePath);
+  });
+  
+  app.get('/porsche.png', (req: Request, res: Response) => {
+    const imagePath = path.join(process.cwd(), 'attached_assets', 'porsche.png');
+    res.sendFile(imagePath);
+  });
+  
+  app.get('/rodaporsche.webp', (req: Request, res: Response) => {
+    const imagePath = path.join(process.cwd(), 'attached_assets', 'rodaporsche.webp');
+    res.sendFile(imagePath);
+  });
+
   // Initialize projects data if needed
   initializeProjectsData();
 
