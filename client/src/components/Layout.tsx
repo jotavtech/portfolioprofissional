@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MusicPlayer from "./MusicPlayer";
 import CustomCursor from "./ui/custom-cursor";
-import { UniverseButton } from "./UniverseButton";
+// import { UniverseButton } from "./UniverseButton"; // Temporariamente comentado
 import PorscheCar from "./PorscheCar";
 import ScrollAnimatedDecorations from "./ScrollAnimatedDecorations";
 
@@ -27,8 +27,8 @@ export default function Layout({ children }: LayoutProps) {
       <CustomCursor />
       <Navbar />
       
-      {/* Botão Universo - fixo na página */}
-      <UniverseButton />
+      {/* Botão Universo - temporariamente desativado 
+      <UniverseButton /> */}
       
       {/* Carro Porsche que se move com scroll */}
       <PorscheCar />

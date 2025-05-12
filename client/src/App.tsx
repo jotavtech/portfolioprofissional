@@ -53,8 +53,10 @@ function Router() {
       >
         <Switch>
           <Route path="/" component={Home} />
+          {/* Rotas para JOTAVERSO temporariamente desativadas
           <Route path="/universo" component={Universo} />
           <Route path="/jotaverso" component={Universo} />
+          */}
           <Route component={NotFound} />
         </Switch>
       </motion.div>
