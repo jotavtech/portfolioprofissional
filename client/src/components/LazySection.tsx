@@ -1,19 +1,19 @@
-import { ReactNode, useRef, useEffect, useState, memo } from "react";
+import { ReactNode, useEffect, useState, memo } from "react";
 import { useInView } from "@/hooks/use-in-view";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface LazySectionProps {
   children: ReactNode;
   className?: string;
-  delay?: number; // Delay adicional em ms
-  rootMargin?: string; // Personalizar quando começar a carregar
-  animation?: "fadeIn" | "slideUp" | "zoomIn" | "none"; // Tipo de animação
-  duration?: number; // Duração da animação em segundos
+  delay?: number;
+  rootMargin?: string;
+  animation?: "fadeIn" | "slideUp" | "zoomIn" | "none";
+  duration?: number;
 }
 
 /**
- * Componente que carrega seu conteúdo apenas quando está visível ou próximo de ser visível
- * Implementa animações de entrada otimizadas
+ * Componente otimizado que carrega seu conteúdo quando está próximo da viewport
+ * Versão simplificada e corrigida para melhor desempenho
  */
 function LazySection({
   children,
@@ -29,81 +29,57 @@ function LazySection({
     triggerOnce: true
   });
   
-  const [shouldRender, setShouldRender] = useState(false);
+  const [showContent, setShowContent] = useState(false);
   
-  // Aplica o delay antes de renderizar
   useEffect(() => {
-    if (isInView && !shouldRender) {
+    if (isInView) {
       const timer = setTimeout(() => {
-        setShouldRender(true);
+        setShowContent(true);
       }, delay);
       
       return () => clearTimeout(timer);
     }
-  }, [isInView, delay, shouldRender]);
+  }, [isInView, delay]);
   
-  // Configurações de animação com base no tipo solicitado
-  const getAnimationVariants = () => {
-    switch (animation) {
-      case "fadeIn":
-        return {
-          hidden: { opacity: 0 },
-          visible: { 
-            opacity: 1,
-            transition: { duration }
-          }
-        };
-      case "slideUp":
-        return {
-          hidden: { opacity: 0, y: 30 },
-          visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: { duration }
-          }
-        };
-      case "zoomIn":
-        return {
-          hidden: { opacity: 0, scale: 0.95 },
-          visible: { 
-            opacity: 1, 
-            scale: 1,
-            transition: { duration }
-          }
-        };
-      case "none":
-        return {
-          hidden: {},
-          visible: {}
-        };
-      default:
-        return {
-          hidden: { opacity: 0 },
-          visible: { 
-            opacity: 1,
-            transition: { duration }
-          }
-        };
+  // Variantes de animação simplificadas
+  const variants = {
+    fadeIn: {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1, transition: { duration } }
+    },
+    slideUp: {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration } }
+    },
+    zoomIn: {
+      hidden: { opacity: 0, scale: 0.95 },
+      visible: { opacity: 1, scale: 1, transition: { duration } }
+    },
+    none: {
+      hidden: {},
+      visible: {}
     }
   };
   
+  // Seleciona a variante correta
+  const selectedVariant = variants[animation] || variants.fadeIn;
+  
+  // Placeholder para o mesmo tamanho enquanto carrega
   return (
     <div ref={ref} className={className}>
-      <AnimatePresence>
-        {shouldRender && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={getAnimationVariants()}
-            style={{ width: '100%', height: '100%' }}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showContent ? (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={selectedVariant}
+        >
+          {children}
+        </motion.div>
+      ) : (
+        <div style={{ minHeight: "10px" }}></div> 
+      )}
     </div>
   );
 }
 
-// Aplicando memo para evitar re-renders desnecessários
 export default memo(LazySection);

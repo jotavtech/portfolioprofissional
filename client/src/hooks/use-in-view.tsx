@@ -1,39 +1,65 @@
 import { useState, useEffect, useRef, RefObject } from "react";
 
+interface InViewOptions {
+  rootMargin?: string;
+  threshold?: number;
+  triggerOnce?: boolean;
+}
+
 /**
  * Hook customizado para detectar quando um elemento está visível na viewport
- * Com opções de rootMargin para carregar antes de entrar completamente na tela
+ * Versão simplificada e mais robusta
  */
 export function useInView<T extends HTMLElement = HTMLDivElement>(
-  options = {
-    rootMargin: "0px 0px 200px 0px", // Carrega quando está a 200px de entrar na tela
-    threshold: 0.1, // 10% do elemento visível é suficiente para considerar "em view"
-    triggerOnce: true // Por padrão, dispara apenas uma vez
-  }
+  options: InViewOptions = {}
 ): [RefObject<T>, boolean] {
+  const { 
+    rootMargin = "0px 0px 200px 0px",
+    threshold = 0.1,
+    triggerOnce = true
+  } = options;
+  
   const [isInView, setIsInView] = useState(false);
   const ref = useRef<T>(null);
+  const seenRef = useRef(false);
 
   useEffect(() => {
-    // Se já está marcado como visível e triggerOnce é true, não precisa observar mais
-    if (isInView && options.triggerOnce) return;
+    // Se já vimos o elemento e só queremos detectar uma vez, não precisamos criar um observer
+    if (seenRef.current && triggerOnce) return;
     
-    const element = ref.current;
-    if (!element) return;
+    const currentRef = ref.current;
+    if (!currentRef) return;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      // Só atualiza o estado se mudar para evitar re-renders desnecessários
-      if (entry.isIntersecting !== isInView) {
-        setIsInView(entry.isIntersecting);
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      const [entry] = entries;
+      const inView = entry.isIntersecting;
+      
+      if (inView) {
+        setIsInView(true);
+        seenRef.current = true;
+        
+        // Se triggerOnce é true, podemos desconectar o observer após ver o elemento
+        if (triggerOnce && observer) {
+          observer.disconnect();
+        }
+      } else if (!triggerOnce) {
+        setIsInView(false);
       }
-    }, options);
+    };
 
-    observer.observe(element);
+    const observer = new IntersectionObserver(observerCallback, {
+      rootMargin,
+      threshold
+    });
+    
+    observer.observe(currentRef);
 
     return () => {
-      observer.disconnect();
+      if (observer) {
+        observer.disconnect();
+      }
     };
-  }, [isInView, options.rootMargin, options.threshold, options.triggerOnce]);
+  }, []); // Dependências vazias para não recriar o observer
 
   return [ref, isInView];
 }

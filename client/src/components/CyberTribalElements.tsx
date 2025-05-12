@@ -18,164 +18,139 @@ export default function CyberTribalElements() {
   // Referência para o container principal
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Inicializa elementos tribais sob demanda com base na posição de scroll
+  // Versão simplificada: inicializa todos os elementos de uma vez, mas em quantidade reduzida
   useEffect(() => {
-    // Função auxiliar para criar elementos apenas quando necessário
-    const createElementsForPosition = (scrollPosition: number) => {
-      const initialElements = [];
-      const sectionHeight = 500; // Altura aproximada de cada "seção" virtual
-      const maxSections = Math.ceil(document.body.scrollHeight / sectionHeight);
-      
-      // Número de seções a popular com base na posição atual do scroll
-      const sectionsToPopulate = Math.min(
-        3, // No máximo 3 seções para evitar sobrecarga
-        Math.ceil((scrollPosition + window.innerHeight * 2) / sectionHeight)
+    // Cria um número fixo de elementos tribais e geométricos distribuídos pelo documento
+    const createFixedElements = () => {
+      const docHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        3000 // Altura mínima para garantir elementos suficientes
       );
       
-      // Limite o número total de elementos criados
-      const maxElements = 8;
-      const elementsPerSection = Math.floor(maxElements / sectionsToPopulate);
+      const totalElements = 8; // Número fixo e reduzido de elementos
+      const initialElements = [];
       
-      for (let section = 0; section < sectionsToPopulate; section++) {
-        const sectionOffset = section * sectionHeight;
+      for (let i = 0; i < totalElements; i++) {
+        // Distribuição mais uniforme ao longo do documento
+        const verticalPosition = (i / totalElements) * docHeight;
         
-        // Distribui os elementos dentro desta seção
-        for (let i = 0; i < elementsPerSection; i++) {
-          // Mais elementos geométricos (mais leves) que tribais
-          const type = Math.random() > 0.7 ? 'tribal' : 'geometric';
-          const subType = Math.floor(Math.random() * 5);
-          
-          initialElements.push({
-            id: section * elementsPerSection + i,
-            type: `${type}-${subType}`,
-            x: Math.random() * 100,
-            y: sectionOffset + Math.random() * sectionHeight, // Posicionado dentro da seção
-            rotation: Math.random() * 360,
-            scale: 0.4 + Math.random() * 0.6, // Escalas menores
-            opacity: 0.2 + Math.random() * 0.3, // Menos opaco
-            visible: false
-          });
-        }
+        // Mais elementos geométricos (mais leves) que tribais
+        const type = Math.random() > 0.7 ? 'tribal' : 'geometric';
+        const subType = Math.floor(Math.random() * 5);
+        
+        initialElements.push({
+          id: i,
+          type: `${type}-${subType}`,
+          x: Math.random() * 100, // Posição horizontal aleatória
+          y: verticalPosition + (Math.random() * 200 - 100), // Variação em torno da posição uniforme
+          rotation: Math.random() * 360,
+          scale: 0.4 + Math.random() * 0.6, // Escalas menores
+          opacity: 0.2 + Math.random() * 0.3, // Menos opaco
+          visible: false
+        });
       }
       
       setElements(initialElements);
     };
     
-    // Criar elementos iniciais com base na posição atual da página
-    createElementsForPosition(window.scrollY);
+    // Cria elementos uma única vez ao carregar
+    createFixedElements();
     
-    // Atualiza os elementos quando houver scrolls significativos
-    const handleScrollCreation = () => {
-      // Se já temos elementos suficientes, não criamos mais
-      if (elements.length >= 8) return;
-      
-      createElementsForPosition(window.scrollY);
-    };
-    
-    // Adiciona evento com throttling agressivo
-    window.addEventListener('scroll', handleScrollCreation, { passive: true });
-    
-    return () => {
-      window.removeEventListener('scroll', handleScrollCreation);
-    };
-  }, [elements.length]);
+    // Não precisamos mais de evento de scroll para criar elementos
+  }, []);
   
-  // Gerencia eventos de scroll - versão ultra otimizada
+  // Versão super simplificada para atualizar elementos com base no scroll
   useEffect(() => {
-    // Última vez que processamos o scroll
-    let lastProcessedScroll = 0;
-    let scrollTimeout: any = null;
+    // Variáveis para throttling
+    let ticking = false;
     
-    const handleScroll = () => {
-      const now = Date.now();
+    const updateElementsVisibility = () => {
       const currentScrollY = window.scrollY;
-      
-      // Se processamos recentemente, não processar novamente (reduz drasticamente os cálculos)
-      if (now - lastProcessedScroll < 150) { // Processamos no máximo a cada 150ms
-        return;
-      }
-      
-      lastProcessedScroll = now;
       setScrollY(currentScrollY);
       
-      // Cria novo array em vez de fazer map para reduzir operações
-      const newElements = [];
+      // Janela de visibilidade ampliada para melhor experiência
+      const viewMin = currentScrollY - 1000;
+      const viewMax = currentScrollY + 1500;
       
-      // Otimizador: processa apenas elementos próximos a view atual (± 1200px)
-      // Isso reduz significativamente o número de elementos processados
-      const viewMin = currentScrollY - 1200;
-      const viewMax = currentScrollY + 1200;
+      // Atualiza somente elementos que precisam mudar (melhor performance)
+      setElements(prevElements => 
+        prevElements.map(element => {
+          // Posição simplificada e normalizada
+          const elementYPosition = element.y;
+          
+          // Verifica se está na janela de visibilidade
+          const isInViewRange = elementYPosition >= viewMin && elementYPosition <= viewMax;
+          
+          // Se não estiver no range de visibilidade, retorna com visibilidade desativada
+          if (!isInViewRange) {
+            if (!element.visible) return element; // Não mudou, reutiliza
+            return { ...element, visible: false, opacity: 0 };
+          }
+          
+          // Cálculo de distância simplificado
+          const distanceFromCenter = Math.abs(currentScrollY + window.innerHeight/2 - elementYPosition);
+          const viewFactor = 1 - Math.min(1, distanceFromCenter / 1000);
+          
+          // Opacidade baseada na distância do centro da tela
+          const newOpacity = Math.max(0.15, viewFactor * 0.5);
+          
+          // Efeito parallax simples
+          const parallaxOffset = currentScrollY * 0.1;
+          
+          // Deslocamento baseado no tipo
+          const newY = element.type.includes('geometric')
+            ? elementYPosition + (parallaxOffset * 0.05)
+            : elementYPosition - (parallaxOffset * 0.02);
+          
+          // Rotação suave
+          const newRotation = element.rotation + (currentScrollY % 10) * 0.1;
+          
+          // Mudança significativa ou mantém estado atual
+          const hasChanged = 
+            element.visible !== true || 
+            Math.abs(element.opacity - newOpacity) > 0.05 ||
+            Math.abs(element.y - newY) > 5;
+          
+          // Só atualiza se houver mudança significativa
+          return hasChanged 
+            ? {
+                ...element,
+                visible: true,
+                opacity: newOpacity,
+                y: newY,
+                rotation: newRotation
+              }
+            : element;
+        })
+      );
       
-      for (const element of elements) {
-        const elementScrollPosition = (element.y / 3);
-        
-        // Pula elementos fora da faixa de visibilidade
-        if (elementScrollPosition < viewMin || elementScrollPosition > viewMax) {
-          // Mantém o elemento como está, mas garantindo que não está visível
-          newElements.push({...element, visible: false, opacity: 0});
-          continue;
-        }
-        
-        const distanceFromView = Math.abs(currentScrollY - elementScrollPosition);
-        const isVisible = distanceFromView < 700; // Reduzida a janela de visibilidade
-        
-        // Cálculos simplificados para opacidade e movimentos
-        let newOpacity = 0;
-        if (isVisible) {
-          // Cálculo simplificado de opacidade
-          newOpacity = Math.max(0.1, 0.3 - (distanceFromView / 2000));
-        }
-        
-        // Cálculo simplificado de parallax
-        const parallaxOffset = Math.floor(currentScrollY / 20) * 20; // Suaviza mudanças, só muda a cada 20px
-        const newY = element.type.includes('geometric')
-          ? (element.y + parallaxOffset * 0.1) % 3000
-          : (element.y - parallaxOffset * 0.05) % 3000;
-        
-        // Reduz a frequência de mudanças na rotação
-        const rotation = element.rotation + Math.floor(parallaxOffset / 100);
-        
-        newElements.push({
-          ...element,
-          visible: isVisible,
-          opacity: newOpacity,
-          y: newY,
-          rotation
+      ticking = false;
+    };
+    
+    // Função throttle para o evento de scroll
+    const handleScroll = () => {
+      if (!ticking) {
+        // Usa requestAnimationFrame para otimizar e sincronizar com o refresh da tela
+        window.requestAnimationFrame(() => {
+          updateElementsVisibility();
+          ticking = false;
         });
-      }
-      
-      setElements(newElements);
-    };
-    
-    // Super-throttling: usando debounce e throttle combinados
-    const scrollListener = () => {
-      // Limpa timeout anterior para implementar debounce
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      
-      // Define novo timeout para assegurar que eventos muito frequentes serão processados eventualmente
-      scrollTimeout = setTimeout(handleScroll, 100);
-      
-      // Executa imediatamente se o último processamento foi há mais tempo
-      const now = Date.now();
-      if (now - lastProcessedScroll > 150) {
-        handleScroll();
+        
+        ticking = true;
       }
     };
     
-    window.addEventListener('scroll', scrollListener, { passive: true });
+    // Adiciona evento com passive para melhor performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Inicializar - mas com um pequeno delay para evitar jank na renderização inicial
-    setTimeout(handleScroll, 300);
+    // Inicializa visibilidade após carregamento
+    setTimeout(updateElementsVisibility, 100);
     
     return () => {
-      window.removeEventListener('scroll', scrollListener);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [elements]);
+  }, []);
   
   // Renderiza elementos tribais SVG
   const renderTribalElement = (type: string) => {
