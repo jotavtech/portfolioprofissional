@@ -83,7 +83,7 @@ function initializeProjectsData() {
       description: "Sistema de gerenciamento para clínicas médicas com agendamento de consultas, prontuários eletrônicos e controle financeiro.",
       image: "https://images.unsplash.com/photo-1516549655959-df999a316cd6?q=80&w=800&h=500&auto=format&fit=crop",
       category: "web",
-      technologies: ["React", "Node.js", "MongoDB"],
+      technologies: ["TypeScript", "React", "Tailwind CSS", "PostgreSQL"],
       link: "https://exemplo.com/clinica"
     },
     {

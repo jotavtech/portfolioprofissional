@@ -2,6 +2,15 @@ import { Link, useLocation } from 'wouter';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
+/**
+ * COMPONENTE JOTAVERSO - TEMPORARIAMENTE COMENTADO
+ * Este componente está sendo guardado para implementação futura.
+ * Para reativar basta remover os comentários desta função e 
+ * importá-la normalmente onde for necessário.
+ */
+
+// Versão comentada que preserva o código para implementação futura
+/*
 export function UniverseButton() {
   const [showLightning, setShowLightning] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -84,6 +93,12 @@ export function UniverseButton() {
       </Link>
     </>
   );
+}
+*/
+
+// Placeholder para evitar erros de importação
+export function UniverseButton() {
+  return null;
 }
 
 export default UniverseButton;
